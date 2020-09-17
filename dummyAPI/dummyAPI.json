@@ -1,0 +1,17 @@
+{
+    "USER" : [
+        {
+            "user_id" : 321,
+            "user_name" : "Tony Stark",
+            "user_email" : "a@b.c",
+            "user_password" : "123"
+        },
+        {
+            "user_id" : 123,
+            "user_name" : "abc",
+            "user_email" : "x@y.z",
+            "user_password" : "123"
+        } 
+    ]
+    
+}
