@@ -29,7 +29,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 ## Web angular:
 Trang web hiện tại chạy được ở 3 trang là /login-page, /admin-page, /profile-page
 
-Hiện tại trang web e đã làm xong phần login. 
+Trang web e đã làm xong phần login. 
 
 Tài khoản/password để login là a1/a1 (role là user), a3/a3 (role là admin).
 
