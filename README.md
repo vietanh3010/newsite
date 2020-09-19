@@ -28,10 +28,17 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ## Web angular:
 Trang web hiện tại chạy được ở 3 trang là /login-page, /admin-page, /profile-page
+
 Hiện tại trang web e đã làm xong phần login. 
+
 Tài khoản/password để login là a1/a1 (role là user), a3/a3 (role là admin).
+
 Nhập bằng user sẽ trả về trang /profile-page, bằng admin sẽ trả về /admin-page.
+
 2 trang trên chỉ vào đc khi đã login.
+
 Trang /profile-page hiện đang có hiện ra tất cả user.
+
 Chức năng xóa user đã hoạt động.
+
 Hiện tại em đang thêm các chức năng khác cho đủ CRUD.
