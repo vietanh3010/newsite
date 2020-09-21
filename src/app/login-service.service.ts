@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { User } from './user';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Product } from './product';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -32,18 +33,38 @@ export class LoginServiceService {
   getUser (): Observable<User[]> {
     return this.http.get<User[]>(this.userAPI)
   }
-
   deleteUser (id: any): Observable<{}> {
     //const url = `${this.userAPI}/id=${id}`;
     const url = this.userAPI + "/"+ id.toString();
     console.log(url);
     return this.http.delete(url, httpOptions)
   }
-
-  updateUser (id: any): Observable<{}> {
-    const url = this.userAPI + "/"+ id.toString();
-    return this.http.put(url, id, httpOptions)
+  updateUser (user: User): Observable<User> {
+    const url = this.userAPI + "/"+ user.user_id.toString();
+    console.log(user);
+    return this.http.put<User>(url,  user, httpOptions)
   }
+  addUser (user: User): Observable<User> {
+    return this.http.post<User>(this.userAPI,user,httpOptions)
+  }
+
+  getProduct():Observable<Product[]> {
+    return this.http.get<Product[]>(this.productAPI)
+  }
+  deleteProduct(id:any):Observable<{}>{
+    const url = this.productAPI+ "/"+ id.toString();
+    return this.http.delete(url, httpOptions)
+  }
+  updateProduct(product:Product):Observable<Product>{
+    const url = this.productAPI+"/"+product.product_id.toString();
+    return this.http.put<Product>(url, product,httpOptions)
+  }
+  addProduct(product:Product):Observable<Product>{
+    return this.http.post<Product>(this.productAPI,product,httpOptions)
+  }
+    
+  
+
 
   public get currentUserValue(): User {
     return this.currentUserSubject.value;

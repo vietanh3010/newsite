@@ -1089,42 +1089,181 @@
             
               <div class= "card">
                 <div class="card-header p-2">
-                  ALl users
+                  All users 
+                  <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                    Add user
+                  </button>
                 </div>
-                          <table class="table">
-                            <thead>
+                
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">User info</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        Username: <input #newUsername placeholder="Username">
+                        Email:<input #newEmail placeholder="Email">
+                        Password:<input #newPassword placeholder="Password">
+                        Role:<input #newRole placeholder="Role">
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addnewUser(newUsername.value,newEmail.value,newPassword.value,newRole.value)">Add</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                              
+                          <table class="table" >
+                          
+                            <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of alluser; let x = index">
                               <tr>
-                                <th scope="col">User ID</th>
-                                <th scope="col">Username</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Password</th>
-                                <th scope="col">Is_Login</th>
-                                <th scope="col">Role</th>
-                                <th scope="col">Edit/delete</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr *ngFor = "let i of alluser">
                                 <th scope="row">{{i.user_id}}</th>
-                                <td>
-                                  <span (keyup) = "updateUser( user_id , 'user_name' , $event )"
-                                        (blur) = "updateUser( user_id , 'user_name' , $event )"
-                                        contenteditable="true" >{{i.user_name}}</span>
-                                </td>
+                                <td>{{i.user_name}}</td>
                                 <td>{{i.user_email}}</td>
                                 <td>{{i.user_password}}</td>
                                 <td>{{i.is_login}}</td>
                                 <td>{{i.user_role}}</td>
                                 <td>
-                                  <button class="btn btn-danger" (click) = "remove(i)"> Delete</button>
+                                  <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" > Edit</a>
+                                  <button class="btn btn-danger" (click) = "removeUser(i)"> Delete</button>
                                 </td>
+                                
+                              </tr> 
+
+                              <tr >
+                                <div [attr.id]="'collapseOne_' + x " class="panel-collapse collapse in">
+                                  Username: <input #inputName placeholder="{{i.user_name}}" >
+                                  Email: <input #inputEmail placeholder="{{i.user_email}}" >
+                                  Role: <input #inputRole placeholder="{{i.user_role}}" >
+                                  <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
+                                  (click) = "updateUser(i,inputName.value,inputEmail.value,inputRole.value)">Save</button>
+                                </div>
                               </tr>
-                              
+                             
+                                
                             </tbody>
                           </table>
+                          </div>
+<!---->
+<div class= "card">
+  <div class="card-header p-2">
+    All product 
+    <button class="btn btn-primary" data-toggle="modal" data-target="#productModal">
+      Add product
+    </button>
+  </div>
+  
+  <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productModalLabel">User info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Product name: <input #newProductname placeholder="Product name">
+          Prodcut price:<input #newProductprice  placeholder="Product price">
+          Product img:<input #newProductimg placeholder="Productimg">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addnewProduct(newProductname.value,newProductprice.value,newProductimg.value)">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+                
+            <table class="table" >
+            
+              <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of allproduct; let x = index">
+                <tr>
+                  <th scope="row">{{i.product_id}}</th>
+                  <td>{{i.product_name}}</td>
+                  <td>{{i.product_price}}</td>
+                  <td>{{i.product_img}}</td>
+                  <td>
+                    <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" > Edit</a>
+                    <button class="btn btn-danger" (click) = "removeProduct(i)"> Delete</button>
+                  </td>
+                  
+                </tr> 
 
-              </div>
+                <tr >
+                  <div [attr.id]="'collapseOne_' + x " class="panel-collapse collapse in">
+                    Product name: <input #inputProductname placeholder="{{i.product_name}}" >
+                    Product price: <input #inputProductprice placeholder="{{i.product_price}}" >
+                    Product img: <input #inputProductimg placeholder="{{i.product_img}}" >
+                    <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
+                    (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">Save</button>
+                  </div>
+                </tr>
+               
+                  
+              </tbody>
+            </table>
+            </div>
 
+
+                          <!-- 
+                          <div class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let message of alluser; let i = index;">
+                            <div class="panel panel-default" >
+                                <div class="panel-heading">
+                                    <h4 class="panel-title">
+                                        <a data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">{{ message.user_name }} {{ message.user_name }}</a>
+                                    </h4>
+                                </div>
+
+                                <div [attr.id]="'collapseOne_' + i" class="panel-collapse collapse in">
+                                    <div class="panel-body">
+                                      details here {{ message.user_name }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                          <!--
+                          <div class="container">
+                            <div class="row">
+                                  <div class="col">User ID</div>
+                                  <div class="col">Username</div>
+                                  <div class="col">Email</div>
+                                  <div class="col">Password</div>
+                                  <div class="col">Is_Login</div>
+                                  <div class="col">Role</div> 
+                                  <div class="col">Button</div>
+                            </div>
+                          </div>
+                          <div class="container" [attr.id]="'accordion_' + x"   *ngFor = "let i of alluser; let x = index">
+                            <div class="row" >
+                                  <div class="col">{{i.user_id}}</div>
+                                  <div class="col">{{i.user_name}}</div>
+                                  <div class="col">{{i.user_email}}</div>
+                                  <div class="col">{{i.user_password}}</div>
+                                  <div class="col">{{i.is_login}}</div>
+                                  <div class="col">{{i.user_role}}</div>
+                                  <div class="col">
+                                      <button class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" >
+                                        Edit</button>
+                                        <button class="btn btn-danger" (click) = "remove(i)"> Delete</button>
+                                  </div>
+                            </div>
+
+                            <div class="row"  [attr.id]="'collapseOne_' + x" class="panel-collapse collapse in">
+                                  <div class="col">{{i.user_id}}</div>
+                                  <div class="col">{{i.user_name}}</div>
+                                  <div class="col">{{i.user_email}}</div>
+                                  <div class="col">{{i.user_password}}</div>
+                                  <div class="col">{{i.is_login}}</div>
+                                  <div class="col">{{i.user_role}}</div>
+                                  <div class="col">
+                                    <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success">Save</button>
+                                  </div>
+                            </div>
+                          </div>-->
           </div>
           <!-- /.col -->
         </div>
