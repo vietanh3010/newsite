@@ -44,7 +44,6 @@ export class CustomerpageComponent implements OnInit {
     this.getMyinfo();
     this.getMyhistory();
     this.gettotal();
-    console.log(this.temp1);
   }
 
   async gettotal(){
@@ -100,7 +99,7 @@ export class CustomerpageComponent implements OnInit {
       this.getmyorderService.updateNeworder(o).subscribe(); 
   }
 
-   payAllorder() {
+  payAllorder() {
     for(var i = 0; i < this.temp1.length ; i++)
     {
       this.temp1[i].total_paid = this.temp1[i].total_price;

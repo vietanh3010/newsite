@@ -74,7 +74,7 @@ export class ProductpageComponent implements OnInit {
     else{
       console.log(this.currentUserValue.user_id);
       var order_id: string = "myNeworderid";
-      var total_price:number = parseFloat(product.product_price);
+      var total_price:number = product.product_price;
       var total_paid: number = 0;
       var total_unpaid: number = total_price;
       var customer: Object = this.currentUserSubject.value;

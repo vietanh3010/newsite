@@ -82,10 +82,10 @@ export class ProfilepageComponent implements OnInit {
       error => {console.log(error)}
     );
   }
-  updateProduct(p:Product,productName:string,productPrice:string,productImg:string){
-    if(productName!='') {p.product_name=productName}
-    if(productPrice!='') {p.product_price=productPrice}
-    if(productImg!='') {p.prodcut_img=productImg}
+  updateProduct(p:Product,productName:string,productPrice:number,productImg:string){
+    p.product_name=productName;
+    p.product_price=productPrice;
+    p.product_img=productImg;
     this.getallproductService.updateProduct(p).subscribe();
   }
   updateNeworder(o:Neworder,price:number,paid:number,unpaid:number) {
