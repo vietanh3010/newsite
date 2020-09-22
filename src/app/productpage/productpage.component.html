@@ -1,0 +1,16 @@
+<p>productpage works!</p>
+    <table>
+        <tr *ngFor="let p of listProduct">
+            <td>{{p.product_name}}</td>
+            <td>{{p.product_price}}</td>
+            <td><button class="btn btn-success" (click) = "updateNeworder(p)">Buy</button></td>
+        </tr>
+    </table>
+    <div> All order
+        <div *ngFor="let c of listNeworder ">
+                {{c.order_id}} ,
+                {{c.total_paid}}
+        </div> 
+       
+        <button class="btn btn-danger" (click) = "toCart()">Cart</button>
+    </div>

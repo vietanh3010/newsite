@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { User } from './user';
+import { User } from './model/user';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from './product';
+import { Product } from './model/product';
 
 const httpOptions = {
   headers: new HttpHeaders({
@@ -36,12 +36,10 @@ export class LoginServiceService {
   deleteUser (id: any): Observable<{}> {
     //const url = `${this.userAPI}/id=${id}`;
     const url = this.userAPI + "/"+ id.toString();
-    console.log(url);
     return this.http.delete(url, httpOptions)
   }
   updateUser (user: User): Observable<User> {
     const url = this.userAPI + "/"+ user.user_id.toString();
-    console.log(user);
     return this.http.put<User>(url,  user, httpOptions)
   }
   addUser (user: User): Observable<User> {

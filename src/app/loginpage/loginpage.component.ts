@@ -1,7 +1,7 @@
 import { Variable } from '@angular/compiler/src/render3/r3_ast';
 import { Component, OnInit } from '@angular/core';
 import { LoginServiceService } from '../login-service.service';
-import { User } from '../user';
+import { User } from '../model/user';
 import { Router } from "@angular/router";
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Injectable, Inject } from "@angular/core";

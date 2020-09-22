@@ -1118,7 +1118,17 @@
                 </div>
                               
                           <table class="table" >
-                          
+                            <thead>
+                              <tr>
+                                  <th scope="row">ID</th>
+                                  <td>Username</td>
+                                  <td>Email</td>
+                                  <td>Password</td>
+                                  <td>Is login</td>
+                                  <td>Role</td>
+                                  <td>Button</td>
+                              </tr>
+                            </thead>
                             <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of alluser; let x = index">
                               <tr>
                                 <th scope="row">{{i.user_id}}</th>
@@ -1148,7 +1158,7 @@
                             </tbody>
                           </table>
                           </div>
-<!---->
+<!--Product-->
 <div class= "card">
   <div class="card-header p-2">
     All product 
@@ -1177,36 +1187,115 @@
       </div>
     </div>
   </div>
-                
             <table class="table" >
-            
+              <tr>
+                <th scope="row">Product id</th>
+                <td><b>Product name</b></td>
+                <td><b>Product price</b></td>
+                <td><b>Product img</b></td>
+                <td><b>Button</b> </td>
+              </tr>
               <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of allproduct; let x = index">
                 <tr>
                   <th scope="row">{{i.product_id}}</th>
                   <td>{{i.product_name}}</td>
-                  <td>{{i.product_price}}</td>
+                  <td>${{i.product_price}}</td>
                   <td>{{i.product_img}}</td>
                   <td>
-                    <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" > Edit</a>
+                    <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseTwo_' + x" > Edit</a>
                     <button class="btn btn-danger" (click) = "removeProduct(i)"> Delete</button>
                   </td>
                   
                 </tr> 
 
-                <tr >
-                  <div [attr.id]="'collapseOne_' + x " class="panel-collapse collapse in">
-                    Product name: <input #inputProductname placeholder="{{i.product_name}}" >
-                    Product price: <input #inputProductprice placeholder="{{i.product_price}}" >
-                    Product img: <input #inputProductimg placeholder="{{i.product_img}}" >
-                    <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
-                    (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">Save</button>
-                  </div>
+                <tr [attr.id]="'collapseTwo_' + x " class="panel-collapse collapse in">
+                    <th></th>
+                    <td> <input #inputProductname placeholder="{{i.product_name}}" ></td>
+                    <td> <input #inputProductprice placeholder="{{i.product_price}}" ></td>
+                    <td> <input #inputProductimg placeholder="{{i.product_img}}" ></td>
+                    <td>
+                      <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + x"  class="btn btn-success" 
+                      (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">Save</button>
+                    </td>
                 </tr>
-               
-                  
               </tbody>
             </table>
             </div>
+<!--Order-->              
+<div class= "card">
+  <div class="card-header p-2">
+    All order 
+    <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
+      Add order
+    </button>
+  </div>
+  
+  <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="orderModalLabel">User info</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div>Total price: <input #newTotalprice placeholder="Total price"></div>
+          <div>Total paid:<input #newTotalpaid  placeholder="Total paid"></div>
+          <div>Total unpaid:<input #newTotalunpaid placeholder="Total unpaid"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" data-dismiss="modal" >Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+            <table class="table" >
+              <tr>
+                <th scope="row">Order id</th>
+                <td>Total price</td>
+                <td>Total paid</td>
+                <td>Total unpaid</td>
+                <td>Date purchase</td>
+                <td>Last updated</td>
+                <td>Button</td>
+              </tr>
+              <tbody [attr.id]="'accordion_' + z"  *ngFor = "let i of allneworder; let z = index">
+                <tr>
+                  <th scope="row">{{i.order_id}}</th>
+                  <td>${{i.total_price}}</td>
+                  <td>${{i.total_paid}}</td>
+                  <td>${{i.total_unpaid}}</td>
+                  <td>{{i.created_at | date:"MMM d, y h:mm:ss a"}}</td>
+                  <td>{{i.updated_at | date:"MMM d, y h:mm:ss a"}}</td>
+                  <td>
+                    <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + z" [attr.href]="'#collapseTwo_' + z" > Edit</a>
+                    <button class="btn btn-danger"  (click) = "removeNeworder(i)"> Delete</button>
+                  </td>
+                  
+                </tr> 
+
+                <tr [attr.id]="'collapseTwo_' + z " class="panel-collapse collapse in">
+                    <th></th>
+                    <td> <input #inputTotalprice placeholder="{{i.total_price}}" ></td>
+                    <td> <input #inputTotalpaid placeholder="{{i.total_paid}}" ></td>
+                    <td> <input #inputTotalunpaid placeholder="{{i.total_unpaid}}" ></td>
+                    <td>{{i.created_at | date:"MMM d, y h:mm:ss a"}}</td>
+                    <td>{{i.updated_at | date:"MMM d, y h:mm:ss a"}}</td>
+                    <td>
+                      <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + z"  class="btn btn-success" 
+                      (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >Save</button>
+                    </td>
+                </tr>
+              </tbody>
+            </table>
+            </div>
+
+
+            
+
+            
+            
 
 
                           <!-- 
