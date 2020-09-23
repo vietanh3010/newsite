@@ -1,10 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
-  title = 'testapp';
+export class AppComponent implements OnInit{
+  
+  constructor(private myrouter : Router) { }
+
+  ngOnInit(): void {
+    this.myrouter.navigate(['profile-page']);
+  }
 }

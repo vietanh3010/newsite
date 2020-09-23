@@ -33,7 +33,8 @@
               "src/assets/plugins/fontawesome-free/css/all.min.css",
               "src/assets/dist/css/adminlte.css",
               "src/assets/dist/css/adminlte.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
@@ -111,7 +112,8 @@
               "src/assets/plugins/fontawesome-free/css/all.min.css",
               "src/assets/dist/css/adminlte.css",
               "src/assets/dist/css/adminlte.min.css",
-              "src/styles.css"
+              "src/styles.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

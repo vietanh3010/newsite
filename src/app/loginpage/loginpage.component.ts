@@ -64,7 +64,7 @@ export class LoginpageComponent implements OnInit {
                                               this.testarr2[i].user_role);
           if(this.testarr2[i].user_role == "admin")
          {
-            this.myrouter.navigate(['admin-page']);
+            this.myrouter.navigate(['profile-page']);
          }
          else{
            //redirect to normal user
@@ -78,22 +78,12 @@ export class LoginpageComponent implements OnInit {
       }
       
     }
-    /*while(this.testarr2[this.i].user_email != email && this.testarr2[i].user_password != password)
-    {
-      temp = false;
-      i++;
-    }*/
+
     
     console.log(temp);
     return temp;
   }
 
-  
-  /*public saveInLocal(key, val): void {
-  console.log('recieved= key:' + key + 'value:' + val);
-  this.storage.set(key, val);
-  this.testdata[key]= this.storage.get(key);
-  }*/
 
 
 }
