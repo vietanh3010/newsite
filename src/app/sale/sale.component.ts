@@ -13,12 +13,13 @@ import { NgModule } from '@angular/core';
 import { Cart } from '../model/cart';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { type } from 'jquery';
+import { removeData, type } from 'jquery';
 import { stringify } from 'querystring';
 import { ThrowStmt } from '@angular/compiler';
 import { ProductpageComponent } from '../productpage/productpage.component';
 import { Hash } from 'crypto';
 import {Md5} from 'ts-md5/dist/md5';
+import { color } from 'html2canvas/dist/types/css/types/color';
 
 export interface TabID {
   tab_id: number,
@@ -30,6 +31,10 @@ export interface TabID {
 export interface TabTotal {
   id: number,
   total:number,
+}
+export interface MyToast{
+  type: string;
+  message: string;
 }
 @Component({
   selector: 'app-sale',
@@ -48,7 +53,7 @@ export class SaleComponent implements OnInit {
   pname_arr :Product[]= [];//arr of product name
   pid_arr: Product[] = [];// arr of product id
   pset_arr: Product[]= [];// arr after unique concat pname pid
-  err: string[] = [];
+  err: MyToast[] = [];
   
   product_most_stock: Product[] = [];
   product_most_bought: Product[] = [];
@@ -88,7 +93,6 @@ export class SaleComponent implements OnInit {
     )
     this.getAll();
     this.getAllproduct();
-    this.test(1);
   }
 
   blur_discount()
@@ -97,11 +101,13 @@ export class SaleComponent implements OnInit {
     {
       this.discount=0;
     }
+    
     this.sub = Number(this.to)  - Number(this.discount);
     if(this.sub <= 0)
     {
       this.sub =0;
     }
+    
   }
   add_and_minus(property:string,item: TabID,pro: Cart){
 
@@ -185,7 +191,7 @@ export class SaleComponent implements OnInit {
         }
       }
     }
-
+    this.make_error('info',"Removed item id#"+String(pro.product_id)+" from tab "+item.tab_id.toString())
   }
   find_product(p:any){
     this.chooseProduct(p);
@@ -229,6 +235,7 @@ export class SaleComponent implements OnInit {
     console.log(s+"and"+this.to);
   }
   change(u:any){
+    this.make_error('success',"User "+u.user_name+" chosen!");
     console.log(this.u.user_id +"and" + u.user_name);
   }
   getAll():void {
@@ -249,7 +256,7 @@ export class SaleComponent implements OnInit {
   sort_by_product(property:string){
     this.chosen_property = property;
 
-    if( this.chosen_property == 'product_stock' || this.chosen_property == 'product_bought' || this.chosen_property == 'product_id') //parse and sort number
+    if( this.chosen_property == 'product_stock' || this.chosen_property == 'product_bought' || this.chosen_property == 'product_id' || this.chosen_property == 'product_updated_at') //parse and sort number
     {
       if(this.product_sort)
       {
@@ -353,8 +360,11 @@ export class SaleComponent implements OnInit {
     var productid = p.product_id;
     var productqty=1;
     var sum = 0;
-  
-    if(this.t != undefined)
+    if(this.t == undefined)
+    {
+      this.make_error('warning',"Please choose a tab first!!!");
+    }
+    else if(this.t != undefined)
     {
       for(var i=0;i<this.tab_arr.length;i++)
       {
@@ -450,11 +460,17 @@ export class SaleComponent implements OnInit {
       // this.err=[];
       // this.err.push("Please enter the target user!!");
       // alert("Please enter the target user!!");
-      this.make_error("Please enter the target user!!");
+      this.make_error('warning',"Please enter the target user!!");
     }
     else if( this.tab_arr.filter(any=>any.tab_id==this.t).length == 0)
     {
-      this.make_error("Tab " +this.t+ " empty");
+      if(this.t==undefined)
+      {
+        this.make_error('warning',"Please choose a tab first!");
+      }
+      else{
+        this.make_error('warning',"Tab " +this.t+ " empty");
+      }
     }
     else{
       //check if purchase quantity > stock
@@ -495,7 +511,7 @@ export class SaleComponent implements OnInit {
       if( this.checkq.length != 0)
       {
         var err_quantity = '';
-        this.checkq.forEach(c=> this.make_error(c) )
+        this.checkq.forEach(c=> this.make_error('danger',c) )
         this.checkq = [];
       }
       else //if there is no error, quantity and stock are checked
@@ -576,14 +592,85 @@ export class SaleComponent implements OnInit {
       }
     }
   }
+  active()
+  {
+    if(this.t == undefined )
+    {
+      return {
+        active: true
+      }
+    }
+  }
 
-  make_error(e:string){
-    this.err.push(e);
+  toast_type(t:string){
+    if(t =='danger'){
+      return {
+        'callout' :true,
+        'callout-danger' : true,
+        'color' : 'red',
+      }
+    }
+    else if(t == 'success')
+    {
+      return {
+        'callout' :true,
+        'callout-success' : true,
+        'color' : 'green',
+      }
+    }
+    else if(t == 'warning')
+    {
+      return {
+        'callout' :true,
+        'callout-warning' : true,
+        
+      }
+    }
+    else{
+      return {
+        'callout' :true,
+        'callout-info' : true,
+      }
+    }
+  }
+  toast_color(t:string){
+    if(t =='danger'){
+      return {
+        'color' : 'red',
+      }
+    }
+    else if(t == 'success')
+    {
+      return {
+        'color' : 'green',
+      }
+    }
+    else if(t == 'warning')
+    {
+      return {
+        'color' : '#D39E00',
+      }
+    }
+    else{
+      return {
+        'color' : '#0F6E7D',
+      }
+    }
+  }
+
+  make_error(t:string,e:string){
+    this.err.push({
+      type: t,
+      message: e
+    });
+    this.toast_type(t);
+    this.toast_color(t);
     setTimeout(() => {
       this.err.splice(this.err.indexOf(this.err[0]),1)
      }, 5000);
-  }
-  dismiss_err(e:string){
+    }
+
+  dismiss_err(e:MyToast){
     this.err.splice(this.err.indexOf(e),1)
   } 
 }

@@ -11,14 +11,21 @@
 </head>
 <style>
     .textover {
-      white-space: nowrap; 
-      min-width: 70px;
-      overflow: hidden; 
-      text-overflow: ellipsis;
+    display: block;
+    display: -webkit-box;
+    line-height: 1;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0 auto;
+    line-height: normal;
     }
+    
     .mysearch{
       position: absolute;
-      background-color: #f6f6f6;
+      background-color: white !important;
       width: 100%;
       overflow: auto;
       z-index: 1;
@@ -27,21 +34,36 @@
       
     }
     .mysearch a {
+      background-color: white !important;
       color: black;
       padding: 15px 5px 15px 5px;
       text-decoration: none;
       display: block;
       margin:none;
       border-radius: 10px;
+      /* border-bottom:2px solid gray;
+      border-left:2px solid gray;
+      border-right:2px solid gray */
+      
     }
     .myimg{
       max-width: 70px;
       border-radius: 5px;
     }
     .mysearch a:hover {
-      background-color: #343A40;
-      color:white;
+      /* background-color: #343A40;
+      color:white; */
+      filter:brightness(90%);
       cursor: pointer;
+      
+    }
+    .my-p{
+      text-align: center;
+      cursor: pointer;
+      border-top: 1px solid gray;
+      border-bottom: 1px solid gray;
+    }
+    .my-result{
     }
     #myInput {
       box-sizing: border-box;
@@ -61,12 +83,10 @@
       margin:10px;
       padding:5px;
     }
-    /* #tab_item:hover{
-      background-color: #343A40 !important;
-      color:white !important;
-      border-radius: 5px !important;
+    #tab_item:hover{
+      filter: brightness(90%);
       cursor: pointer;
-    } */
+    }
     .mycard:hover {
       cursor: pointer;
       filter:brightness(90%);
@@ -78,7 +98,6 @@
       min-width: 250px;
       max-width: 250px;
       max-height: 150px;
-      color:red;
     }
     .my-toast-wrapper{
       overflow: auto;
@@ -93,6 +112,7 @@
     .my-toast:hover{
       filter:brightness(90%);
     }
+    
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -110,10 +130,15 @@
     </ul>
    <!-- mytoast -->
     <ul class="my-toast-wrapper">
-      <li class=" card my-toast callout callout-danger" *ngFor="let e of err" (click)="dismiss_err(e)">
+      <li class="card my-toast" [ngClass]="toast_type(e.type)" [ngStyle]="toast_color(e.type)" *ngFor="let e of err" (click)="dismiss_err(e)">
         <div class="row">
-          <div><i class="fas fa-exclamation-circle"></i></div>
-          <div class="col"><div  *ngIf="err.length !== 0">{{e}}</div></div>
+          <div *ngIf="e.type === 'danger' " ><i class="fas fa-exclamation-circle"></i></div>
+          <div *ngIf="e.type === 'success' " ><i class="fas fa-check-circle"></i></div>
+          <div *ngIf="e.type === 'warning' " ><i class="fas fa-exclamation-triangle"></i></div>
+          <div *ngIf="e.type === 'info' " ><i class="fas fa-info-circle"></i></div>
+          <div class="col">
+            <div  *ngIf="err.length !== 0">{{e.message}}</div>
+          </div>
         </div>
       </li> 
       
@@ -248,7 +273,8 @@
 
                   <div class="mysearch">
                     <input id="myInput" placeholder="Find product..." [(ngModel)]="searchTerm"  (ngModelChange) = "search()" (focus)="input_focus()" >
-                    <a *ngFor="let item of pset_arr.slice(0,3); let x = index" (click) = "find_product(item)">    
+                    <div class="my-result">
+                      <a *ngFor="let item of pset_arr.slice(0,3); let x = index" (click) = "find_product(item)">    
                         <div class="container mycon">
                             <div class="row">
                                 <div class="col" >
@@ -273,19 +299,22 @@
                             </div>
                             
                         </div>
-                    </a>
-                    <p *ngIf="pset_arr.length>3" style="text-align: center;">
+                     </a>
+                      <p class="my-p" *ngIf="pset_arr.length>3" >
                         <b>There are {{pset_arr.length - 3}} more results matches...</b>
-                    </p>
-                    <a *ngIf="pset_arr.length === 0 && searchTerm !== undefined && searchTerm !== ''">
-                      <div class="container mycon">
-                        <div class="row">
-                            <div class="col">
-                                <p style="text-align: center;"> <b> 0 result matches </b></p>
-                            </div>
+                      </p>
+
+                      <a *ngIf="pset_arr.length === 0 && searchTerm !== undefined && searchTerm !== ''">
+                        <div class="container mycon">
+                          <div class="row">
+                              <div class="col">
+                                  <p style="text-align: center;"> <b> 0 result matches </b></p>
+                              </div>
+                          </div>
                         </div>
-                      </div>
-                    </a>
+                      </a>
+                    </div>
+                    
                 </div>
                </div>
              </div>
@@ -315,10 +344,10 @@
                         <span *ngIf="product_sort===false && chosen_property === 'product_stock' " ><i class="fas fa-caret-up"></i></span>
                         <span *ngIf="chosen_property !== 'product_stock' "><i class="fas fa-sort"></i></span>
                     </button>
-                    <button class="btn btn-outline-secondary" type="button" (click)="sort_by_product('product_update_at')">Update time
-                        <span *ngIf="product_sort===true && chosen_property === 'product_update_at' " ><i class="fas fa-caret-down"></i></span>
-                        <span *ngIf="product_sort===false && chosen_property === 'product_update_at' " ><i class="fas fa-caret-up"></i></span>
-                        <span *ngIf="chosen_property !== 'product_update_at' "><i class="fas fa-sort"></i></span>
+                    <button class="btn btn-outline-secondary" type="button" (click)="sort_by_product('product_updated_at')">Update time
+                        <span *ngIf="product_sort===true && chosen_property === 'product_updated_at' " ><i class="fas fa-caret-down"></i></span>
+                        <span *ngIf="product_sort===false && chosen_property === 'product_updated_at' " ><i class="fas fa-caret-up"></i></span>
+                        <span *ngIf="chosen_property !== 'product_updated_at' "><i class="fas fa-sort"></i></span>
                     </button>
                 </div>
             </div>
@@ -346,23 +375,27 @@
                         <div class="col-sm-2" *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct" (click)="chooseProduct(i)">
                             <div class="card mycard">
                                 <div class="container " >
-                                    <div class="row " aria-rowspan="2">
-                                        <div >
-                                            <img class="card-img" style="min-width: 70px;"  src="https://picsum.photos/200" alt="Card image"/>
+                                    <div class="row " >
+                                        <div class="col" style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; ">
+                                            <img class="card-img" style="max-height: 100px; width: auto;"  src="https://picsum.photos/200/100" alt="Card image"/>
                                         </div>
                                         <!-- <div class="col">
                                             <a>{{i.product_id}}</a>
                                         </div> -->
-                                        <div class="col">
-                                            <a>${{i.product_price}}</a>
-                                        </div>
-                                        <div class="col">
-                                            <a>Stock {{i.product_stock}}</a>
-                                        </div>
+                                        
+                                        <!-- <div class="col">
+                                            <a>S{{i.product_stock}}</a>
+                                        </div> -->
                                     </div> 
-                                    <div class="row" >
-                                        <div class="col textover">
-                                            {{i.product_name}}
+                                    <div class="row" aria-rowspan="2">
+                                      <div class="col">
+                                        <a><b>${{i.product_price}}</b>
+                                          <small class="float-right" style="color:red;">{{i.product_stock}} left</small></a>
+                                      </div>
+                                    </div>
+                                    <div class="row" aria-rowspan="2">
+                                        <div class="col textover" >
+                                            <a>{{i.product_name}} lorem ipsum diasda lorem ipsum</a>
                                         </div>
                                     </div>
                                 </div>
@@ -377,7 +410,7 @@
                 
                 <nav>
                     <div class="nav nav-tabs d-flex flex-row " id="nav-tab" role="tablist" >
-                        <a class="  nav-item nav-link "  id="nav-home-tab" data-toggle="tab" href="#nav-home" 
+                        <a class=" nav-item nav-link" [ngClass]="active()" id="nav-home-tab" data-toggle="tab" href="#nav-home" 
                         role="tab" [attr.aria-controls]="'nav-home'" aria-selected="true" *ngFor="let i of temporder; let x= index" [ngValue]="i"  (click)="test(i)" >
                         Order {{i}} <i class="fas fa-times" (click)="removeTab(x);removeAll(i)"></i>
                         </a>
@@ -393,7 +426,7 @@
                                 <div *ngFor="let pro of item.tab_product">
                                     <div id="tab_item" class="card d-flex flex-row shadow bg-white rounded"  >
                                       <div class="row">
-                                          <div class="col"><img class="myimg" src="https://picsum.photos/200"></div>
+                                          <div class="col" ><img class="myimg" src="https://picsum.photos/200/"></div>
                                       </div>
                                         <div class="card-body">
                                            <a> <b>Product id:</b>  {{pro.product_id}}</a>
