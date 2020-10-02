@@ -176,8 +176,6 @@ export class InvoicepageComponent implements OnInit {
   }
   
   public printpdfisntant(){
-    setTimeout(() => {
       window.print();
-     }, 3000);
   }
 }
