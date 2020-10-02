@@ -37,7 +37,7 @@ export class ProfilepageComponent implements OnInit {
   searchProduct;
   searchOrder;
   test: any[];
-
+  err: string[] = [];
   userSort: boolean=undefined;
   productSort: boolean=undefined;
   orderSort: boolean=undefined;
@@ -374,6 +374,14 @@ export class ProfilepageComponent implements OnInit {
     return tempProduct;
   }
 
-
+  make_error(e:string){
+    setTimeout(() => {
+      this.err.splice(this.err.indexOf(this.err[0]),1)
+     }, 5000);
+  }
+  
+  dismiss_err(e:string){
+    this.err.splice(this.err.indexOf(e),1)
+  }
 
 }

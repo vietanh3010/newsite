@@ -48,7 +48,8 @@ export class SaleComponent implements OnInit {
   pname_arr :Product[]= [];//arr of product name
   pid_arr: Product[] = [];// arr of product id
   pset_arr: Product[]= [];// arr after unique concat pname pid
-
+  err: string[] = [];
+  
   product_most_stock: Product[] = [];
   product_most_bought: Product[] = [];
   t;
@@ -66,7 +67,6 @@ export class SaleComponent implements OnInit {
   temporder: any[] = [1];
   tab_arr: TabID[] =[];
   tabtotal: TabTotal[] = [];
-  err:string[]=[];
   checkq:string[] = [];
   private currentUserSubject: BehaviorSubject<User>;
   public currentUser: Observable<User>;
@@ -449,13 +449,14 @@ export class SaleComponent implements OnInit {
     //check if any user is selected
     if(this.u == undefined)
     {
-      this.err=[];
-      this.err.push("Please enter the target user!!");
-      alert("Please enter the target user!!");
+      // this.err=[];
+      // this.err.push("Please enter the target user!!");
+      // alert("Please enter the target user!!");
+      this.make_error("Please enter the target user!!");
     }
     else if( this.tab_arr.filter(any=>any.tab_id==this.t).length == 0)
     {
-      alert("Tab " +this.t+ " empty");
+      this.make_error("Tab " +this.t+ " empty");
     }
     else{
       //check if purchase quantity > stock
@@ -486,7 +487,7 @@ export class SaleComponent implements OnInit {
             {
               this.checkq = [];
               console.log(this.tab_arr[i].tab_product[0].product_quantity);
-              this.checkq.push("tab:"+ this.t+" Product #"+p.product_id+": "+p.product_name+" doesnt have enough in stock: only "+p.product_stock+" left.")
+              this.checkq.push("tab:"+ this.t+" Product #"+p.product_id+": "+p.product_name+" not enough in stock: only "+p.product_stock+" left.")
             }
           }
         }
@@ -496,9 +497,7 @@ export class SaleComponent implements OnInit {
       if( this.checkq.length != 0)
       {
         var err_quantity = '';
-        this.checkq.forEach(c=> err_quantity+=c )
-        window.alert(err_quantity);
-        console.log(err_quantity);
+        this.checkq.forEach(c=> this.make_error(c) )
         this.checkq = [];
       }
       else //if there is no error, quantity and stock are checked
@@ -578,5 +577,15 @@ export class SaleComponent implements OnInit {
         'border-bottom': '1px solid gray',
       }
     }
+  }
+
+  make_error(e:string){
+    this.err.push(e);
+    setTimeout(() => {
+      this.err.splice(this.err.indexOf(this.err[0]),1)
+     }, 5000);
+  }
+  dismiss_err(e:string){
+    this.err.splice(this.err.indexOf(e),1)
   }
 }

@@ -71,6 +71,27 @@
       cursor: pointer;
       filter:brightness(90%);
     }
+    /* toast */
+    .my-toast{
+      margin: 10px 20px 5px 10px;
+      padding:20px;
+      min-width: 250px;
+      max-width: 250px;
+      max-height: 150px;
+      display: block;
+      border: 1px solid red;
+      color:red;
+    }
+    .my-toast-wrapper{
+      overflow: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .my-toast-wrapper:hover{
+      cursor: pointer;
+    }
+    
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -86,7 +107,12 @@
       </li>
       
     </ul>
-
+   <!-- mytoast -->
+    <ul class="my-toast-wrapper">
+      <li class=" card my-toast" *ngFor="let e of err" (click)="dismiss_err(e)">
+        <div  *ngIf="err.length !== 0">{{e}}</div>
+      </li>
+    </ul>
       <!-- Right navbar links -->
    
   </nav>
@@ -220,7 +246,7 @@
                         <div class="container mycon">
                             <div class="row">
                                 <div class="col" >
-                                  <img class="myimg" src="assets/dist/img/maleava.png">
+                                  <img class="myimg" src="https://picsum.photos/200">
                                 </div>
                                 <div class="col">
                                   <b>{{item.product_name}} </b>
@@ -316,7 +342,7 @@
                                 <div class="container " >
                                     <div class="row " aria-rowspan="2">
                                         <div >
-                                            <img class="card-img" style="min-width: 70px;"  src="assets/dist/img/maleava.png" alt="Card image"/>
+                                            <img class="card-img" style="min-width: 70px;"  src="https://picsum.photos/200" alt="Card image"/>
                                         </div>
                                         <!-- <div class="col">
                                             <a>{{i.product_id}}</a>
@@ -359,7 +385,7 @@
                                 <div *ngFor="let pro of item.tab_product">
                                     <div id="tab_item" class="card d-flex flex-row shadow bg-white rounded"  >
                                       <div class="row">
-                                          <div class="col"><img class="myimg" src="assets/dist/img/maleava.png"></div>
+                                          <div class="col"><img class="myimg" src="https://picsum.photos/200"></div>
                                       </div>
                                         <div class="card-body">
                                            <a> <b>Product id:</b>  {{pro.product_id}}</a>

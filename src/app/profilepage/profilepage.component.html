@@ -16,6 +16,26 @@
   table {
     cursor: pointer;
   }
+  .my-toast{
+      margin: 10px 20px 5px 10px;
+      padding:20px;
+      min-width: 250px;
+      max-width: 250px;
+      max-height: 150px;
+      display: block;
+      border: 1px solid red;
+      color:red;
+    }
+    .my-toast-wrapper{
+      overflow: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+    }
+    .my-toast-wrapper:hover{
+      cursor: pointer;
+    }
+    
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -29,7 +49,14 @@
       </li>
       
     </ul>
-
+    
+     <!-- mytoast -->
+     <ul class="my-toast-wrapper">
+      <li class=" card my-toast" *ngFor="let e of err" (click)="dismiss_err(e)">
+        <div  *ngIf="err.length !== 0">{{e}}</div>
+      </li>
+    </ul>
+    
       <!-- Right navbar links -->
    
   </nav>
@@ -570,10 +597,10 @@
                           
                         </div>
                         <div class="p-2">
-                          <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
+                          <!-- <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
                             <i class="fa fa-plus" aria-hidden="true"></i>
                             Add order
-                          </button>
+                          </button> -->
                         </div>
                       </div>
                 
