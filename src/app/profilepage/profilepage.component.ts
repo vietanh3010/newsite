@@ -379,7 +379,7 @@ export class ProfilepageComponent implements OnInit {
       this.err.splice(this.err.indexOf(this.err[0]),1)
      }, 5000);
   }
-  
+   
   dismiss_err(e:string){
     this.err.splice(this.err.indexOf(e),1)
   }

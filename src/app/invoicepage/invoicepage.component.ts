@@ -170,7 +170,7 @@ export class InvoicepageComponent implements OnInit {
 
 
   public printpdf(){
-    setTimeout(() => {
+    setTimeout(() => { 
       window.print();
      }, 3000);
   }

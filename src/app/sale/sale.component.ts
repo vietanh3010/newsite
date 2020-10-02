@@ -587,5 +587,5 @@ export class SaleComponent implements OnInit {
   }
   dismiss_err(e:string){
     this.err.splice(this.err.indexOf(e),1)
-  }
+  } 
 }
