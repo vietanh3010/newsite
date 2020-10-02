@@ -11,7 +11,7 @@
 </head>
 <style>
   .hover:hover{
-    background-color: #F2F2F2;
+    background-color: #cce5ff;
   }
   table {
     cursor: pointer;
@@ -35,6 +35,9 @@
     }
     .my-toast:hover{
       filter:brightness(90%);
+    }
+    .tab-color{
+      background-color: lightgray !important;
     }
 </style>
 
@@ -306,7 +309,7 @@
                         </div>
                               <div class="table-responsive">
                                   <table class="table"> 
-                                      <tr>
+                                      <tr class="bg-light">
                                           <th scope="row" (click)="sortUser('user_id')"> <b>ID</b>
                                             <span class="float-right">
                                               <span *ngIf="userSort===true && chooseUser === 'user_id' " ><i class="fas fa-caret-down"></i></span>
@@ -360,36 +363,33 @@
                                       <tr>
                                         <td style="padding: 0%" colspan="6">
                                           <div class="margin:0%" [attr.id]="'collapseOne_' + x " class=" collapse">
-                                            <div class="card" style="margin-bottom: 0%;">
-                                              <table class="table-active">
+                                            <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
+                                              <div class="card p-4 shadow-none" >
+                                              <table class="table table-borderless" style="width: 100%;">
                                                 <tbody>
                                                   <tr>
-                                                    <td>Username</td>
+                                                    <td><b>Username</b></td>
+                                                    <td><b>Email</b></td>
+                                                    <td><b>Password</b></td>
+                                                    <td><b>Role</b></td>
+                                                  </tr>
+                                                  <tr>
                                                     <td>
                                                       <input #inputUsername type="text" class="form-control" placeholder="{{i.user_name}}" aria-label="username" aria-describedby="basic-addon">
                                                     </td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Email</td>
                                                     <td>
                                                        <input #inputUseremail type="text" class="form-control" placeholder="{{i.user_email}}" aria-label="useremail" aria-describedby="basic-addon">
                                                     </td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>Password</td>
                                                     <td>
-                                                        <input #inputUserpassword type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userpassword" aria-describedby="basic-addon">
+                                                      <input #inputUserpassword type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userpassword" aria-describedby="basic-addon">
+                                                    </td>
+                                                    <td>
+                                                      <input #inputUserrole type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userrole" aria-describedby="basic-addon">
                                                     </td>
                                                   </tr>
+                                                </tbody>
                                                   <tr>
-                                                    <td>Role</td>
-                                                    <td>
-                                                        <input #inputUserrole type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userrole" aria-describedby="basic-addon">
-                                                    </td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td></td>
-                                                    <td class="float-right">
+                                                    <td colspan="4" style="align-items: right;text-align: right;">
                                                       <button class="btn btn-danger" style="margin: 5px;" (click) = "removeUser(i)"> 
                                                         <i class="fas fa-trash-alt"></i>
                                                         Delete
@@ -401,8 +401,8 @@
                                                       </button>
                                                     </td>
                                                   </tr>
-                                                </tbody>
                                               </table>
+                                            </div>
                                             </div>
                                           </div>
                                         </td>
@@ -478,7 +478,7 @@
                 
                     <div class="table-responsive">
                           <table class="table" >
-                              <tr>
+                              <tr class=" bg-light">
                                 <th scope="row" (click)="sortProduct('product_id')"><b>Product id</b>
                                   <span class="float-right">
                                     <span *ngIf="productSort===true && chooseProduct === 'product_id' " ><i class="fas fa-caret-down"></i></span>
@@ -536,43 +536,43 @@
                               <tr>
                                 <td style="padding: 0%" colspan="6">
                                   <div class="margin:0%" [attr.id]="'collapseTwo_' + x " class="collapse">
-                                      <div class="card" style="margin-bottom: 0%;">
-                                        <table class="table-active">
-                                          <tbody>
-                                            <tr>
-                                              <td>Product name</td>
-                                              <td>
-                                                <input #inputProductname type="text" class="form-control" placeholder="{{i.product_name}}" aria-label="productname" aria-describedby="basic-addon1">
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td>Product price</td>
-                                              <td>
-                                                 <input #inputProductprice type="text" class="form-control" placeholder="{{i.product_price}}" aria-label="productprice" aria-describedby="basic-addon1">
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td>Product img</td>
-                                              <td>
+                                      <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
+                                        <div class="card p-4 shadow-none" >
+                                          <table class="table table-borderless" style="width: 100%;">
+                                            <tbody>
+                                              <tr class="bg-light">
+                                                <td>Product name</td>
+                                                <td>Product price</td>
+                                                <td>Product img</td>
+                                              </tr>
+                                              <tr>
+                                                <td>
+                                                  <input #inputProductname type="text" class="form-control" placeholder="{{i.product_name}}" aria-label="productname" aria-describedby="basic-addon1">
+                                                </td>
+                                                <td>
+                                                  <input #inputProductprice type="text" class="form-control" placeholder="{{i.product_price}}" aria-label="productprice" aria-describedby="basic-addon1">
+                                                </td>
+                                                <td>
                                                   <input #inputProductimg type="text" class="form-control" placeholder="{{i.product_img}}" aria-label="productimg" aria-describedby="basic-addon1">
-                                              </td>
-                                            </tr>
-                                            <tr>
-                                              <td></td>
-                                              <td class="float-right">
-                                                <button class="btn btn-danger" style="margin: 5px;" (click) = "removeProduct(i)"> 
-                                                  <i class="fas fa-trash-alt"></i>
-                                                  Delete
-                                                </button>
-                                                <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + x"  class="btn btn-success" 
-                                                  (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">
-                                                  <i class="fas fa-save"></i>
-                                                  Save
-                                                </button>
-                                              </td>
-                                            </tr>
-                                          </tbody>
-                                        </table>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                              <tr >
+                                                <td colspan="3" style="align-items: right;text-align: right;">
+                                                  <button class="btn btn-danger" style="margin: 5px;" (click) = "removeProduct(i)"> 
+                                                    <i class="fas fa-trash-alt"></i>
+                                                    Delete
+                                                  </button>
+                                                  <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + x"  class="btn btn-success" 
+                                                    (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">
+                                                    <i class="fas fa-save"></i>
+                                                    Save
+                                                  </button>
+                                                </td>
+                                              </tr>
+                                          
+                                          </table>
+                                        </div>
                                       </div>
                                       
                                     
@@ -666,7 +666,7 @@
                 </div>
                       <div class="table-responsive">
                         <table class="table" >
-                          <tr>
+                          <tr class=" bg-light">
                             <th scope="row"  (click)="sortOrder('order_id')"><b>Order id</b>
                               <span class="float-right">
                                 <span *ngIf="orderSort===true && chooseOrder === 'order_id' " ><i class="fas fa-caret-down"></i></span>
@@ -681,7 +681,7 @@
                                 <span *ngIf="chooseOrder !== 'total_price' "><i class="fas fa-sort"></i></span>
                               </span>
                             </th>
-                            <th scope="row" (click)="sortOrder('total_paid')"><b>Total paid</b>
+                            <th scope="row" (click)="sortOrder('total_paid')"><b>Discount</b>
                               <span class="float-right">
                                 <span *ngIf="orderSort===true && chooseOrder === 'total_paid' " ><i class="fas fa-caret-down"></i></span>
                                 <span *ngIf="orderSort===false && chooseOrder === 'total_paid' " ><i class="fas fa-caret-up"></i></span>
@@ -710,8 +710,8 @@
                               </span>
                             </th>
                           </tr>
-                          <tbody [attr.id]="'accordion' + z"  *ngFor = "let i of allneworder | filter : searchOrder; let z = index">
-                            <tr class="hover" data-toggle="collapse" [attr.data-parent]="'#accordion' + z" [attr.href]="'#collapseThree_' + z">
+                          <tbody [attr.id]="'accordion' + z"  *ngFor = "let i of allneworder | filter : searchOrder; let z = index" >
+                            <tr class="hover" data-toggle="collapse" [attr.data-parent]="'#accordion' + z" [attr.href]="'#collapseThree_' + z"  >
                               <th scope="row">{{i.order_id}}</th>
                               <td>${{i.total_price}}</td>
                               <td>${{i.total_paid}}</td>
@@ -720,49 +720,104 @@
                               <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
                             </tr> 
             
-                            <tr>
-                              <td style="padding: 0%" colspan="6">
+                            <tr class="border" >
+                              <td style="padding: 0%" colspan="6" >
                                 <div class="margin:0%" [attr.id]="'collapseThree_' + z " class="collapse">
-                                  <div class="card" style="margin-bottom: 0%;">
-                                    <table class="table-active">
-                                      <tbody>
-                                        <tr>
-                                          <td>Total price</td>
-                                          <td>
-                                            <input #inputTotalprice  class="form-control" placeholder="{{i.total_price}}" aria-label="tprice" aria-describedby="basic-addon2">
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>Total paid</td>
-                                          <td>
-                                            <input #inputTotalpaid  class="form-control" placeholder="{{i.total_paid}}" aria-label="tpaid" aria-describedby="basic-addon2">
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td>Total unpaid</td>
-                                          <td>
-                                            <input #inputTotalunpaid  class="form-control" placeholder="{{i.total_unpaid}}" aria-label="tunprice" aria-describedby="basic-addon2">
-                                          </td>
-                                        </tr>
-                                        <tr>
-                                          <td></td>
-                                          <td class="float-right">
-                                            <button class="btn btn-danger" style="margin: 3px;" (click) = "removeNeworder(i)"> 
-                                              <i class="fas fa-trash-alt"></i>
-                                              Delete
-                                            </button>
-                                            <button class="btn btn-info"  style="margin: 3px;" > 
-                                              <i class="fas fa-file-invoice"></i>
-                                              <span [routerLink]="['/invoice-page', { orderid: i.order_hash }]">  Invoice</span>
-                                            </button>
-                                            <button style="margin: 3px;" data-toggle="collapse" [attr.href]="'#collapseThree_' + z"  class="btn btn-success" 
-                                              (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >
-                                              <i class="fas fa-save"></i>  Save
-                                            </button>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    </table>
+                                  <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
+                                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                      <li class="nav-item">
+                                        <a class="nav-link active " id="home-tab" data-toggle="tab" [attr.href]="'#tab1'+z" role="tab" aria-controls="home" aria-selected="true">Update</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" [attr.href]="'#tab2'+z" role="tab" aria-controls="profile" aria-selected="false">Customer</a>
+                                      </li>
+                                      <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" [attr.href]="'#tab3'+z" role="tab" aria-controls="contact" aria-selected="false">Order product</a>
+                                      </li>
+                                    </ul>
+                                    <div class="tab-content" id="myTabContent">
+                                      <div class="tab-pane fade show active border-right border-left border-bottom" [attr.id]="'tab1' + z " role="tabpanel" aria-labelledby="home-tab">
+                                        <div class="card p-4 shadow-none" >
+                                          <table class="table table-borderless " style="width: 100%;">
+                                            <tbody>
+                                              <tr class="bg-light">
+                                                <td>Total price</td>
+                                                <td>Total paid</td>
+                                                <td>Total unpaid</td>
+                                              </tr>
+                                              <tr>
+                                                <td>
+                                                  <input #inputTotalprice  class="form-control" placeholder="{{i.total_price}}" aria-label="tprice" aria-describedby="basic-addon2">
+                                                </td>
+                                                <td>
+                                                  <input #inputTotalpaid  class="form-control" placeholder="{{i.total_paid}}" aria-label="tpaid" aria-describedby="basic-addon2">
+                                                </td>
+                                                <td>
+                                                  <input #inputTotalunpaid  class="form-control" placeholder="{{i.total_unpaid}}" aria-label="tunprice" aria-describedby="basic-addon2">
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                            <tr>
+                                              <td  colspan="3" style="align-items: right;text-align: right;">
+                                                <button class="btn btn-danger" style="margin: 3px;" (click) = "removeNeworder(i)"> 
+                                                  <i class="fas fa-trash-alt"></i>
+                                                  Delete
+                                                </button>
+                                                <button class="btn btn-info"  style="margin: 3px;" > 
+                                                  <i class="fas fa-file-invoice"></i>
+                                                  <span [routerLink]="['/invoice-page', { orderid: i.order_hash }]">  Invoice</span>
+                                                </button>
+                                                <button style="margin: 3px;" data-toggle="collapse" [attr.href]="'#collapseThree_' + z"  class="btn btn-success" 
+                                                  (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >
+                                                  <i class="fas fa-save"></i>  Save
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </div>
+                                      </div>
+                                      <div class="tab-pane fade border-right border-left border-bottom" [attr.id]="'tab2' + z " role="tabpanel" aria-labelledby="profile-tab">
+                                        <div class="card p-4 shadow-none" >
+                                          <table class="table table-striped" style="width: 100%;" >
+                                            <tbody>
+                                              <tr>
+                                                <td><b>ID</b></td>
+                                                <td><b>Name</b></td>
+                                                <td><b>Email</b></td>
+                                              </tr>
+                                              <tr>
+                                                <td>{{i.customer.user_id}}</td>
+                                                <td>{{i.customer.user_name}}</td>
+                                                <td>{{i.customer.user_email}} </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>  
+                                      </div>
+                                      <div class="tab-pane fade border-right border-left border-bottom" [attr.id]="'tab3' + z " role="tabpanel" aria-labelledby="contact-tab">
+                                        <div class="card p-4 shadow-none" >
+                                          <table class="table table-striped" style="width: 100%;" >
+                                            <tbody >
+                                              <tr>
+                                                <td><b>ID</b></td>
+                                                <td><b>Name</b></td>
+                                                <td><b>Quantity</b></td>
+                                                <td><b>Price</b></td>
+                                              </tr>
+                                              <tr *ngFor="let p of i.products">
+                                                <td><a>{{p.product_id}}</a></td>
+                                                <span *ngFor="let pp of allproduct"><td *ngIf="pp.product_id === p.product_id">{{pp.product_name}}</td></span>
+                                                <td>{{p.product_quantity}} </td>
+                                                <span *ngFor="let pp of allproduct"><td *ngIf="pp.product_id === p.product_id">${{pp.product_price}}</td></span>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        </div>  
+                                      </div>
+                                    </div>
+
+
+                                    
                                   </div>
                                 </div>
                               </td>

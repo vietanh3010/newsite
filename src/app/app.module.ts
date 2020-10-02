@@ -33,8 +33,8 @@ const routes: Routes =[
   ]},
   {path: 'product-page', component:ProductpageComponent},
   {path: 'customer-page', component:CustomerpageComponent},
-  {path: 'invoice-page', component: InvoicepageComponent},
-  {path: 'sale-page', component: SaleComponent},
+  {path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard]},
+  {path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard]},
   {path: '**', component: PagenotfoundComponent },
 ];
 
