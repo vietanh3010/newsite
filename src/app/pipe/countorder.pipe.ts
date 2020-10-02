@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Order } from '../model/order';
 
 @Pipe({
   name: 'countorder'

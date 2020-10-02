@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { User } from '../model/user';
 import { Neworder } from '../model/neworder';
 import { Product } from '../model/product';
-import { Order } from '../model/order';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NeworderService } from '../service/neworder.service';
@@ -40,10 +39,10 @@ export class CustomerpageComponent implements OnInit {
     }
 
   ngOnInit():void  {
-    this.getMycart();
-    this.getMyinfo();
-    this.getMyhistory();
-    this.gettotal();
+    //this.getMycart();
+   // this.getMyinfo();
+   // this.getMyhistory();
+   // this.gettotal();
   }
 
   async gettotal(){

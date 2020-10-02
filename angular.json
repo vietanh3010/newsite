@@ -24,6 +24,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/assets/plugins/summernote/summernote-bs4.css",
               "src/assets/plugins/daterangepicker/daterangepicker.css",
               "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
@@ -33,14 +34,23 @@
               "src/assets/plugins/fontawesome-free/css/all.min.css",
               "src/assets/dist/css/adminlte.css",
               "src/assets/dist/css/adminlte.min.css",
+              "src/assets/plugins/toastr/toastr.min.css",
               "src/styles.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/js/dist/util.js",
+              "node_modules/bootstrap/js/dist/dropdown.js",
               "node_modules/admin-lte/plugins/jquery/jquery.min.js",
-              "src/assets/dist/js/adminlte.min.js"
+              "node_modules/admin-lte/dist/js/adminlte.min.js",
+              "node_modules/jspdf/dist/jspdf.umd.min.js",
+              "src/assets/dist/js/html2pdf.bundle.min.js",
+              "node_modules/html2canvas/dist/html2canvas.min.js",
+              "src/assets/plugins/toastr/toastr.min.js"
             ]
           },
           "configurations": {
@@ -103,6 +113,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/assets/plugins/summernote/summernote-bs4.css",
               "src/assets/plugins/daterangepicker/daterangepicker.css",
               "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
@@ -112,14 +123,23 @@
               "src/assets/plugins/fontawesome-free/css/all.min.css",
               "src/assets/dist/css/adminlte.css",
               "src/assets/dist/css/adminlte.min.css",
+              "src/assets/plugins/toastr/toastr.min.css",
               "src/styles.css",
               "src/styles.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
+              "node_modules/bootstrap/js/dist/util.js",
+              "node_modules/bootstrap/js/dist/dropdown.js",
               "node_modules/admin-lte/plugins/jquery/jquery.min.js",
-              "src/assets/dist/js/adminlte.min.js"
+              "node_modules/admin-lte/dist/js/adminlte.min.js",
+              "node_modules/jspdf/dist/jspdf.umd.min.js",
+              "src/assets/dist/js/html2pdf.bundle.min.js",
+              "node_modules/html2canvas/dist/html2canvas.min.js",
+              "src/assets/plugins/toastr/toastr.min.js"
             ]
           }
         },
@@ -149,6 +169,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "testapp"
 }

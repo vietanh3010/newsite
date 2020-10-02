@@ -6,7 +6,6 @@ import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { Injectable, Inject } from "@angular/core";
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from "@angular/router";
-import { Order } from '../model/order';
 import { OrderService } from '../service/order.service';
 import { ThrowStmt } from '@angular/compiler';
 import { Neworder } from '../model/neworder';
@@ -19,7 +18,6 @@ import { NeworderService } from '../service/neworder.service';
 })
 export class ProductpageComponent implements OnInit {
   listProduct: Product[] = [];
-  listOrder:Order[] = [];
   listNeworder: Neworder[]=[];
 
   private currentUserSubject: BehaviorSubject<User>;
@@ -36,19 +34,15 @@ export class ProductpageComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.getProduct();
-    this.getOrder();
+   // this.getProduct();
+   // this.getOrder();
   }
 
   getProduct(){
     this.productService.getProduct().subscribe(
       (data:any)  =>  (this.listProduct=data)  );
   }
-  getOrder():Order[] {
-    this.orderService.getOrder().subscribe(
-      (data:any)  =>  (this.listOrder=data)  );
-      return this.listOrder;
-  }
+ 
 
   getNeworder():Neworder[] {
       this.neworderService.getNeworder().subscribe(

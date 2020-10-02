@@ -9,6 +9,15 @@
 
 
 </head>
+<style>
+  .hover:hover{
+    background-color: #F2F2F2;
+  }
+  table {
+    cursor: pointer;
+  }
+</style>
+
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
   <!-- Navbar -->
@@ -21,19 +30,7 @@
       
     </ul>
 
-    <!-- SEARCH FORM 
-    <form class="form-inline ml-3">
-      <div class="input-group input-group-sm">
-        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-        <div class="input-group-append">
-          <button class="btn btn-navbar" type="submit">
-            <i class="fas fa-search"></i>
-          </button>
-        </div>
-      </div>
-    </form>-->
-
-    <!-- Right navbar links -->
+      <!-- Right navbar links -->
    
   </nav>
   <!-- /.navbar -->
@@ -76,10 +73,23 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+              
               <li class="nav-item">
                 <a href="/profile-page" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Profile</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/sale-page" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Sale order</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="/invoice-page" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Invoice</p>
                 </a>
               </li>
             </ul>
@@ -99,13 +109,6 @@
                   <p>Login</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/login-page" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Register/Notwork</p>
-                </a>
-              </li>
-            
             </ul>
           </li>
           
@@ -183,6 +186,7 @@
                   <li class="list-group-item">
                     <b>Role</b> <a class="float-right">{{i.user_role}}</a>
                   </li>
+                
                 </ul>
 
                 <button class= "btn btn-danger btn-block" (click) = "clickLogout()">Log out</button>
@@ -208,11 +212,25 @@
                 <div class="tab-content">
                   <div class="active tab-pane" id="tab-users">
                       <!--User-->            
-                      <div style="margin-bottom: 10px;">
+                      <div class="d-flex justify-content-between">
+                        <div class="p-2">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <input  type="text" class="form-control" name="search" [(ngModel)]="searchUser" placeholder="Search user table">
+                          </div>
+                          
+                        </div>
+                        <div class="p-2">
                           <button class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
                             Add user
                           </button>
                         </div>
+                      </div>
                         
                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                           <div class="modal-dialog" role="document">
@@ -247,50 +265,116 @@
                                   </table>
                                 </div>
                               <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addnewUser(newUsername.value,newEmail.value,newPassword.value,newRole.value)">Add</button>
+                                <button type="button" class="btn btn-success" data-dismiss="modal" (click)="addnewUser(newUsername.value,newEmail.value,newPassword.value,newRole.value)">
+                                  <i class="fas fa-paper-plane"></i>
+                                  Submit
+                                </button>
                               </div>
                             </div>
                           </div>
                         </div>
                               <div class="table-responsive">
-                                  <table class="table table-bordered" >
-                                    <thead>
+                                  <table class="table"> 
                                       <tr>
-                                          <th scope="col">ID</th>
-                                          <th scope="col">Username</th>
-                                          <th scope="col">Email</th>
-                                          <th scope="col">Password</th>
-                                          <th scope="col">Is login</th>
-                                          <th scope="col">Role</th>
-                                          <th scope="col">Button</th>
-                                      </tr>
-                                    </thead>
-                                    <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of alluser; let x = index">
-                                      <tr>
-                                        <th scope="row">{{i.user_id}}</th>
+                                          <th scope="row" (click)="sortUser('user_id')"> <b>ID</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser === 'user_id' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser === 'user_id' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'user_id' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          </th>
+                                          <th scope="row" (click)="sortUser('user_name')"><b>Username</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser === 'user_name' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser === 'user_name' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'user_name' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          <th scope="row" (click)="sortUser('user_email')"><b>Email</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser==='user_email' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser==='user_email' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'user_email' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          <th scope="row" (click)="sortUser('user_password')"><b>Password</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser==='user_password' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser==='user_password' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'user_password' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          </th>
+                                          <th scope="row" (click)="sortUser('is_login')"><b>Is login</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser==='is_login' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser==='is_login' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'is_login' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          </th>
+                                          <th scope="row" (click)="sortUser('user_role')"><b>Role</b>
+                                            <span class="float-right">
+                                              <span *ngIf="userSort===true && chooseUser==='user_role' " ><i class="fas fa-caret-down"></i></span>
+                                              <span *ngIf="userSort===false && chooseUser==='user_role' " ><i class="fas fa-caret-up"></i></span>
+                                              <span *ngIf="chooseUser !== 'user_role' "><i class="fas fa-sort"></i></span>
+                                            </span>
+                                          </th>
+                                        </tr>
+                                    <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of alluser | filter : searchUser; let x = index">
+                                      <tr class="hover" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" >
+                                        <td scope="row">{{i.user_id}}</td>
                                         <td>{{i.user_name}}</td>
                                         <td>{{i.user_email}}</td>
                                         <td>{{i.user_password}}</td>
                                         <td>{{i.is_login}}</td>
                                         <td>{{i.user_role}}</td>
-                                        <td style="display: flex; justify-content: center;">
-                                          <button class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseOne_' + x" > Edit</button>
-                                          <button class="btn btn-danger" (click) = "removeUser(i)"> Delete</button>
-                                        </td>
-                                        
                                       </tr> 
-
-                                      <tr [attr.id]="'collapseOne_' + x " class="panel-collapse collapse in table-active">
-                                          <th></th>
-                                          <td><input #inputName type="text" class="form-control" placeholder="{{i.user_name}}" aria-label="username" aria-describedby="basic-addon1"></td>
-                                          <td><input #inputEmail type="text" class="form-control" placeholder="{{i.user_email}}" aria-label="username-email" aria-describedby="basic-addon1"></td>
-                                          <td></td>
-                                          <td></td>
-                                          <td><input #inputRole type="text" class="form-control" placeholder="{{i.user_role}}" aria-label="username-role" aria-describedby="basic-addon1"></td>
-                                          <td style="display: flex; justify-content: center;">
-                                            <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
-                                            (click) = "updateUser(i,inputName.value,inputEmail.value,inputRole.value)">Save</button>
-                                          </td>
+                                      <tr>
+                                        <td style="padding: 0%" colspan="6">
+                                          <div class="margin:0%" [attr.id]="'collapseOne_' + x " class=" collapse">
+                                            <div class="card" style="margin-bottom: 0%;">
+                                              <table class="table-active">
+                                                <tbody>
+                                                  <tr>
+                                                    <td>Username</td>
+                                                    <td>
+                                                      <input #inputUsername type="text" class="form-control" placeholder="{{i.user_name}}" aria-label="username" aria-describedby="basic-addon">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Email</td>
+                                                    <td>
+                                                       <input #inputUseremail type="text" class="form-control" placeholder="{{i.user_email}}" aria-label="useremail" aria-describedby="basic-addon">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Password</td>
+                                                    <td>
+                                                        <input #inputUserpassword type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userpassword" aria-describedby="basic-addon">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>Role</td>
+                                                    <td>
+                                                        <input #inputUserrole type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userrole" aria-describedby="basic-addon">
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td></td>
+                                                    <td class="float-right">
+                                                      <button class="btn btn-danger" style="margin: 5px;" (click) = "removeUser(i)"> 
+                                                        <i class="fas fa-trash-alt"></i>
+                                                        Delete
+                                                      </button>
+                                                      <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
+                                                        (click) = "updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)">
+                                                        <i class="fas fa-save"></i>
+                                                        Save
+                                                      </button>
+                                                    </td>
+                                                  </tr>
+                                                </tbody>
+                                              </table>
+                                            </div>
+                                          </div>
+                                        </td>
                                       </tr>
                                     
                                         
@@ -301,17 +385,33 @@
                   <!-- /.tab-pane -->
                   <div class="tab-pane" id="tab-products">
                       <!--Product-->
-                <div style="margin-bottom: 10px;">
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#productModal">
-                    Add product
-                  </button>
-                </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="p-2">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <input  type="text" class="form-control" name="search" [(ngModel)]="searchProduct" placeholder="Search product table">
+                          </div>
+                          
+                        </div>
+                        <div class="p-2">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#productModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Add product
+                          </button>
+                        </div>
+                      </div>
                 
                 <div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="productModalLabel">Add product</h5>
+                        <h5 class="modal-title" id="productModalLabel">
+                          Add product
+                        </h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                           <span aria-hidden="true">&times;</span>
                         </button>
@@ -336,141 +436,335 @@
                           </table>
                         </div>
                       <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" (click)="addnewProduct(newProductname.value,newProductprice.value,newProductimg.value)">Add</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal" (click)="addnewProduct(newProductname.value,newProductprice.value,newProductimg.value)">
+                          <i class="fas fa-paper-plane"></i>
+                          Submit
+                        </button>
                       </div>
                     </div>
                   </div>
                 </div>
+                
                     <div class="table-responsive">
-                          <table class="table table-bordered" >
-                            <tr>
-                              <th scope="row">Product id</th>
-                              <th scope="row">Product name</th>
-                              <th scope="row">Product price</th>
-                              <th scope="row">Product img</th>
-                              <th scope="row">Button </th>
-                            </tr>
-                            <tbody [attr.id]="'accordion_' + x"  *ngFor = "let i of allproduct; let x = index">
+                          <table class="table" >
                               <tr>
-                                <th scope="row">{{i.product_id}}</th>
-                                <td>{{i.product_name}}</td>
+                                <th scope="row" (click)="sortProduct('product_id')"><b>Product id</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_id' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_id' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_id' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                                <th scope="row" (click)="sortProduct('product_name')"><b>Product name</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_name' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_name' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_name' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                                <th scope="row" (click)="sortProduct('product_price')"><b>Product price</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_price' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_price' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_price' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                                <th scope="row" (click)="sortProduct('product_img')"><b>Product img</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_img' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_img' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_img' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                                <th scope="row" (click)="sortProduct('product_stock')"><b>Stock</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_stock' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_stock' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_stock' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                                <th scope="row" (click)="sortProduct('product_bought')"><b>Bought</b>
+                                  <span class="float-right">
+                                    <span *ngIf="productSort===true && chooseProduct === 'product_bought' " ><i class="fas fa-caret-down"></i></span>
+                                    <span *ngIf="productSort===false && chooseProduct === 'product_bought' " ><i class="fas fa-caret-up"></i></span>
+                                    <span *ngIf="chooseProduct !== 'product_bought' "><i class="fas fa-sort"></i></span>
+                                  </span>
+                                </th>
+                              </tr>
+                            <tbody  [attr.id]="'accordion_' + x"  *ngFor = "let i of allproduct | filter:searchProduct; let x = index">
+                              <tr  class="hover" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseTwo_' + x">
+                                <td  scope="row">{{i.product_id}}</td>
+                                <td> {{i.product_name}}</td>
                                 <td>${{i.product_price}}</td>
-                                <td>{{i.product_img}}</td>
-                                <td style="display: flex; justify-content: center;">
-                                  <button class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + x" [attr.href]="'#collapseTwo_' + x" > Edit</button>
-                                  <button class="btn btn-danger" (click) = "removeProduct(i)"> Delete</button>
-                                </td>
-                                
+                                <td> {{i.product_img}}</td>
+                                <td> {{i.product_stock}}</td>
+                                <td> {{i.product_bought}}</td>
                               </tr> 
-              
-                              <tr [attr.id]="'collapseTwo_' + x " class="panel-collapse collapse in table-active">
-                                  <th></th>
-                                  
-                                  <td> <input #inputProductname type="text" class="form-control" placeholder="{{i.product_name}}" aria-label="productname" aria-describedby="basic-addon1"></td>
-                                  <td> <input #inputProductprice type="text" class="form-control" placeholder="{{i.product_price}}" aria-label="productprice" aria-describedby="basic-addon1"></td>
-                                  <td> <input #inputProductimg type="text" class="form-control" placeholder="{{i.product_img}}" aria-label="productimg" aria-describedby="basic-addon1"></td>
-                                  <td style="display: flex; justify-content: center;">
-                                    <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + x"  class="btn btn-success" 
-                                    (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">Save</button>
-                                  </td>
+                          
+                              
+                              <tr>
+                                <td style="padding: 0%" colspan="6">
+                                  <div class="margin:0%" [attr.id]="'collapseTwo_' + x " class="collapse">
+                                      <div class="card" style="margin-bottom: 0%;">
+                                        <table class="table-active">
+                                          <tbody>
+                                            <tr>
+                                              <td>Product name</td>
+                                              <td>
+                                                <input #inputProductname type="text" class="form-control" placeholder="{{i.product_name}}" aria-label="productname" aria-describedby="basic-addon1">
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>Product price</td>
+                                              <td>
+                                                 <input #inputProductprice type="text" class="form-control" placeholder="{{i.product_price}}" aria-label="productprice" aria-describedby="basic-addon1">
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>Product img</td>
+                                              <td>
+                                                  <input #inputProductimg type="text" class="form-control" placeholder="{{i.product_img}}" aria-label="productimg" aria-describedby="basic-addon1">
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td></td>
+                                              <td class="float-right">
+                                                <button class="btn btn-danger" style="margin: 5px;" (click) = "removeProduct(i)"> 
+                                                  <i class="fas fa-trash-alt"></i>
+                                                  Delete
+                                                </button>
+                                                <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + x"  class="btn btn-success" 
+                                                  (click) = "updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">
+                                                  <i class="fas fa-save"></i>
+                                                  Save
+                                                </button>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                      
+                                    
+
+                                  </div>
+                                </td>
                               </tr>
                             </tbody>
                           </table>
                         </div>
                   </div>
-                  <!-- /.tab-pane -->
+                  <!-- /.tab-pane  setOrder(neworder_user.value)-->
 
                   <div class="tab-pane" id="tab-orders">
                       <!--Order-->              
-                <div style="margin-bottom: 10px;">
-                  <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
-                    Add order
-                  </button>
-                </div>
+                      <div class="d-flex justify-content-between">
+                        <div class="p-2">
+                          <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                              <span class="input-group-text" id="basic-addon1">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                              </span>
+                            </div>
+                            <input  type="text" class="form-control" name="search" [(ngModel)]="searchOrder" placeholder="Find order">
+                          </div>
+                          
+                        </div>
+                        <div class="p-2">
+                          <button class="btn btn-primary" data-toggle="modal" data-target="#orderModal">
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Add order
+                          </button>
+                        </div>
+                      </div>
                 
                 <div class="modal fade" id="orderModal" tabindex="-1" role="dialog" aria-labelledby="orderModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <h5 class="modal-title" id="orderModalLabel">Add order</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" id="orderModalLabel">Add new order</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click) = "modaldismiss()" >
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                        <div class="table-responsive">
-                            <table class="table ">
-                              <thead></thead>
-                              <tbody>
-                                <tr>
-                                  <td>Total price</td>
-                                  <td><input #newTotalprice type="text" class="form-control" placeholder="Total price" aria-label="price" aria-describedby="basic-addon1"></td>
-                                </tr>
-                                <tr>
-                                  <td>Total paid</td>
-                                  <td><input #newTotalpaid type="text" class="form-control" placeholder="Total paid" aria-label="paid" aria-describedby="basic-addon1"></td>
-                                </tr>
-                                <tr>
-                                  <td>Total unpaid</td>
-                                  <td><input #newTotalunpaid type="text" class="form-control" placeholder="Total unpaid" aria-label="unpaid" aria-describedby="basic-addon1"></td>
-                                </tr>
-                              </tbody>
-                            </table>
-                        </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-primary" data-dismiss="modal" >Add</button>
+                      
+                      <form #iForm="ngForm" (ngSubmit)="setOrder(neworder_user.value)" >
+                      <div class="table-responsive">
+                        <table class="table">
+                          <tr> 
+                            <td>User id</td>
+                            <td><input #neworder_user type="text" class="form-control" placeholder="this user id"></td>
+                          </tr>
+                        </table>
+                        <div>
+                        <table class="table" *ngFor="let i of neworder ; let q = index">
+                            <tr>
+                                <td>Product ID</td>
+                                <td>
+                                  <div class="input-group mb-3">
+                                    <select class="custom-select" [(ngModel)]="i.product_id" name="productid_{{i.id}}">
+                                      <option *ngFor="let item of allproduct" [ngValue]="item.product_id">{{item.product_name}}</option>
+                                    </select>
+                                  </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Quantity</td>
+                                <td><input [(ngModel)]="i.product_quantity" type="text" class="form-control"  name="proq_{{i.id}}" [attr.placeholder]=" 'Quantity ' + q " ></td>
+                            </tr>
+                            <tr>
+                                <td><button class="btn btn-danger" type="button" (click)="removethis(q)">Remove</button></td>
+                                <td></td>
+                            </tr>
+                        </table>
                       </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-primary" (click)="addinput()" >
+                            <i class="fa fa-plus" aria-hidden="true"></i>
+                            Add input
+                          </button>
+                          <button type="submit" class="btn btn-success" value="Submit">
+                            <i class="fas fa-paper-plane"></i>
+                            Submit
+                          </button>
+                        </div>
+                      </form>
+
                     </div>
                   </div>
                 </div>
-                          <table class="table table-bordered" >
+                      <div class="table-responsive">
+                        <table class="table" >
+                          <tr>
+                            <th scope="row"  (click)="sortOrder('order_id')"><b>Order id</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'order_id' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'order_id' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'order_id' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                            <th scope="row" (click)="sortOrder('total_price')"><b>Total price</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'total_price' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'total_price' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'total_price' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                            <th scope="row" (click)="sortOrder('total_paid')"><b>Total paid</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'total_paid' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'total_paid' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'total_paid' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                            <th scope="row" (click)="sortOrder('total_unpaid')"><b>Total unpaid</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'total_unpaid' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'total_unpaid' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'total_unpaid' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                            <th scope="row" (click)="sortOrder('created_at')"><b>Date purchase</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'created_at' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'created_at' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'created_at' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                            <th scope="row" (click)="sortOrder('updated_at')"><b>Last updated</b>
+                              <span class="float-right">
+                                <span *ngIf="orderSort===true && chooseOrder === 'updated_at' " ><i class="fas fa-caret-down"></i></span>
+                                <span *ngIf="orderSort===false && chooseOrder === 'updated_at' " ><i class="fas fa-caret-up"></i></span>
+                                <span *ngIf="chooseOrder !== 'updated_at' "><i class="fas fa-sort"></i></span>
+                              </span>
+                            </th>
+                          </tr>
+                          <tbody [attr.id]="'accordion' + z"  *ngFor = "let i of allneworder | filter : searchOrder; let z = index">
+                            <tr class="hover" data-toggle="collapse" [attr.data-parent]="'#accordion' + z" [attr.href]="'#collapseThree_' + z">
+                              <th scope="row">{{i.order_id}}</th>
+                              <td>${{i.total_price}}</td>
+                              <td>${{i.total_paid}}</td>
+                              <td>${{i.total_unpaid}}</td>
+                              <td>{{i.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
+                              <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
+                            </tr> 
+            
                             <tr>
-                              <th scope="row">Order id</th>
-                              <th scope="row">Total price</th>
-                              <th scope="row">Total paid</th>
-                              <th scope="row">Total unpaid</th>
-                              <th scope="row">Date purchase</th>
-                              <th scope="row">Last updated</th>
-                              <th scope="row">Button</th>
-                            </tr>
-                            <tbody [attr.id]="'accordion_' + z"  *ngFor = "let i of allneworder; let z = index">
-                              <tr>
-                                <th scope="row">{{i.order_id}}</th>
-                                <td>${{i.total_price}}</td>
-                                <td>${{i.total_paid}}</td>
-                                <td>${{i.total_unpaid}}</td>
+                              <td style="padding: 0%" colspan="6">
+                                <div class="margin:0%" [attr.id]="'collapseThree_' + z " class="collapse">
+                                  <div class="card" style="margin-bottom: 0%;">
+                                    <table class="table-active">
+                                      <tbody>
+                                        <tr>
+                                          <td>Total price</td>
+                                          <td>
+                                            <input #inputTotalprice  class="form-control" placeholder="{{i.total_price}}" aria-label="tprice" aria-describedby="basic-addon2">
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td>Total paid</td>
+                                          <td>
+                                            <input #inputTotalpaid  class="form-control" placeholder="{{i.total_paid}}" aria-label="tpaid" aria-describedby="basic-addon2">
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td>Total unpaid</td>
+                                          <td>
+                                            <input #inputTotalunpaid  class="form-control" placeholder="{{i.total_unpaid}}" aria-label="tunprice" aria-describedby="basic-addon2">
+                                          </td>
+                                        </tr>
+                                        <tr>
+                                          <td></td>
+                                          <td class="float-right">
+                                            <button class="btn btn-danger" style="margin: 3px;" (click) = "removeNeworder(i)"> 
+                                              <i class="fas fa-trash-alt"></i>
+                                              Delete
+                                            </button>
+                                            <button class="btn btn-info"  style="margin: 3px;" > 
+                                              <i class="fas fa-file-invoice"></i>
+                                              <span [routerLink]="['/invoice-page', { orderid: i.order_hash }]">  Invoice</span>
+                                            </button>
+                                            <button style="margin: 3px;" data-toggle="collapse" [attr.href]="'#collapseThree_' + z"  class="btn btn-success" 
+                                              (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >
+                                              <i class="fas fa-save"></i>  Save
+                                            </button>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </td>
+                                <!-- <td><input #inputTotalprice  class="form-control" placeholder="{{i.total_price}}" aria-label="tprice" aria-describedby="basic-addon1"></td>
+                                <td> <input #inputTotalpaid  class="form-control" placeholder="{{i.total_paid}}" aria-label="tpaid" aria-describedby="basic-addon1"></td>
+                                <td> <input #inputTotalunpaid  class="form-control" placeholder="{{i.total_unpaid}}" aria-label="tunprice" aria-describedby="basic-addon1"></td>
                                 <td>{{i.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
                                 <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
-                                <td style="display: flex; justify-content: center;">
-                                  <a class="btn btn-primary" data-toggle="collapse" [attr.data-parent]="'#accordion_' + z" [attr.href]="'#collapseTwo_' + z" > Edit</a>
-                                  <button class="btn btn-danger"  (click) = "removeNeworder(i)"> Delete</button>
-                                </td>
-                                
-                              </tr> 
-              
-                              <tr [attr.id]="'collapseTwo_' + z " class="panel-collapse collapse in table-active">
-                                  <th></th>
-                                  <td><input #inputTotalprice type="text" class="form-control" placeholder="{{i.total_price}}" aria-label="tprice" aria-describedby="basic-addon1"></td>
-                                  <td> <input #inputTotalpaid type="text" class="form-control" placeholder="{{i.total_paid}}" aria-label="tpaid" aria-describedby="basic-addon1"></td>
-                                  <td> <input #inputTotalunpaid type="text" class="form-control" placeholder="{{i.total_unpaid}}" aria-label="tunprice" aria-describedby="basic-addon1"></td>
-                                  <td>{{i.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
-                                  <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
-                                  <td>
-                                    <button data-toggle="collapse" [attr.href]="'#collapseTwo_' + z"  class="btn btn-success" 
-                                    (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >Save</button>
-                                  </td>
-                              </tr>
-                            </tbody>
-                          </table>
+                                <td>
+                                  <button data-toggle="collapse" [attr.href]="'#collapseThree_' + z"  class="btn btn-success" 
+                                  (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >
+                                  <i class="fas fa-save"></i>Save</button>
+                                </td> -->
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
                   </div>
                   <!-- /.tab-pane -->
                 </div>
                 <!-- /.tab-content -->
               </div><!-- /.card-body -->
             </div>
+
+
+            
             <!-- /.nav-tabs-custom -->
           </div>
           <!-- /.col -->
         </div>
+
+
+
         <!-- /.row -->
       </div><!-- /.container-fluid -->
     </section>

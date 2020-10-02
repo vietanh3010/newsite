@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { User } from '../model/user';
-import { Order } from '../model/order';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../model/product';
 import { Neworder } from '../model/neworder';
