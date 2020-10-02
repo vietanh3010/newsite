@@ -67,7 +67,6 @@ export class InvoicepageComponent implements OnInit {
      //param is the order id
     this.get_order_and_buyer();
     console.log("param is " +this.param);
-    this.printpdf();
   }
 
   async getallorder() {
@@ -84,15 +83,16 @@ export class InvoicepageComponent implements OnInit {
   async get_order_and_buyer(){
 
     this.orderlist = await this.getallneworderService.getNeworder().toPromise()
-    this.ha = (this.orderlist.filter(any => any.order_hash == this.param) as Neworder[])[0].order_id;
+    
 
 
-    if (this.param == undefined)
+    if (this.param == undefined || (this.orderlist.filter(any=>any.order_hash==this.param) as Neworder[]).length == 0 )
     {
       this.invoice_route.navigate(['pagenotfound']);
     }
     else
     {
+      this.ha = (this.orderlist.filter(any => any.order_hash == this.param) as Neworder[])[0].order_id;
       for(var i = 0; i < this.orderlist.length; i++)
       {
         if(this.orderlist[i].order_id == this.ha )
@@ -108,41 +108,45 @@ export class InvoicepageComponent implements OnInit {
         is_login: (this.singleOrder[0].customer as User).is_login,
         user_role: (this.singleOrder[0].customer as User).user_role
       })
-    }
-
-    for(var i = 0; i < (this.singleOrder[0].products).length ; i++)
-    {
-      this.current_cart.push({
-        product_id: (this.singleOrder[0].products[i] as Cart).product_id,
-        product_quantity: (this.singleOrder[0].products[i] as Cart).product_quantity
-      })
-    }
-    
-    for(var i = 0; i < this.current_cart.length; i++){
-      for(var j = 0 ; j < this.productlist.length; j++)
+      
+      for(var i = 0; i < (this.singleOrder[0].products).length ; i++)
       {
-        if(this.current_cart[i].product_id == this.productlist[j].product_id)
-        {
-          this.product_cart.push({
-            product_id: this.productlist[j].product_id,
-            product_name: this.productlist[j].product_name,
-            product_price: this.productlist[j].product_price,
-            product_img: this.productlist[j].product_img,
-            product_stock: this.productlist[i].product_stock,
-            product_bought: this.productlist[i].product_bought,
-            product_created_at: this.productlist[i].product_created_at,
-            product_updated_at: this.productlist[i].product_updated_at,
-          });
-          j = this.productlist.length;
-        }
-        
+        this.current_cart.push({
+          product_id: (this.singleOrder[0].products[i] as Cart).product_id,
+          product_quantity: (this.singleOrder[0].products[i] as Cart).product_quantity
+        })
       }
+      
+      for(var i = 0; i < this.current_cart.length; i++){
+        for(var j = 0 ; j < this.productlist.length; j++)
+        {
+          if(this.current_cart[i].product_id == this.productlist[j].product_id)
+          {
+            this.product_cart.push({
+              product_id: this.productlist[j].product_id,
+              product_name: this.productlist[j].product_name,
+              product_price: this.productlist[j].product_price,
+              product_img: this.productlist[j].product_img,
+              product_stock: this.productlist[i].product_stock,
+              product_bought: this.productlist[i].product_bought,
+              product_created_at: this.productlist[i].product_created_at,
+              product_updated_at: this.productlist[i].product_updated_at,
+            });
+            j = this.productlist.length;
+          }
+          
+        }
+      }
+  
+      console.log(this.product_cart);
+      console.log(this.current_cart);
+      console.log(this.singleOrder);
+      console.log(this.singleCustomer);
+
+      this.printpdf();
     }
 
-    console.log(this.product_cart);
-    console.log(this.current_cart);
-    console.log(this.singleOrder);
-    console.log(this.singleCustomer);
+   
   } 
 
    get_product_by_id(id:any){
@@ -170,8 +174,10 @@ export class InvoicepageComponent implements OnInit {
       window.print();
      }, 3000);
   }
-  public printpdf1(){
+  
+  public printpdfisntant(){
+    setTimeout(() => {
       window.print();
+     }, 3000);
   }
- 
 }
