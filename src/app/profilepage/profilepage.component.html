@@ -22,8 +22,6 @@
       min-width: 250px;
       max-width: 250px;
       max-height: 150px;
-      display: block;
-      border: 1px solid red;
       color:red;
     }
     .my-toast-wrapper{
@@ -35,7 +33,9 @@
     .my-toast-wrapper:hover{
       cursor: pointer;
     }
-    
+    .my-toast:hover{
+      filter:brightness(90%);
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -52,9 +52,13 @@
     
      <!-- mytoast -->
      <ul class="my-toast-wrapper">
-      <li class=" card my-toast" *ngFor="let e of err" (click)="dismiss_err(e)">
-        <div  *ngIf="err.length !== 0">{{e}}</div>
-      </li>
+      <li class=" card my-toast callout callout-danger" *ngFor="let e of err" (click)="dismiss_err(e)">
+        <div class="row">
+          <div><i class="fas fa-exclamation-circle"></i></div>
+          <div class="col"><div  *ngIf="err.length !== 0">{{e}}</div></div>
+        </div>
+      </li> 
+      
     </ul>
     
       <!-- Right navbar links -->

@@ -78,8 +78,6 @@
       min-width: 250px;
       max-width: 250px;
       max-height: 150px;
-      display: block;
-      border: 1px solid red;
       color:red;
     }
     .my-toast-wrapper{
@@ -90,8 +88,11 @@
     }
     .my-toast-wrapper:hover{
       cursor: pointer;
+      
     }
-    
+    .my-toast:hover{
+      filter:brightness(90%);
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -109,10 +110,15 @@
     </ul>
    <!-- mytoast -->
     <ul class="my-toast-wrapper">
-      <li class=" card my-toast" *ngFor="let e of err" (click)="dismiss_err(e)">
-        <div  *ngIf="err.length !== 0">{{e}}</div>
+      <li class=" card my-toast callout callout-danger" *ngFor="let e of err" (click)="dismiss_err(e)">
+        <div class="row">
+          <div><i class="fas fa-exclamation-circle"></i></div>
+          <div class="col"><div  *ngIf="err.length !== 0">{{e}}</div></div>
+        </div>
       </li> 
+      
     </ul>
+
       <!-- Right navbar links -->
    
   </nav>
@@ -375,7 +381,9 @@
                         role="tab" [attr.aria-controls]="'nav-home'" aria-selected="true" *ngFor="let i of temporder; let x= index" [ngValue]="i"  (click)="test(i)" >
                         Order {{i}} <i class="fas fa-times" (click)="removeTab(x);removeAll(i)"></i>
                         </a>
-                        <a class="nav-item nav-link " (click)="addTab()">+</a>
+                        <a class="nav-item nav-link " (click)="addTab()">
+                          <i class="fas fa-plus"></i>
+                        </a>
                     </div>
                 </nav>
                   <div class="tab-content my-tab" id="nav-tabContent">

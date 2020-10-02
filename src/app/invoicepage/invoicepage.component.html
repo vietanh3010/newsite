@@ -71,7 +71,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/sale-page" class="nav-link active">
+                <a href="/sale-page" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Sale order</p>
                 </a>
@@ -99,13 +99,6 @@
                   <p>Login</p>
                 </a>
               </li>
-              <li class="nav-item">
-                <a href="/login-page" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Register/Notwork</p>
-                </a>
-              </li>
-            
             </ul>
           </li>
           
@@ -201,7 +194,7 @@
                 </div>
                 <!-- /.col -->
                 <div class="col-sm-4 invoice-col" *ngFor = "let i of singleOrder">
-                  <b>Invoice #</b><br>
+                  <b>Invoice #</b> {{i.order_hash}}<br>
                   <br>
                   <b>Order ID: </b> {{i.order_id}}<br>
                   <b>Created at: </b> {{i.created_at | date: "d/M/yy h:mm a" }}<br>

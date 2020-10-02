@@ -89,8 +89,6 @@ export class SaleComponent implements OnInit {
     this.getAll();
     this.getAllproduct();
     this.test(1);
-    const md5 = new Md5();
-    console.log(md5.appendStr('hi').end());
   }
 
   blur_discount()
