@@ -11,7 +11,7 @@
 </head>
 <style>
   .hover:hover{
-    background-color: #cce5ff;
+    background-color: #e2e3e5;
   }
   table {
     cursor: pointer;
@@ -360,14 +360,14 @@
                                         <td>{{i.is_login}}</td>
                                         <td>{{i.user_role}}</td>
                                       </tr> 
-                                      <tr>
+                                      <tr class="border">
                                         <td style="padding: 0%" colspan="6">
                                           <div class="margin:0%" [attr.id]="'collapseOne_' + x " class=" collapse">
-                                            <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
-                                              <div class="card p-4 shadow-none" >
+                                            <div class="card bg-light" style="margin-bottom: 0%;padding:10px 10px 0px 10px;">
+                                              <div class="card p-4 shadow-none border" >
                                               <table class="table table-borderless" style="width: 100%;">
                                                 <tbody>
-                                                  <tr>
+                                                  <tr class="bg-light">
                                                     <td><b>Username</b></td>
                                                     <td><b>Email</b></td>
                                                     <td><b>Password</b></td>
@@ -533,17 +533,17 @@
                               </tr> 
                           
                               
-                              <tr>
+                              <tr class="border">
                                 <td style="padding: 0%" colspan="6">
                                   <div class="margin:0%" [attr.id]="'collapseTwo_' + x " class="collapse">
-                                      <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
-                                        <div class="card p-4 shadow-none" >
+                                      <div class="card bg-light" style="margin-bottom: 0%;padding:10px 10px 0px 10px;">
+                                        <div class="card p-4 shadow-none border" >
                                           <table class="table table-borderless" style="width: 100%;">
                                             <tbody>
                                               <tr class="bg-light">
-                                                <td>Product name</td>
-                                                <td>Product price</td>
-                                                <td>Product img</td>
+                                                <td><b>Name</b></td>
+                                                <td><b>Price</b></td>
+                                                <td><b>Image</b></td>
                                               </tr>
                                               <tr>
                                                 <td>
@@ -723,7 +723,7 @@
                             <tr class="border" >
                               <td style="padding: 0%" colspan="6" >
                                 <div class="margin:0%" [attr.id]="'collapseThree_' + z " class="collapse">
-                                  <div class="card" style="margin-bottom: 0%;padding:10px 10px 0px 10px;background-color:#cce5ff;">
+                                  <div class="card bg-light" style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
                                     <ul class="nav nav-tabs" id="myTab" role="tablist">
                                       <li class="nav-item">
                                         <a class="nav-link active " id="home-tab" data-toggle="tab" [attr.href]="'#tab1'+z" role="tab" aria-controls="home" aria-selected="true">Update</a>
@@ -763,10 +763,7 @@
                                                   <i class="fas fa-trash-alt"></i>
                                                   Delete
                                                 </button>
-                                                <button class="btn btn-info"  style="margin: 3px;" > 
-                                                  <i class="fas fa-file-invoice"></i>
-                                                  <span [routerLink]="['/invoice-page', { orderid: i.order_hash }]">  Invoice</span>
-                                                </button>
+                                             
                                                 <button style="margin: 3px;" data-toggle="collapse" [attr.href]="'#collapseThree_' + z"  class="btn btn-success" 
                                                   (click) = "updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)" >
                                                   <i class="fas fa-save"></i>  Save
@@ -811,6 +808,14 @@
                                                 <span *ngFor="let pp of allproduct"><td *ngIf="pp.product_id === p.product_id">${{pp.product_price}}</td></span>
                                               </tr>
                                             </tbody>
+                                            <tr>
+                                              <td colspan="4" style="align-items: right;text-align: right;">
+                                                <button class="btn btn-info"  style="margin: 3px;" > 
+                                                  <i class="fas fa-file-invoice"></i>
+                                                  <span [routerLink]="['/invoice-page', { orderid: i.order_hash }]">  Invoice</span>
+                                                </button>
+                                              </td>
+                                            </tr>
                                           </table>
                                         </div>  
                                       </div>
