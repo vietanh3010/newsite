@@ -96,7 +96,7 @@ export class ProfilepageComponent implements OnInit {
     this.pagi_product(1);
     this.pagi_order(1);
   }
-
+ 
   enableBordercolor() {
     this.toggle = !this.toggle;
     this.status = this.toggle ? 'Enable' : 'Disable';

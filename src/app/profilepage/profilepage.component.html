@@ -404,46 +404,84 @@
                                       <tr class="border">
                                         <td style="padding: 0%" colspan="6">
                                           <div class="margin:0%" [attr.id]="'collapseOne_' + x " class=" collapse">
-                                            <div class="card bg-light" style="margin-bottom: 0%;padding:10px 10px 0px 10px;">
-                                              <div class="card p-4 shadow-none border" >
-                                              <table class="table table-borderless" style="width: 100%;">
-                                                <tbody>
-                                                  <tr class="bg-light">
-                                                    <td><b>Username</b></td>
-                                                    <td><b>Email</b></td>
-                                                    <td><b>Password</b></td>
-                                                    <td><b>Role</b></td>
-                                                  </tr>
-                                                  <tr>
-                                                    <td>
-                                                      <input #inputUsername type="text" class="form-control" placeholder="{{i.user_name}}" aria-label="username" aria-describedby="basic-addon">
-                                                    </td>
-                                                    <td>
-                                                       <input #inputUseremail type="text" class="form-control" placeholder="{{i.user_email}}" aria-label="useremail" aria-describedby="basic-addon">
-                                                    </td>
-                                                    <td>
-                                                      <input #inputUserpassword type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userpassword" aria-describedby="basic-addon">
-                                                    </td>
-                                                    <td>
-                                                      <input #inputUserrole type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userrole" aria-describedby="basic-addon">
-                                                    </td>
-                                                  </tr>
-                                                </tbody>
-                                                  <tr>
-                                                    <td colspan="4" style="align-items: right;text-align: right;">
-                                                      <button class="btn btn-danger" style="margin: 5px;" (click) = "removeUser(i)"> 
-                                                        <i class="fas fa-trash-alt"></i>
-                                                        Delete
-                                                      </button>
-                                                      <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
-                                                        (click) = "updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)">
-                                                        <i class="fas fa-save"></i>
-                                                        Save
-                                                      </button>
-                                                    </td>
-                                                  </tr>
-                                              </table>
-                                            </div>
+                                            <div class="card bg-light" style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                              <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                                <li class="nav-item">
+                                                  <a class="nav-link active " id="home-tab" data-toggle="tab" [attr.href]="'#tabUser1' + x" role="tab" aria-controls="home" aria-selected="true">Update</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                  <a class="nav-link" id="profile-tab" data-toggle="tab" [attr.href]="'#tabUser2' + x" role="tab" aria-controls="profile" aria-selected="false">Purchase History</a>
+                                                </li>
+                                                
+                                              </ul>
+                                              <div class="tab-content" id="myTabContent">
+                                                <div class="tab-pane fade show active border-right border-left border-bottom" [attr.id]="'tabUser1' + x" role="tabpanel" aria-labelledby="home-tab">
+                                                  <div class="card p-4 shadow-none" >
+                                                    <table class="table table-borderless" style="width: 100%;">
+                                                      <tbody>
+                                                        <tr class="bg-light">
+                                                          <td><b>Username</b></td>
+                                                          <td><b>Email</b></td>
+                                                          <td><b>Password</b></td>
+                                                          <td><b>Role</b></td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td>
+                                                            <input #inputUsername type="text" class="form-control" placeholder="{{i.user_name}}" aria-label="username" aria-describedby="basic-addon">
+                                                          </td>
+                                                          <td>
+                                                             <input #inputUseremail type="text" class="form-control" placeholder="{{i.user_email}}" aria-label="useremail" aria-describedby="basic-addon">
+                                                          </td>
+                                                          <td>
+                                                            <input #inputUserpassword type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userpassword" aria-describedby="basic-addon">
+                                                          </td>
+                                                          <td>
+                                                            <input #inputUserrole type="text" class="form-control" placeholder="{{i.user_password}}" aria-label="userrole" aria-describedby="basic-addon">
+                                                          </td>
+                                                        </tr>
+                                                      </tbody>
+                                                        <tr>
+                                                          <td colspan="4" style="align-items: right;text-align: right;">
+                                                            <button class="btn btn-danger" style="margin: 5px;" (click) = "removeUser(i)"> 
+                                                              <i class="fas fa-trash-alt"></i>
+                                                              Delete
+                                                            </button>
+                                                            <button data-toggle="collapse" [attr.href]="'#collapseOne_' + x"  class="btn btn-success" 
+                                                              (click) = "updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)">
+                                                              <i class="fas fa-save"></i>
+                                                              Save
+                                                            </button>
+                                                          </td>
+                                                        </tr>
+                                                    </table>
+                                                  </div>
+                                                </div>
+                                                <div class="tab-pane fade border-right border-left border-bottom" [attr.id]="'tabUser2' + x" role="tabpanel" aria-labelledby="profile-tab">
+                                                  <div class="card p-4 shadow-none" >
+                                                    <table class="table">
+                                                      <tbody>
+                                                        <tr class="bg-light">
+                                                          <td><b>Order id</b></td>
+                                                          <td><b>Total</b></td>
+                                                          <td><b>Discount</b></td>
+                                                          <td><b>Subtotal</b></td>
+                                                          <td><b>Date purchased</b></td>
+                                                        </tr>
+                                                        <tr class="hover" *ngFor="let o of allneworder">
+                                                          <td *ngIf="o.customer.user_id === i.user_id"> {{o.order_id}}</td>
+                                                          <td *ngIf="o.customer.user_id === i.user_id"> ${{o.total_price}}</td>
+                                                          <td *ngIf="o.customer.user_id === i.user_id"> ${{o.total_paid}}</td>
+                                                          <td *ngIf="o.customer.user_id === i.user_id"> ${{o.total_unpaid}}</td>
+                                                          <td *ngIf="o.customer.user_id === i.user_id"> {{o.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
+                                                        </tr>
+                                                        
+                                                      </tbody>
+                                                    </table>
+                                                  </div>  
+                                                </div>
+                                              </div>
+          
+                                              
                                             </div>
                                           </div>
                                         </td>
@@ -794,9 +832,9 @@
                                           <table class="table table-borderless " style="width: 100%;">
                                             <tbody>
                                               <tr class="bg-light">
-                                                <td>Total price</td>
-                                                <td>Total paid</td>
-                                                <td>Total unpaid</td>
+                                                <td><b>Total price</b></td>
+                                                <td><b>Total paid</b></td>
+                                                <td><b>Total unpaid</b></td>
                                               </tr>
                                               <tr>
                                                 <td>
