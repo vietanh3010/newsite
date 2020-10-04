@@ -4,6 +4,7 @@ import { OrderService } from '../service/order.service';
 import { User } from '../model/user';
 import { Neworder } from '../model/neworder';
 import { Product } from '../model/product';
+import { MyToast } from '../model/Mytoast';
 import {LOCAL_STORAGE, WebStorageService} from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { NeworderService } from '../service/neworder.service';
@@ -32,10 +33,7 @@ export interface TabTotal {
   id: number,
   total:number,
 }
-export interface MyToast{
-  type: string;
-  message: string;
-}
+
 @Component({
   selector: 'app-sale',
   templateUrl: './sale.component.html',
