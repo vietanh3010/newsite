@@ -24,48 +24,50 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaleComponent } from './sale/sale.component';
 
-const routes: Routes =[
-  {path: 'admin-page', component: AdminpageComponent , canActivate: [AuthGuard]},
-  {path: 'login-page', component: LoginpageComponent},
-  {path: 'testing-page', component: TestingpageComponent},
-  {path: 'profile-page', component: ProfilepageComponent, canActivate: [AuthGuard], children:[
-      {path: 'invoicepage/:id', component: InvoicepageComponent}
-  ]},
-  {path: 'product-page', component:ProductpageComponent},
-  {path: 'customer-page', component:CustomerpageComponent},
-  {path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard]},
-  {path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard]},
-  {path: '**', component: PagenotfoundComponent },
+const routes: Routes = [
+    { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
+    { path: 'login-page', component: LoginpageComponent },
+    { path: 'testing-page', component: TestingpageComponent },
+    {
+        path: 'profile-page', component: ProfilepageComponent, canActivate: [AuthGuard], children: [
+            { path: 'invoicepage/:id', component: InvoicepageComponent }
+        ]
+    },
+    { path: 'product-page', component: ProductpageComponent },
+    { path: 'customer-page', component: CustomerpageComponent },
+    { path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard] },
+    { path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard] },
+    { path: '**', component: PagenotfoundComponent },
 ];
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AdminpageComponent,
-    TestingpageComponent,
-    AppheaderComponent,
-    LoginpageComponent,
-    ProfilepageComponent,
-    ProductpageComponent,
-    CountorderPipe,
-    CustomerpageComponent,
-    InvoicepageComponent,
-    PagenotfoundComponent,
-    SaleComponent,
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    RouterModule.forRoot(routes),
-    HttpClientModule,
-    FormsModule,
-    Ng2SearchPipeModule,
-    BrowserAnimationsModule,
-  ],
-  exports : [
-    AppheaderComponent,
-  ],
-  providers: [],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        AdminpageComponent,
+        TestingpageComponent,
+        AppheaderComponent,
+        LoginpageComponent,
+        ProfilepageComponent,
+        ProductpageComponent,
+        CountorderPipe,
+        CustomerpageComponent,
+        InvoicepageComponent,
+        PagenotfoundComponent,
+        SaleComponent,
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        RouterModule.forRoot(routes),
+        HttpClientModule,
+        FormsModule,
+        Ng2SearchPipeModule,
+        BrowserAnimationsModule,
+    ],
+    exports: [
+        AppheaderComponent,
+    ],
+    providers: [],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -2,15 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  
-  constructor(private myrouter : Router) { }
+export class AppComponent implements OnInit {
 
-  ngOnInit(): void {
-    
-  }
+    constructor(private myrouter: Router) { }
+
+    ngOnInit(): void {
+
+    }
 }

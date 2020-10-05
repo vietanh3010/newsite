@@ -1,175 +1,175 @@
 {
-  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
-  "version": 1,
-  "newProjectRoot": "projects",
-  "projects": {
-    "testapp": {
-      "projectType": "application",
-      "schematics": {},
-      "root": "",
-      "sourceRoot": "src",
-      "prefix": "app",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/testapp",
-            "index": "src/index.html",
-            "main": "src/main.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.app.json",
-            "aot": true,
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/assets/plugins/summernote/summernote-bs4.css",
-              "src/assets/plugins/daterangepicker/daterangepicker.css",
-              "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
-              "src/assets/plugins/jqvmap/jqvmap.min.css",
-              "src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
-              "src/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
-              "src/assets/plugins/fontawesome-free/css/all.min.css",
-              "src/assets/dist/css/adminlte.css",
-              "src/assets/dist/css/adminlte.min.css",
-              "src/assets/plugins/toastr/toastr.min.css",
-              "src/styles.css",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/bootstrap/js/dist/util.js",
-              "node_modules/bootstrap/js/dist/dropdown.js",
-              "node_modules/admin-lte/plugins/jquery/jquery.min.js",
-              "node_modules/admin-lte/dist/js/adminlte.min.js",
-              "node_modules/jspdf/dist/jspdf.umd.min.js",
-              "src/assets/dist/js/html2pdf.bundle.min.js",
-              "node_modules/html2canvas/dist/html2canvas.min.js",
-              "src/assets/plugins/toastr/toastr.min.js"
-            ]
-          },
-          "configurations": {
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "extractCss": true,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
+    "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+    "version": 1,
+    "newProjectRoot": "projects",
+    "projects": {
+        "testapp": {
+            "projectType": "application",
+            "schematics": {},
+            "root": "",
+            "sourceRoot": "src",
+            "prefix": "app",
+            "architect": {
+                "build": {
+                    "builder": "@angular-devkit/build-angular:browser",
+                    "options": {
+                        "outputPath": "dist/testapp",
+                        "index": "src/index.html",
+                        "main": "src/main.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.app.json",
+                        "aot": true,
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                            "src/assets/plugins/summernote/summernote-bs4.css",
+                            "src/assets/plugins/daterangepicker/daterangepicker.css",
+                            "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
+                            "src/assets/plugins/jqvmap/jqvmap.min.css",
+                            "src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
+                            "src/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
+                            "src/assets/plugins/fontawesome-free/css/all.min.css",
+                            "src/assets/dist/css/adminlte.css",
+                            "src/assets/dist/css/adminlte.min.css",
+                            "src/assets/plugins/toastr/toastr.min.css",
+                            "src/styles.css",
+                            "src/styles.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/popper.js/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/bootstrap/js/dist/util.js",
+                            "node_modules/bootstrap/js/dist/dropdown.js",
+                            "node_modules/admin-lte/plugins/jquery/jquery.min.js",
+                            "node_modules/admin-lte/dist/js/adminlte.min.js",
+                            "node_modules/jspdf/dist/jspdf.umd.min.js",
+                            "src/assets/dist/js/html2pdf.bundle.min.js",
+                            "node_modules/html2canvas/dist/html2canvas.min.js",
+                            "src/assets/plugins/toastr/toastr.min.js"
+                        ]
+                    },
+                    "configurations": {
+                        "production": {
+                            "fileReplacements": [
+                                {
+                                    "replace": "src/environments/environment.ts",
+                                    "with": "src/environments/environment.prod.ts"
+                                }
+                            ],
+                            "optimization": true,
+                            "outputHashing": "all",
+                            "sourceMap": false,
+                            "extractCss": true,
+                            "namedChunks": false,
+                            "extractLicenses": true,
+                            "vendorChunk": false,
+                            "buildOptimizer": true,
+                            "budgets": [
+                                {
+                                    "type": "initial",
+                                    "maximumWarning": "2mb",
+                                    "maximumError": "5mb"
+                                },
+                                {
+                                    "type": "anyComponentStyle",
+                                    "maximumWarning": "6kb",
+                                    "maximumError": "10kb"
+                                }
+                            ]
+                        }
+                    }
                 },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                "serve": {
+                    "builder": "@angular-devkit/build-angular:dev-server",
+                    "options": {
+                        "browserTarget": "testapp:build"
+                    },
+                    "configurations": {
+                        "production": {
+                            "browserTarget": "testapp:build:production"
+                        }
+                    }
+                },
+                "extract-i18n": {
+                    "builder": "@angular-devkit/build-angular:extract-i18n",
+                    "options": {
+                        "browserTarget": "testapp:build"
+                    }
+                },
+                "test": {
+                    "builder": "@angular-devkit/build-angular:karma",
+                    "options": {
+                        "main": "src/test.ts",
+                        "polyfills": "src/polyfills.ts",
+                        "tsConfig": "tsconfig.spec.json",
+                        "karmaConfig": "karma.conf.js",
+                        "assets": [
+                            "src/favicon.ico",
+                            "src/assets"
+                        ],
+                        "styles": [
+                            "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+                            "src/assets/plugins/summernote/summernote-bs4.css",
+                            "src/assets/plugins/daterangepicker/daterangepicker.css",
+                            "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
+                            "src/assets/plugins/jqvmap/jqvmap.min.css",
+                            "src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
+                            "src/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
+                            "src/assets/plugins/fontawesome-free/css/all.min.css",
+                            "src/assets/dist/css/adminlte.css",
+                            "src/assets/dist/css/adminlte.min.css",
+                            "src/assets/plugins/toastr/toastr.min.css",
+                            "src/styles.css",
+                            "src/styles.scss"
+                        ],
+                        "scripts": [
+                            "node_modules/jquery/dist/jquery.min.js",
+                            "node_modules/popper.js/dist/umd/popper.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
+                            "node_modules/bootstrap/dist/js/bootstrap.min.js",
+                            "node_modules/bootstrap/js/dist/util.js",
+                            "node_modules/bootstrap/js/dist/dropdown.js",
+                            "node_modules/admin-lte/plugins/jquery/jquery.min.js",
+                            "node_modules/admin-lte/dist/js/adminlte.min.js",
+                            "node_modules/jspdf/dist/jspdf.umd.min.js",
+                            "src/assets/dist/js/html2pdf.bundle.min.js",
+                            "node_modules/html2canvas/dist/html2canvas.min.js",
+                            "src/assets/plugins/toastr/toastr.min.js"
+                        ]
+                    }
+                },
+                "lint": {
+                    "builder": "@angular-devkit/build-angular:tslint",
+                    "options": {
+                        "tsConfig": [
+                            "tsconfig.app.json",
+                            "tsconfig.spec.json",
+                            "e2e/tsconfig.json"
+                        ],
+                        "exclude": [
+                            "**/node_modules/**"
+                        ]
+                    }
+                },
+                "e2e": {
+                    "builder": "@angular-devkit/build-angular:protractor",
+                    "options": {
+                        "protractorConfig": "e2e/protractor.conf.js",
+                        "devServerTarget": "testapp:serve"
+                    },
+                    "configurations": {
+                        "production": {
+                            "devServerTarget": "testapp:serve:production"
+                        }
+                    }
                 }
-              ]
             }
-          }
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "testapp:build"
-          },
-          "configurations": {
-            "production": {
-              "browserTarget": "testapp:build:production"
-            }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "testapp:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/assets"
-            ],
-            "styles": [
-              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/assets/plugins/summernote/summernote-bs4.css",
-              "src/assets/plugins/daterangepicker/daterangepicker.css",
-              "src/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css",
-              "src/assets/plugins/jqvmap/jqvmap.min.css",
-              "src/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css",
-              "src/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css",
-              "src/assets/plugins/fontawesome-free/css/all.min.css",
-              "src/assets/dist/css/adminlte.css",
-              "src/assets/dist/css/adminlte.min.css",
-              "src/assets/plugins/toastr/toastr.min.css",
-              "src/styles.css",
-              "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js",
-              "node_modules/popper.js/dist/umd/popper.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js",
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/bootstrap/js/dist/util.js",
-              "node_modules/bootstrap/js/dist/dropdown.js",
-              "node_modules/admin-lte/plugins/jquery/jquery.min.js",
-              "node_modules/admin-lte/dist/js/adminlte.min.js",
-              "node_modules/jspdf/dist/jspdf.umd.min.js",
-              "src/assets/dist/js/html2pdf.bundle.min.js",
-              "node_modules/html2canvas/dist/html2canvas.min.js",
-              "src/assets/plugins/toastr/toastr.min.js"
-            ]
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
-            ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
-          }
-        },
-        "e2e": {
-          "builder": "@angular-devkit/build-angular:protractor",
-          "options": {
-            "protractorConfig": "e2e/protractor.conf.js",
-            "devServerTarget": "testapp:serve"
-          },
-          "configurations": {
-            "production": {
-              "devServerTarget": "testapp:serve:production"
-            }
-          }
         }
-      }
-    }
-  },
-  "defaultProject": "testapp"
+    },
+    "defaultProject": "testapp"
 }

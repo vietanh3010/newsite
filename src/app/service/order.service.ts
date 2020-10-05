@@ -6,11 +6,11 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Product } from '../model/product';
 
 const httpOptions = {
-  headers: new HttpHeaders({
-  })
+    headers: new HttpHeaders({
+    })
 };
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class OrderService {
 
