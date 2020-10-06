@@ -1,13 +1,19 @@
-import { AfterViewInit, Component, OnInit, ViewChild, ɵConsole } from '@angular/core';
-import { LoginServiceService } from '../login-service.service';
-import { OrderService } from '../service/order.service';
+import { AfterViewInit, Component, OnInit, ViewChild, ɵConsole, ElementRef } from '@angular/core';
+import { AdminService } from '../service/admin/admin.service';
+import { UserService } from '../service/user/user.service';
+import { ProductService } from '../service/product/product.service';
+import { NeworderService } from '../service/neworder/neworder.service';
+import { BranchService } from '../service/branch/branch.service';
+
+import { Admin } from '../model/admin';
 import { User } from '../model/user';
-import { Neworder } from '../model/neworder';
 import { Product } from '../model/product';
+import { Neworder } from '../model/neworder';
+import { Branch } from '../model/branch';
 import { MyToast } from '../model/Mytoast';
+
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NeworderService } from '../service/neworder.service';
 import { Output, Input, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -17,10 +23,10 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { removeData, type } from 'jquery';
 import { stringify } from 'querystring';
 import { ThrowStmt } from '@angular/compiler';
-import { ProductpageComponent } from '../productpage/productpage.component';
 import { Hash } from 'crypto';
 import { Md5 } from 'ts-md5/dist/md5';
 import { color } from 'html2canvas/dist/types/css/types/color';
+import { LoginServiceService } from '../service/login/login-service.service';
 
 export interface TabID {
     tab_id: number;
@@ -40,10 +46,12 @@ export interface TabTotal {
 })
 export class SaleComponent implements OnInit {
     math = Math;
-    infoarr: User[] = [];
+    infoarr: Admin[] = [];
     alluser: User[] = [];
     allproduct: Product[] = [];
     allneworder: Neworder[] = [];
+    allbranch: Branch[] = [];
+
     tempneworder: Neworder[] = [];
     productlist: Product[] = [];
     PNAME_ARR: Product[] = []; // arr of product name
@@ -63,41 +71,98 @@ export class SaleComponent implements OnInit {
     searchTerm;
     CHOSEN_PROPERTY = '';
     PRODUCT_SORT = undefined;
+    shipOptionModel;
+    shipFeeModel;
+    taxModel;
+    discountType = true;
+    infoModel;
+    branchModel;
+    employee;
+    paymentOptionModel;
 
     temporder: any[] = [1];
     TAB_ARR: TabID[] = [];
     tabtotal: TabTotal[] = [];
     checkq: string[] = [];
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+
+    private currentAdminSubject: BehaviorSubject<Admin>;
+    public currentAdmin: Observable<Admin>;
     constructor(
-        private getalluserService: LoginServiceService,
-        private getallproductService: LoginServiceService,
-        private getallneworderService: NeworderService,
-        private myrouter: Router
+        private getAdminService: AdminService,
+        private getUserService: UserService,
+        private getProductService: ProductService,
+        private getNeworderService: NeworderService,
+        private getBranchService: BranchService,
+        private routeLogout: Router,
+        private logoutService: LoginServiceService,
     ) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
+        this.currentAdminSubject = new BehaviorSubject<Admin>(JSON.parse(localStorage.getItem('currentAdmin')));
+        this.currentAdmin = this.currentAdminSubject.asObservable();
     }
 
     ngOnInit(): void {
-        this.infoarr.push(JSON.parse(localStorage.getItem('currentUser')));
-        this.getallneworderService.getNeworder().subscribe(
+        this.infoarr.push(JSON.parse(localStorage.getItem('currentAdmin')));
+        console.log(this.infoarr[0]);
+        this.getNeworderService.getNeworder().subscribe(
             (data: any[]) => (this.allneworder = data)
         );
         this.getAll();
         this.getAllproduct();
+        this.getAllBranch();
     }
 
-    blur_discount(): void {
-        if (this.discount === undefined || this.discount === '') {
+    setDiscountType(): void {
+        if (!this.discountType) {
+            this.discountType = true;
+        }
+        else {
+            this.discountType = false;
+        }
+    }
+
+    blur_discount_tax(): void {
+        if (this.discount === undefined || this.discount === '' || this.discount < 0) {
             this.discount = 0;
         }
-        this.sub = Number(this.to) - Number(this.discount);
+
+        if (this.taxModel === undefined || this.taxModel === '' || this.taxModel < 0) {
+            this.taxModel = 0;
+        }
+        else if (this.taxModel > 100) {
+            this.taxModel = 100;
+        }
+
+        if (this.shipOptionModel !== 'Delivery') {
+            this.shipFeeModel = 0;
+        }
+        else if (this.shipFeeModel === undefined || this.shipFeeModel === '' || this.shipFeeModel < 0) {
+            this.shipFeeModel = 0;
+        }
+
+        if (this.discountType) {
+            if (this.discount >= this.to) {
+                this.discount = this.to;
+                this.sub = 0;
+            }
+            else {
+                this.sub = (Number(this.to) - Number(this.discount)) * (Number(this.taxModel) + 100) / 100 + Number(this.shipFeeModel);
+            }
+        }
+        else {
+            if (this.discount > 100) {
+                this.discount = 100;
+                this.sub = 0;
+            }
+            else {
+                this.sub = (Number(this.to) * (100 - Number(this.discount)) / 100) *
+                    (Number(this.taxModel) + 100) / 100 + Number(this.shipFeeModel);
+            }
+        }
         if (this.sub <= 0) {
             this.sub = 0;
         }
     }
+
     ADD_AND_MINUS(property: string, item: TabID, pro: Cart): void {
 
         const P_QTY = ((this.TAB_ARR
@@ -119,13 +184,7 @@ export class SaleComponent implements OnInit {
                 .sort((a, b) => a.total > b.total ? -1 : 1)[0].total
                 += Number(P_TOTAL);
             this.to = Number(this.to) + Number(P_TOTAL);
-            if (this.discount === undefined || this.discount === '') {
-                this.discount = 0;
-            }
-            this.sub = Number(this.to) - Number(this.discount);
-            if (this.sub <= 0) {
-                this.sub = 0;
-            }
+            this.blur_discount_tax();
         }
         else if (P_QTY > 1 && property === 'minus') {
             ((this.TAB_ARR
@@ -142,13 +201,7 @@ export class SaleComponent implements OnInit {
                 .sort((a, b) => a.total > b.total ? -1 : 1)[0].total
                 -= Number(P_TOTAL);
             this.to = Number(this.to) - Number(P_TOTAL);
-            if (this.discount === undefined || this.discount === '') {
-                this.discount = 0;
-            }
-            this.sub = Number(this.to) - Number(this.discount);
-            if (this.sub <= 0) {
-                this.sub = 0;
-            }
+            this.blur_discount_tax();
         }
         else { // when quantity at 1
             this.remove_tabproduct(item, pro);
@@ -200,6 +253,7 @@ export class SaleComponent implements OnInit {
             const term = this.searchTerm.toLowerCase();
             this.PNAME_ARR = [];
             this.PID_ARR = [];
+            // tslint:disable-next-line: only-arrow-functions
             this.PNAME_ARR = this.allproduct.filter(function (s): boolean { return s.product_name.includes(term); });
             // tslint:disable-next-line: only-arrow-functions
             this.PID_ARR = this.allproduct.filter(function (s): boolean { return s.product_id.includes(term); });
@@ -222,20 +276,31 @@ export class SaleComponent implements OnInit {
         this.make_error('success', 'User' + u.user_name + ' chosen!');
         console.log(this.u.user_id + 'and' + u.user_name);
     }
+    shipOptionAlert(s: any): void {
+        if (s === 'Pickup at store') { this.shipFeeModel = 0; }
+        this.blur_discount_tax();
+        this.make_error('success', s + ' chosen!');
+    }
     getAll(): void {
-        this.getalluserService.getUser()
+        this.getUserService.getUser()
             .subscribe(
                 (data: any[]) => (this.alluser = data)
             );
     }
     // get list products
     getAllproduct(): void {
-        this.getallproductService.getProduct().subscribe(
+        this.getProductService.getProduct().subscribe(
             (data: any[]) => (
                 this.allproduct = data,
                 this.productlist = data
             )
         );
+    }
+    getAllBranch(): void {
+        this.getBranchService.getBranch()
+            .subscribe(
+                (data: any[]) => (this.allbranch = data)
+            );
     }
     sort_by_product(property: string): void {
         this.CHOSEN_PROPERTY = property;
@@ -266,7 +331,6 @@ export class SaleComponent implements OnInit {
         }
     }
     test(a: any): void { // refresh tab
-        this.sub = 0;
         this.t = a;
         this.tabcolor(a);
         if (this.to === undefined) {
@@ -292,10 +356,7 @@ export class SaleComponent implements OnInit {
             }
         });
 
-        this.sub = Number(this.to) - Number(this.discount);
-        if (this.sub <= 0) {
-            this.sub = 0;
-        }
+        this.blur_discount_tax();
     }
     addTab(): void {
         let tempc = 1;
@@ -360,6 +421,7 @@ export class SaleComponent implements OnInit {
                 tab_product: [{
                     product_id: productid,
                     product_quantity: productqty,
+                    cart_info: '',
                 }],
                 tab_price: (productqty * p.product_price),
                 tab_total: sum,
@@ -402,13 +464,7 @@ export class SaleComponent implements OnInit {
             // console.log(this.tabtotal); this.to = (this.tabtotal.filter(a=>a.id=tabid) as TabTotal[])[0].total
             this.to = sum;
 
-            if (this.discount === undefined) {
-                this.discount = 0;
-            }
-            this.sub = Number(this.to) - Number(this.discount);
-            if (this.sub <= 0) {
-                this.sub = 0;
-            }
+            this.blur_discount_tax();
         }
     }
 
@@ -469,6 +525,11 @@ export class SaleComponent implements OnInit {
                 this.checkq.forEach(c => this.make_error('danger', c));
                 this.checkq = [];
             }
+            else if (this.branchModel === undefined || this.shipOptionModel === undefined || this.paymentOptionModel === undefined) {
+                if (this.branchModel === undefined) { this.make_error('danger', 'Please select a branch first!'); }
+                if (this.shipOptionModel === undefined) { this.make_error('danger', 'Please select a ship option!'); }
+                if (this.paymentOptionModel === undefined) { this.make_error('danger', 'Please select a payment option!'); }
+            }
             else // if there is no error, quantity and stock are checked
             {
                 for (var i = 0; i < this.TAB_ARR.length; i++) {
@@ -479,38 +540,74 @@ export class SaleComponent implements OnInit {
                                 if (this.TAB_ARR[i].tab_product[j].product_id === this.allproduct[k].product_id) {
                                     this.allproduct[k].product_stock -= this.TAB_ARR[i].tab_product[j].product_quantity;
                                     this.allproduct[k].product_bought += this.TAB_ARR[i].tab_product[j].product_quantity;
-                                    this.getallproductService.updateProduct(this.allproduct[k]).subscribe();
+                                    this.getProductService.updateProduct(this.allproduct[k]).subscribe();
                                 }
                             }
                         }
                     }
                 }
                 // window.alert("Order and stock updated sucessfully!");
-                const order_id = 'myoID';
-                const total_price = this.sub;
-                const total_paid = this.discount;
-                const total_unpaid = this.to;
-                const customer: User = this.u;
-                const products: Cart[] = [];
-                const created_at: string = Date();
-                const updated_at: string = Date();
+                const orderID = 'myoID';
+                const orderSubtotal = this.to;
+                const orderDiscount = this.discount;
+                const orderTotal = this.sub;
+                const customer1: User = this.u;
+                const products1: Cart[] = [];
+                const createdAt = Date();
+                const updatedAt = Date();
                 // tslint:disable-next-line: new-parens
-                const order_hash: string = (new Md5).appendStr(order_id + created_at).end().toString();
+                const orderHashID: string = (new Md5).appendStr(orderID + createdAt).end().toString();
+                let orderShipFee;
+                if (this.shipOptionModel !== 'Delivery') { orderShipFee = 0; }
+                else { orderShipFee = this.shipFeeModel; }
+                const orderTax = this.taxModel;
+                const orderPaymentOption = this.paymentOptionModel;
+                const orderBranch = this.branchModel;
+                const orderTag = [];
+                const orderShipOption = this.shipOptionModel;
+                const orderStatus = [];
+                const orderDelivertyTime = Date();
+                const additionalInfo = this.infoModel;
+                let typeDiscount;
+                if (this.discountType) { typeDiscount = 'amount'; }
+                else { typeDiscount = 'percentage'; }
+
                 for (var i = 0; i < this.TAB_ARR.length; i++) {
                     if (this.TAB_ARR[i].tab_id === this.t && this.TAB_ARR[i].tab_product.length === 1) {
-                        products.push({
+                        products1.push({
                             product_id: this.TAB_ARR[i].tab_product[0].product_id,
                             product_quantity: this.TAB_ARR[i].tab_product[0].product_quantity,
+                            cart_info: '',
                         });
                     }
                 }
                 const unknOrder: unknown =
-                    { order_id, total_price, total_paid, total_unpaid, customer, products, created_at, updated_at, order_hash };
+                {
+                    order_id: orderID,
+                    order_subtotal: orderSubtotal,
+                    order_discount: orderDiscount,
+                    order_total: orderTotal,
+                    customer: customer1,
+                    products: products1,
+                    created_at: createdAt,
+                    updated_at: updatedAt,
+                    order_hash: orderHashID,
+                    order_shipfee: orderShipFee,
+                    order_tax: orderTax,
+                    order_payment_option: orderPaymentOption,
+                    order_branch: orderBranch,
+                    order_tag: orderTag,
+                    order_ship_option: orderShipOption,
+                    order_status: orderStatus,
+                    order_delivery_time: orderDelivertyTime,
+                    additional_info: additionalInfo,
+                    order_discount_type: typeDiscount,
+                };
                 const newOrder: Neworder = unknOrder as Neworder;
-                this.getallneworderService.addNeworder(newOrder).subscribe(); // update to order table
+                this.getNeworderService.addNeworder(newOrder).subscribe(); // update to order table
                 this.removeTab(this.temporder.indexOf(this.t));
                 this.removeAll(this.t);
-                const url = '/invoice-page' + ';orderid=' + order_hash.toString();
+                const url = '/invoice-page' + ';orderid=' + orderHashID.toString();
                 window.open(url);
             }
             // window.open('invoice-page;orderid=2','blank')
@@ -602,4 +699,86 @@ export class SaleComponent implements OnInit {
     dismiss_err(e: MyToast): void {
         this.err.splice(this.err.indexOf(e), 1);
     }
+
+    addNewOrderUser(
+        name: string, id: string, telephone: string,
+        address: string, email: string, role: string,
+        dob: Date, gender: string, info: string): void {
+
+        const u = this.alluser.filter(x => x.user_hash_id === id) as User[];
+        if (u.length === 1) {
+            const existUser: User = u[0];
+            if (name !== '') { existUser.user_name = name; }
+            if (telephone !== '') { existUser.user_telephone = telephone; }
+            if (address !== '') {
+                if (existUser.user_address.filter(x => x === address)[0].length === 0) {
+                    existUser.user_address.push(address);
+                }
+            }
+            if (email !== '') { existUser.user_email = email; }
+            if (role !== '') { existUser.user_role = role; }
+            if (dob.toString() !== '') { existUser.user_dob = dob; }
+            if (gender !== '') { existUser.user_gender = gender; }
+            if (info !== '') { existUser.additional_info = info; }
+
+            this.u = existUser;
+            this.make_error('info',
+                'Found user matches provided ID. New info will be updated.');
+            this.getUserService.updateUser(existUser).subscribe();
+        }
+        else {
+            if (name === '') {
+                this.make_error('danger', 'Username must be provided!');
+            }
+            else {
+                if (telephone === '') { telephone = null; }
+                if (email === '') { email = null; }
+                if (role === '') { role = null; }
+                if (gender === '') { gender = null; }
+                if (info === '') { info = null; }
+                const userID = 'myuID';
+                const password = 'default-password';
+                const isLogin = false;
+                const createAt = Date();
+                const updatedAt = Date();
+                const newhash = new Md5();
+                const hashID = newhash.appendStr(userID + createAt).end().toString();
+                const userImg = '';
+                const userAddress = [];
+                if (address !== '') { userAddress.push(address); }
+                const userTag = [];
+
+                const unknUser: unknown = {
+                    user_id: userID,
+                    user_name: name,
+                    user_email: email,
+                    user_password: password,
+                    is_login: isLogin,
+                    user_role: role,
+                    user_hash_id: hashID,
+                    created_at: createAt,
+                    updated_at: updatedAt,
+                    user_img: userImg,
+                    user_telephone: telephone,
+                    user_dob: dob,
+                    user_gender: gender,
+                    user_address: userAddress,
+                    user_tag: userTag,
+                    additional_info: info
+                };
+                const newUser: User = unknUser as User;
+                this.getUserService.addUser(newUser).subscribe();
+                this.alluser.push(newUser);
+                this.u = newUser;
+                this.make_error('success', 'No user found with ID provided. New user is added successfully!');
+            }
+
+        }
+    }
+
+    public clickLogout(): void {
+        this.logoutService.logout();
+        this.routeLogout.navigate(['login-page']);
+    }
+
 }

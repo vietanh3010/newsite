@@ -821,15 +821,15 @@
                                                                                                     {{o.order_id}}</td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
-                                                                                                    ${{o.total_price}}
+                                                                                                    ${{o.order_subtotal}}
                                                                                                 </td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
-                                                                                                    ${{o.total_paid}}
+                                                                                                    ${{o.order_discount}}
                                                                                                 </td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
-                                                                                                    ${{o.total_unpaid}}
+                                                                                                    ${{o.order_total}}
                                                                                                 </td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
@@ -843,7 +843,7 @@
                                                                                                         <i
                                                                                                             class="fas fa-file-invoice"></i>
                                                                                                         <span
-                                                                                                            [routerLink]="['/invoice-page', { orderid: i.order_hash }]"
+                                                                                                            [routerLink]="['/invoice-page', { orderid: o.order_hash }]"
                                                                                                         > Invoice</span>
                                                                                                     </button>
                                                                                                 </td>
@@ -1298,121 +1298,6 @@
                           </button> -->
                                                 </div>
                                             </div>
-
-                                            <div
-                                                class="modal fade"
-                                                id="orderModal"
-                                                tabindex="-1"
-                                                role="dialog"
-                                                aria-labelledby="orderModalLabel"
-                                                aria-hidden="true"
-                                            >
-                                                <div
-                                                    class="modal-dialog"
-                                                    role="document"
-                                                >
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h5
-                                                                class="modal-title"
-                                                                id="orderModalLabel"
-                                                            >Add new order</h5>
-                                                            <button
-                                                                type="button"
-                                                                class="close"
-                                                                data-dismiss="modal"
-                                                                aria-label="Close"
-                                                                (click)="modaldismiss()"
-                                                            >
-                                                                <span aria-hidden="true">&times;</span>
-                                                            </button>
-                                                        </div>
-
-                                                        <form
-                                                            #iForm="ngForm"
-                                                            (ngSubmit)="setOrder(neworder_user.value)"
-                                                        >
-                                                            <div class="table-responsive">
-                                                                <table class="table">
-                                                                    <tr>
-                                                                        <td>User id</td>
-                                                                        <td><input
-                                                                                #neworder_user
-                                                                                type="text"
-                                                                                class="form-control"
-                                                                                placeholder="this user id"
-                                                                            ></td>
-                                                                    </tr>
-                                                                </table>
-                                                                <div>
-                                                                    <table
-                                                                        class="table"
-                                                                        *ngFor="let i of neworder ; let q = index"
-                                                                    >
-                                                                        <tr>
-                                                                            <td>Product ID</td>
-                                                                            <td>
-                                                                                <div class="input-group mb-3">
-                                                                                    <select
-                                                                                        class="custom-select"
-                                                                                        [(ngModel)]="i.product_id"
-                                                                                        name="productid_{{i.id}}"
-                                                                                    >
-                                                                                        <option
-                                                                                            *ngFor="let item of allproduct"
-                                                                                            [ngValue]="item.product_id"
-                                                                                        >{{item.product_name}}</option>
-                                                                                    </select>
-                                                                                </div>
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td>Quantity</td>
-                                                                            <td><input
-                                                                                    [(ngModel)]="i.product_quantity"
-                                                                                    type="text"
-                                                                                    class="form-control"
-                                                                                    name="proq_{{i.id}}"
-                                                                                    [attr.placeholder]=" 'Quantity ' + q "
-                                                                                ></td>
-                                                                        </tr>
-                                                                        <tr>
-                                                                            <td><button
-                                                                                    class="btn btn-danger"
-                                                                                    type="button"
-                                                                                    (click)="removethis(q)"
-                                                                                >Remove</button></td>
-                                                                            <td></td>
-                                                                        </tr>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                            <div class="modal-footer">
-                                                                <button
-                                                                    type="button"
-                                                                    class="btn btn-primary"
-                                                                    (click)="addinput()"
-                                                                >
-                                                                    <i
-                                                                        class="fa fa-plus"
-                                                                        aria-hidden="true"
-                                                                    ></i>
-                                                                    Add input
-                                                                </button>
-                                                                <button
-                                                                    type="submit"
-                                                                    class="btn btn-success"
-                                                                    value="Submit"
-                                                                >
-                                                                    <i class="fas fa-paper-plane"></i>
-                                                                    Submit
-                                                                </button>
-                                                            </div>
-                                                        </form>
-
-                                                    </div>
-                                                </div>
-                                            </div>
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr class=" bg-light">
@@ -1434,48 +1319,48 @@
                                                         </th>
                                                         <th
                                                             scope="row"
-                                                            (click)="sortOrder('total_price')"
+                                                            (click)="sortOrder('order_subtotal')"
                                                         ><b>Total price</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'total_price' "
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_subtotal' "
                                                                 ><i class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'total_price' "
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_subtotal' "
                                                                 ><i class="fas fa-caret-up"></i></span>
-                                                                <span *ngIf="chooseOrder !== 'total_price' "><i
+                                                                <span *ngIf="chooseOrder !== 'order_subtotal' "><i
                                                                         class="fas fa-sort"
                                                                     ></i></span>
                                                             </span>
                                                         </th>
                                                         <th
                                                             scope="row"
-                                                            (click)="sortOrder('total_paid')"
+                                                            (click)="sortOrder('order_discount')"
                                                         ><b>Discount</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'total_paid' "
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_discount' "
                                                                 ><i class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'total_paid' "
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_discount' "
                                                                 ><i class="fas fa-caret-up"></i></span>
-                                                                <span *ngIf="chooseOrder !== 'total_paid' "><i
+                                                                <span *ngIf="chooseOrder !== 'order_discount' "><i
                                                                         class="fas fa-sort"
                                                                     ></i></span>
                                                             </span>
                                                         </th>
                                                         <th
                                                             scope="row"
-                                                            (click)="sortOrder('total_unpaid')"
+                                                            (click)="sortOrder('order_total')"
                                                         ><b>Total unpaid</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'total_unpaid' "
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_total' "
                                                                 ><i class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'total_unpaid' "
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_total' "
                                                                 ><i class="fas fa-caret-up"></i></span>
-                                                                <span *ngIf="chooseOrder !== 'total_unpaid' "><i
+                                                                <span *ngIf="chooseOrder !== 'order_total' "><i
                                                                         class="fas fa-sort"
                                                                     ></i></span>
                                                             </span>
@@ -1524,9 +1409,9 @@
                                                             [attr.href]="'#collapseThree_' + z"
                                                         >
                                                             <th scope="row">{{i.order_id}}</th>
-                                                            <td>${{i.total_price}}</td>
-                                                            <td>${{i.total_paid}}</td>
-                                                            <td>${{i.total_unpaid}}</td>
+                                                            <td>${{i.order_subtotal}}</td>
+                                                            <td>${{i.order_discount}}</td>
+                                                            <td>${{i.order_total}}</td>
                                                             <td>{{i.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
                                                             <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
                                                         </tr>
@@ -1613,7 +1498,7 @@
                                                                                                     <input
                                                                                                         #inputTotalprice
                                                                                                         class="form-control"
-                                                                                                        placeholder="{{i.total_price}}"
+                                                                                                        placeholder="{{i.order_subtotal}}"
                                                                                                         aria-label="tprice"
                                                                                                         aria-describedby="basic-addon2"
                                                                                                     >
@@ -1622,7 +1507,7 @@
                                                                                                     <input
                                                                                                         #inputTotalpaid
                                                                                                         class="form-control"
-                                                                                                        placeholder="{{i.total_paid}}"
+                                                                                                        placeholder="{{i.order_discount}}"
                                                                                                         aria-label="tpaid"
                                                                                                         aria-describedby="basic-addon2"
                                                                                                     >
@@ -1631,7 +1516,7 @@
                                                                                                     <input
                                                                                                         #inputTotalunpaid
                                                                                                         class="form-control"
-                                                                                                        placeholder="{{i.total_unpaid}}"
+                                                                                                        placeholder="{{i.order_total}}"
                                                                                                         aria-label="tunprice"
                                                                                                         aria-describedby="basic-addon2"
                                                                                                     >
@@ -1752,19 +1637,19 @@
                                                                                                     <tr>
                                                                                                         <td><b>Subtotal</b>
                                                                                                         </td>
-                                                                                                        <td>${{i.total_price}}
+                                                                                                        <td>${{i.order_subtotal}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td><b>Discount</b>
                                                                                                         </td>
-                                                                                                        <td>${{i.total_paid}}
+                                                                                                        <td>${{i.order_discount}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td><b>Total</b>
                                                                                                         </td>
-                                                                                                        <td>${{i.total_unpaid}}
+                                                                                                        <td>${{i.order_total}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                 </table>

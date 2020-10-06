@@ -1,13 +1,19 @@
 import { AfterViewInit, Component, OnInit, ValueProvider, ViewChild } from '@angular/core';
-import { LoginServiceService } from '../login-service.service';
-import { OrderService } from '../service/order.service';
+import { LoginServiceService } from '../service/login/login-service.service';
+import { AdminService } from '../service/admin/admin.service';
+import { UserService } from '../service/user/user.service';
+import { ProductService } from '../service/product/product.service';
+import { NeworderService } from '../service/neworder/neworder.service';
+
+import { Admin } from '../model/admin';
 import { User } from '../model/user';
-import { Neworder } from '../model/neworder';
 import { Product } from '../model/product';
+import { Neworder } from '../model/neworder';
 import { MyToast } from '../model/Mytoast';
+
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NeworderService } from '../service/neworder.service';
+
 import { Output, Input, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -18,6 +24,7 @@ import { userInfo } from 'os';
 import { stringify } from 'querystring';
 import { timeStamp } from 'console';
 import { borderTopRightRadius } from 'html2canvas/dist/types/css/property-descriptors/border-radius';
+import { Md5 } from 'ts-md5';
 
 @Component({
     selector: 'app-profilepage',
@@ -67,27 +74,29 @@ export class ProfilepageComponent implements OnInit {
 
     toggle = true;
     status = 'Enable';
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    private currentAdminSubject: BehaviorSubject<Admin>;
+    public currentAdmin: Observable<Admin>;
 
-    constructor(private logoutService: LoginServiceService,
-        private getalluserService: LoginServiceService,
-        private getallproductService: LoginServiceService,
-        private getallneworderService: NeworderService,
+    constructor(
+        private logoutService: LoginServiceService,
+        private getAdminService: AdminService,
+        private getUserService: UserService,
+        private getProductService: ProductService,
+        private getNeworderService: NeworderService,
         private routeLogout: Router,
     ) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
+        this.currentAdminSubject = new BehaviorSubject<Admin>(JSON.parse(localStorage.getItem('currentAdmin')));
+        this.currentAdmin = this.currentAdminSubject.asObservable();
     }
 
     ngOnInit(): void {
-        this.infoarr.push(JSON.parse(localStorage.getItem('currentUser')));
-        console.log(localStorage.getItem('currentUser'));
+        this.infoarr.push(JSON.parse(localStorage.getItem('currentAdmin')));
+        console.log(localStorage.getItem('currentAdmin'));
 
         this.getAll();
         this.getAllproduct();
         this.getAllneworder();
-        console.log(this.currentUserSubject.value);
+        console.log(this.currentAdminSubject.value);
 
         this.pagi_count();
         this.pagi_user(1);
@@ -153,7 +162,7 @@ export class ProfilepageComponent implements OnInit {
 
     sortOrder(property: any): void {
         this.chooseOrder = property;
-        if (this.chooseOrder === 'total_price' || this.chooseOrder === 'total_paid' || this.chooseOrder === 'total_unpaid') {
+        if (this.chooseOrder === 'order_subtotal' || this.chooseOrder === 'order_discount' || this.chooseOrder === 'order_total') {
             if (this.orderSort) {
                 this.allneworder.sort((a, b) => parseFloat(a[property]) < parseFloat(b[property]) ? -1 : 1);
                 this.orderSort = false;
@@ -177,21 +186,21 @@ export class ProfilepageComponent implements OnInit {
     }
     // get list users
     getAll(): void {
-        this.getalluserService.getUser()
+        this.getUserService.getUser()
             .subscribe(
                 (data: any[]) => (this.alluser = data, this.USER_TEMP = data)
             );
     }
     // get list products
     getAllproduct(): void {
-        this.getallproductService.getProduct()
+        this.getProductService.getProduct()
             .subscribe(
                 (data: any[]) => (this.allproduct = data)
             );
     }
     // get list orders
     getAllneworder(): void {
-        this.getallneworderService.getNeworder().subscribe(
+        this.getNeworderService.getNeworder().subscribe(
             (data: any[]) => (this.allneworder = data)
         );
     }
@@ -199,8 +208,6 @@ export class ProfilepageComponent implements OnInit {
     //  this.allneworder = await this.getallneworderService.getNeworder().toPromise();
     // }
     // get all orders of the current user
-
-
     public clickLogout(): void {
         this.logoutService.logout();
         this.routeLogout.navigate(['login-page']);
@@ -212,7 +219,7 @@ export class ProfilepageComponent implements OnInit {
         if (password !== '') { u.user_password = password; }
         if (role !== '') { u.user_role = role; }
 
-        this.getalluserService.updateUser(u).subscribe(
+        this.getUserService.updateUser(u).subscribe(
             response => { console.log(response); },
             error => { console.log(error); }
         );
@@ -222,16 +229,16 @@ export class ProfilepageComponent implements OnInit {
         if (productName !== '') { p.product_name = productName; }
         if (productPrice.toString() !== '') { p.product_price = productPrice; }
         if (productImg !== '') { p.product_img = productImg; }
-        this.getallproductService.updateProduct(p).subscribe();
+        this.getProductService.updateProduct(p).subscribe();
         this.make_error('success', 'Product' + p.product_id + 'updated successfully.');
     }
 
-    updateNeworder(o: Neworder, price: number, paid: number, unpaid: number): void {
-        if (price.toString() !== '') { o.total_price = price; }
-        if (paid.toString() !== '') { o.total_paid = paid; }
-        if (unpaid.toString() !== '') { o.total_unpaid = unpaid; }
+    updateNeworder(o: Neworder, subtotal: number, discount: number, total: number): void {
+        if (subtotal.toString() !== '') { o.order_subtotal = subtotal; }
+        if (discount.toString() !== '') { o.order_discount = discount; }
+        if (total.toString() !== '') { o.order_total = total; }
         o.updated_at = Date();
-        this.getallneworderService.updateNeworder(o).subscribe();
+        this.getNeworderService.updateNeworder(o).subscribe();
         this.make_error('success', 'Order' + o.order_id + 'updated successfully.');
     }
 
@@ -240,65 +247,84 @@ export class ProfilepageComponent implements OnInit {
         const index = this.alluser.indexOf(user);
         this.alluser.splice(index, 1);
         this.USER_TEMP.splice(this.USER_TEMP.indexOf(user), 1);
-        this.getalluserService.deleteUser(user.user_id).subscribe();
+        this.getUserService.deleteUser(user.user_id).subscribe();
         this.make_error('success', 'User ' + user.user_id + ' deleted successfully.');
     }
     removeProduct(product: Product): void {
         const index = this.allproduct.indexOf(product);
         this.allproduct.splice(index, 1);
         this.PRODUCT_TEMP.splice(this.PRODUCT_TEMP.indexOf(product), 1);
-        this.getallproductService.deleteProduct(product.product_id).subscribe();
+        this.getProductService.deleteProduct(product.product_id).subscribe();
         this.make_error('success', 'Product' + product.product_id + ' deleted successfully.');
     }
     removeNeworder(order: Neworder): void {
         const index = this.allneworder.indexOf(order);
         this.allneworder.splice(index, 1);
         this.ORDER_TEMP.splice(this.ORDER_TEMP.indexOf(order), 1);
-        this.getallneworderService.deleteNeworder(order.order_id).subscribe();
+        this.getNeworderService.deleteNeworder(order.order_id).subscribe();
         this.make_error('success', 'Order' + order.order_id + ' deleted successfully.');
     }
     // add
-    addnewUser(user_name: string, user_email: string, user_password: string, user_role: string): void {
-        if (user_name === '' || user_email === '' || user_password === '' || user_role === '') {
+    addnewUser(userName: string, userEmail: string, userPassword: string, userRole: string): void {
+        if (userName === '' || userEmail === '' || userPassword === '' || userRole === '') {
             this.make_error('warning', 'Input cannot be empty!');
         }
-        else if ((this.alluser.filter(a => a.user_name === user_name) as User[]).length === 1) {
+        else if ((this.alluser.filter(a => a.user_name === userName) as User[]).length === 1) {
             this.make_error('danger', 'This username is taken!');
         }
-        else if ((this.alluser.filter(a => a.user_email === user_email) as User[]).length === 1) {
+        else if ((this.alluser.filter(a => a.user_email === userEmail) as User[]).length === 1) {
             this.make_error('danger', 'This email is taken!');
         }
         else {
-            const user_id = 'myuid';
-            const is_login = false;
-            const unknUser: unknown = { user_id, user_name, user_email, user_password, is_login, user_role };
+            const userId = 'myuid';
+            const isLogin = false;
+            const createAt = Date();
+            const updatedAt = Date();
+            const md5User = new Md5();
+            const userHashID = md5User.appendStr(userId + userEmail + createAt).end().toString();
+            const userImg = '';
+            const userTelephone = '';
+            const userDob = null;
+            const userGender = '';
+            const userAddress = [];
+            const userTag = [];
+            const additionalInfo = '';
+
+            const unknUser: unknown = {
+                userId, userName, userEmail, userPassword, isLogin, userRole, userHashID, createAt,
+                updatedAt, userImg, userTelephone, userDob, userGender, userAddress, userTag, additionalInfo
+            };
             const newUser: User = unknUser as User;
-            this.getalluserService.addUser(newUser).subscribe();
+            this.getUserService.addUser(newUser).subscribe();
             this.make_error('success', 'New user is added successfully!');
         }
 
     }
-    addnewProduct(product_name: string, product_price: number, product_img: string): void {
-        const product_id = 'mypID';
-        const product_stock = 0;
-        const product_bought = 0;
-        const product_created_at: string = Date();
-        const product_updated_at: string = Date();
+    addnewProduct(prName: string, prPrice: number, prtImg: string): void {
+        const productId = 'mypID';
+        const productPrice = prPrice;
+        const productStock = 0;
+        const productBought = 0;
+        const createdAt = Date();
+        const updatedAt = Date();
+        const md5Product = new Md5();
+        const productHashID = md5Product.appendStr(productId + prName + createdAt).end().toString();
+        const productPrimeCost = 0;
+        const productCategory = '';
+        const productWeight = 0;
+        const productDesscription = '';
+        const productBranch = '';
+        const productTag = [];
+        const additionalInfo = '';
         const unknProduct: unknown =
-            { product_id, product_name, product_price, product_img, product_stock, product_bought, product_created_at, product_updated_at };
+        {
+            productId, prName, productPrice, prtImg, productStock, productBought, createdAt, updatedAt, productHashID,
+            productPrimeCost, productCategory, productWeight, productDesscription, productBranch, productTag, additionalInfo
+        };
         const newProduct: Product = unknProduct as Product;
-        this.getallproductService.addProduct(newProduct).subscribe();
+        this.getProductService.addProduct(newProduct).subscribe();
     }
-    addnewOrder(total_price: number, customer: object, products: Cart[]): void {
-        const order_id = 'myoID';
-        const total_paid = 0;
-        const total_unpaid = total_price;
-        const created_at: string = Date();
-        const updated_at: string = Date();
-        const unknOrder: unknown = { order_id, total_price, total_paid, total_unpaid, customer, products, created_at, updated_at };
-        const newOrder: Neworder = unknOrder as Neworder;
-        this.getallneworderService.addNeworder(newOrder).subscribe();
-    }
+
 
     addinput(): void {
         this.neworder.push({
@@ -318,31 +344,6 @@ export class ProfilepageComponent implements OnInit {
             product_id: '',
             product_quantity: '',
         }];
-    }
-    setOrder(userid: any): void {
-        console.log(this.neworder);
-        console.log(userid);
-
-        const totalprice = this.getTotalprice(this.neworder);
-        const customerObj: User = this.getUserbyid(userid);
-        const cartArr = this.getArrproduct(this.neworder);
-
-        this.addnewOrder(totalprice, customerObj, cartArr);
-        this.modaldismiss();
-    }
-    getArrproduct(neworderarr: any[]): Cart[] {
-        const tempCartarr: Cart[] = [];
-
-        // tslint:disable-next-line: no-var-keyword
-        for (var i = 0; i < neworderarr.length; i++) {
-            tempCartarr.push(
-                {
-                    product_id: neworderarr[i].product_id,
-                    product_quantity: neworderarr[i].product_quantity
-                }
-            );
-        }
-        return tempCartarr;
     }
 
     // get totalprice from input array
@@ -370,6 +371,16 @@ export class ProfilepageComponent implements OnInit {
                     user_password: this.alluser[i].user_password,
                     is_login: this.alluser[i].is_login,
                     user_role: this.alluser[i].user_role,
+                    user_hash_id: this.alluser[i].user_hash_id,
+                    created_at: this.alluser[i].created_at,
+                    updated_at: this.alluser[i].updated_at,
+                    user_img: this.alluser[i].user_img,
+                    user_telephone: this.alluser[i].user_telephone,
+                    user_dob: this.alluser[i].user_dob,
+                    user_gender: this.alluser[i].user_gender,
+                    user_address: this.alluser[i].user_address,
+                    user_tag: this.alluser[i].user_tag,
+                    additional_info: this.alluser[i].additional_info
                 };
             }
         }
@@ -390,6 +401,14 @@ export class ProfilepageComponent implements OnInit {
                     product_bought: this.allproduct[i].product_bought,
                     product_created_at: this.allproduct[i].product_created_at,
                     product_updated_at: this.allproduct[i].product_updated_at,
+                    product_hash_id: this.allproduct[i].product_hash_id,
+                    product_prime_cost: this.allproduct[i].product_prime_cost,
+                    product_category: this.allproduct[i].product_category,
+                    product_weight: this.allproduct[i].product_weight,
+                    product_description: this.allproduct[i].product_description,
+                    product_branch: this.allproduct[i].product_branch,
+                    product_tag: this.allproduct[i].product_tag,
+                    additional_info: this.allproduct[i].additional_info,
                 }
             }
         }
@@ -414,19 +433,19 @@ export class ProfilepageComponent implements OnInit {
     }
 
     async pagi_count(): Promise<void> {
-        this.alluser = await this.getalluserService.getUser().toPromise();
+        this.alluser = await this.getUserService.getUser().toPromise();
         const u = Math.ceil(this.alluser.length / 10);
         for (var i = 0; i < u; i++) {
             this.PAGI_COUNT_USER.push((i + 1));
         }
 
-        this.allproduct = await this.getallproductService.getProduct().toPromise();
+        this.allproduct = await this.getProductService.getProduct().toPromise();
         const p = Math.ceil(this.allproduct.length / 10);
         for (var i = 0; i < p; i++) {
             this.PAGI_COUNT_PRODUCT.push((i + 1));
         }
 
-        this.allneworder = await this.getallneworderService.getNeworder().toPromise();
+        this.allneworder = await this.getNeworderService.getNeworder().toPromise();
         const o = Math.ceil(this.allneworder.length / 10);
         for (var i = 0; i < o; i++) {
             this.PAGI_COUNT_ORDER.push((i + 1));

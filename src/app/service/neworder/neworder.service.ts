@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { HttpClientModule, HttpHeaders } from '@angular/common/http';
-import { User } from '../model/user';
+import { User } from '../../model/user';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Product } from '../model/product';
-import { Neworder } from '../model/neworder';
+import { Product } from '../../model/product';
+import { Neworder } from '../../model/neworder';
 
 
 const httpOptions = {

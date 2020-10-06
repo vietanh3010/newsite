@@ -1,12 +1,18 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { LoginServiceService } from '../login-service.service';
-import { OrderService } from '../service/order.service';
+import { LoginServiceService } from '../service/login/login-service.service';
+import { AdminService } from '../service/admin/admin.service';
+import { UserService } from '../service/user/user.service';
+import { ProductService } from '../service/product/product.service';
+import { NeworderService } from '../service/neworder/neworder.service';
+
+import { Admin } from '../model/admin';
 import { User } from '../model/user';
-import { Neworder } from '../model/neworder';
 import { Product } from '../model/product';
+import { Neworder } from '../model/neworder';
+import { MyToast } from '../model/Mytoast';
+
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NeworderService } from '../service/neworder.service';
 import { Output, Input, EventEmitter } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -36,19 +42,21 @@ export class InvoicepageComponent implements OnInit {
     ha;
     PRODUCT_CART: Product[] = []; // paralel to current_cart {product_name}
 
-    private currentUserSubject: BehaviorSubject<User>;
-    public currentUser: Observable<User>;
+    private currentAdminSubject: BehaviorSubject<Admin>;
+    public currentAdmin: Observable<Admin>;
     constructor(
         private activateRoute: ActivatedRoute,
-        private getalluserService: LoginServiceService,
-        private getallneworderService: NeworderService,
-        private INVOICE_ROUTE: Router,
+        private getAdminService: AdminService,
+        private getUserService: UserService,
+        private getProductService: ProductService,
+        private getNeworderService: NeworderService,
+        private invoiceRoute: Router,
     ) {
-        this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
-        this.currentUser = this.currentUserSubject.asObservable();
+        this.currentAdminSubject = new BehaviorSubject<Admin>(JSON.parse(localStorage.getItem('currentAdmin')));
+        this.currentAdmin = this.currentAdminSubject.asObservable();
     }
     ngOnInit(): void {
-        this.infoarr.push(JSON.parse(localStorage.getItem('currentUser')));// admin info from localstorage
+        this.infoarr.push(JSON.parse(localStorage.getItem('currentAdmin'))); // admin info from localstorage
         // get customer info
         // get order info
         this.currentDate.push(Date());
@@ -56,30 +64,28 @@ export class InvoicepageComponent implements OnInit {
 
         this.activateRoute.url.subscribe();
         this.param = this.activateRoute.snapshot.params.orderid;
-
         this.getallorder();
         this.getallproduct();
         // param is the order id
         this.GET_ORDER_AND_BUYER();
-        console.log('param is ' + this.param);
+        console.log(this.param);
     }
 
     async getallorder(): Promise<void> {
-        this.orderlist = await this.getallneworderService.getNeworder().toPromise()
-        this.ha = (this.orderlist.filter(a => a.order_hash === this.param) as Neworder[])[0].order_id;
+        this.orderlist = await this.getNeworderService.getNeworder().toPromise();
     }
 
     getallproduct(): void {
-        this.getalluserService.getProduct().subscribe(
+        this.getProductService.getProduct().subscribe(
             (data: any[]) => (this.productlist = data)
-        )
+        );
     }
 
     async GET_ORDER_AND_BUYER(): Promise<void> {
-        this.orderlist = await this.getallneworderService.getNeworder().toPromise()
+        this.orderlist = await this.getNeworderService.getNeworder().toPromise();
 
         if (this.param === undefined || (this.orderlist.filter(a => a.order_hash === this.param) as Neworder[]).length === 0) {
-            this.INVOICE_ROUTE.navigate(['pagenotfound']);
+            this.invoiceRoute.navigate(['pagenotfound']);
         }
         else {
             this.ha = (this.orderlist.filter(a => a.order_hash === this.param) as Neworder[])[0].order_id;
@@ -90,18 +96,29 @@ export class InvoicepageComponent implements OnInit {
                 }
             }
             this.singleCustomer.push({
-                user_id: (this.singleOrder[0].customer as User).user_id,
-                user_name: (this.singleOrder[0].customer as User).user_name,
-                user_email: (this.singleOrder[0].customer as User).user_email,
-                user_password: (this.singleOrder[0].customer as User).user_password,
-                is_login: (this.singleOrder[0].customer as User).is_login,
-                user_role: (this.singleOrder[0].customer as User).user_role
+                user_id: this.singleOrder[0].customer.user_id,
+                user_name: this.singleOrder[0].customer.user_name,
+                user_email: this.singleOrder[0].customer.user_email,
+                user_password: this.singleOrder[0].customer.user_password,
+                is_login: this.singleOrder[0].customer.is_login,
+                user_role: this.singleOrder[0].customer.user_role,
+                user_hash_id: this.singleOrder[0].customer.user_hash_id,
+                created_at: this.singleOrder[0].customer.created_at,
+                updated_at: this.singleOrder[0].customer.updated_at,
+                user_img: this.singleOrder[0].customer.user_img,
+                user_telephone: this.singleOrder[0].customer.user_telephone,
+                user_dob: this.singleOrder[0].customer.user_dob,
+                user_gender: this.singleOrder[0].customer.user_gender,
+                user_address: this.singleOrder[0].customer.user_address,
+                user_tag: this.singleOrder[0].customer.user_tag,
+                additional_info: this.singleOrder[0].customer.additional_info
             });
             // tslint:disable-next-line: no-var-keyword
             for (var i = 0; i < (this.singleOrder[0].products).length; i++) {
                 this.CURREN_CART.push({
                     product_id: (this.singleOrder[0].products[i] as Cart).product_id,
-                    product_quantity: (this.singleOrder[0].products[i] as Cart).product_quantity
+                    product_quantity: (this.singleOrder[0].products[i] as Cart).product_quantity,
+                    cart_info: '',
                 })
             }
             for (var i = 0; i < this.CURREN_CART.length; i++) {
@@ -116,6 +133,14 @@ export class InvoicepageComponent implements OnInit {
                             product_bought: this.productlist[i].product_bought,
                             product_created_at: this.productlist[i].product_created_at,
                             product_updated_at: this.productlist[i].product_updated_at,
+                            product_hash_id: this.productlist[i].product_hash_id,
+                            product_prime_cost: this.productlist[i].product_prime_cost,
+                            product_category: this.productlist[i].product_category,
+                            product_weight: this.productlist[i].product_weight,
+                            product_description: this.productlist[i].product_description,
+                            product_branch: this.productlist[i].product_branch,
+                            product_tag: this.productlist[i].product_tag,
+                            additional_info: this.productlist[i].additional_info,
                         });
                         j = this.productlist.length;
                     }
@@ -129,24 +154,6 @@ export class InvoicepageComponent implements OnInit {
             this.printpdf();
         }
     }
-
-    GET_PRODUCT_BY_ID(id: any): void {
-        for (var i = 0; i < this.productlist.length; i++) {
-            if (this.productlist[i].product_id === id) {
-                this.tempProductbyid.push({
-                    product_id: this.productlist[i].product_id,
-                    product_name: this.productlist[i].product_name,
-                    product_price: this.productlist[i].product_price,
-                    product_img: this.productlist[i].product_img,
-                    product_stock: this.productlist[i].product_stock,
-                    product_bought: this.productlist[i].product_bought,
-                    product_created_at: this.productlist[i].product_created_at,
-                    product_updated_at: this.productlist[i].product_updated_at,
-                });
-            }
-        }
-    }
-
 
     public printpdf(): void {
         setTimeout(() => {

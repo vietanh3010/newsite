@@ -120,6 +120,7 @@
         position: absolute;
         top: 0;
         right: 0;
+        z-index: 2;
     }
 
     .my-toast-wrapper:hover {
@@ -171,7 +172,134 @@
                 </li>
 
             </ul>
+            <div class="container-fluid">
+                <div class="col-sm-6">
+                    <div class="col-sm-12">
+                        <div class="input-group">
+                            <div class="input-group-append">
 
+                                <span *ngIf="searchTerm === undefined"><button
+                                        class="btn"
+                                        style="color:gray"
+                                    ><i class="fas fa-search"></i></button></span>
+                                <span *ngIf="searchTerm !== undefined || searchTerm === ' ' ">
+                                    <button
+                                        class="btn"
+                                        style="color:gray"
+                                        (click)="input_close()"
+                                    >
+                                        <span *ngIf="searchTerm !== ''"><i class="fas fa-times"></i></span>
+                                        <span *ngIf="searchTerm === ''"><i class="fas fa-search"></i></span>
+                                    </button>
+                                </span>
+
+                                <div class="mysearch">
+                                    <input
+                                        id="myInput"
+                                        placeholder="Find product..."
+                                        [(ngModel)]="searchTerm"
+                                        (ngModelChange)="search()"
+                                        (focus)="input_focus()"
+                                    >
+                                    <div class="my-result">
+                                        <a
+                                            *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
+                                            (click)="find_product(item)"
+                                        >
+                                            <div class="container mycon">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <img
+                                                            class="myimg"
+                                                            src="https://picsum.photos/200"
+                                                        >
+                                                    </div>
+                                                    <div class="col">
+                                                        <b>{{item.product_name}} </b>
+                                                        <div>#{{item.product_id}}</div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <table>
+                                                            <tr>
+                                                                <td>In stock:</td>
+                                                                <td>{{item.product_stock}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bought:</td>
+                                                                <td>{{item.product_bought}}</td>
+                                                            </tr>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </a>
+                                        <p
+                                            class="my-p"
+                                            *ngIf="PSET_ARR.length>3"
+                                        >
+                                            <b>There are {{PSET_ARR.length - 3}} more results matches...</b>
+                                        </p>
+
+                                        <a
+                                            *ngIf="PSET_ARR.length === 0 && searchTerm !== undefined && searchTerm !== ''">
+                                            <div class="container mycon">
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <p style="text-align: center;"> <b> 0 result matches
+                                                            </b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-2 border">
+                    <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                            <button
+                                class="btn btn-secondary"
+                                type="button"
+                                id="dropdownMenuButton"
+                                data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false"
+                            >
+                                Employee
+                            </button>
+                            <div
+                                class="dropdown-menu"
+                                style="position: absolute;"
+                                aria-labelledby="dropdownMenuButton"
+                                *ngFor="let i of infoarr"
+                            >
+                                <a class="dropdown-item">{{i.admin_name}}</a>
+                                <a class="dropdown-item">{{i.admin_email}}</a>
+                                <a class="dropdown-item">{{i.admin_role}}</a>
+                                <button
+                                    class="btn btn-danger mt-3 mb-3"
+                                    (click)="clickLogout()"
+                                ><a style=" text-align: center; align-items: center;">Logout</a></button>
+                            </div>
+                        </div>
+                        <select
+                            class="custom-select"
+                            [(ngModel)]="branchModel"
+                        >
+                            <option
+                                *ngFor='let b of allbranch'
+                                [ngValue]='b'
+                            >{{b.branch_name}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-sm-4 border">adsf</div>
+            </div>
             <!-- Right navbar links -->
 
         </nav>
@@ -209,7 +337,7 @@
                             *ngFor="let i of infoarr"
                             href="/profile-page"
                             class="d-block"
-                        >{{i.user_name}}</a>
+                        >{{i.admin_name}}</a>
                     </div>
                 </div>
 
@@ -328,103 +456,12 @@
         <!-- Content Wrapper. Contains page content *ngIf="searchinput.value !== '' " -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
-            <section class="content-header">
+            <!-- <section class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
+
                         <div class="col-sm-6">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <div class="input-group-append">
-
-                                        <span *ngIf="searchTerm === undefined"><button
-                                                class="btn"
-                                                style="color:gray"
-                                            ><i class="fas fa-search"></i></button></span>
-                                        <span *ngIf="searchTerm !== undefined || searchTerm === ' ' ">
-                                            <button
-                                                class="btn"
-                                                style="color:gray"
-                                                (click)="input_close()"
-                                            >
-                                                <span *ngIf="searchTerm !== ''"><i class="fas fa-times"></i></span>
-                                                <span *ngIf="searchTerm === ''"><i class="fas fa-search"></i></span>
-                                            </button>
-                                        </span>
-
-                                        <div class="mysearch">
-                                            <input
-                                                id="myInput"
-                                                placeholder="Find product..."
-                                                [(ngModel)]="searchTerm"
-                                                (ngModelChange)="search()"
-                                                (focus)="input_focus()"
-                                            >
-                                            <div class="my-result">
-                                                <a
-                                                    *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
-                                                    (click)="find_product(item)"
-                                                >
-                                                    <div class="container mycon">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <img
-                                                                    class="myimg"
-                                                                    src="https://picsum.photos/200"
-                                                                >
-                                                            </div>
-                                                            <div class="col">
-                                                                <b>{{item.product_name}} </b>
-                                                                <div>#{{item.product_id}}</div>
-                                                            </div>
-                                                            <div class="col">
-                                                                <table>
-                                                                    <tr>
-                                                                        <td>In stock:</td>
-                                                                        <td>{{item.product_stock}}</td>
-                                                                    </tr>
-                                                                    <tr>
-                                                                        <td>Bought:</td>
-                                                                        <td>{{item.product_bought}}</td>
-                                                                    </tr>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </a>
-                                                <p
-                                                    class="my-p"
-                                                    *ngIf="PSET_ARR.length>3"
-                                                >
-                                                    <b>There are {{PSET_ARR.length - 3}} more results matches...</b>
-                                                </p>
-
-                                                <a
-                                                    *ngIf="PSET_ARR.length === 0 && searchTerm !== undefined && searchTerm !== ''">
-                                                    <div class="container mycon">
-                                                        <div class="row">
-                                                            <div class="col">
-                                                                <p style="text-align: center;"> <b> 0 result matches
-                                                                    </b></p>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
                             <div class="input-group">
-                                <!-- <input  #searchinput  list="mylist" name="search1" [(ngModel)]="searchTerm"  (ngModelChange) = "search()">
-                <datalist id="mylist" >
-                    <option *ngFor="let item of PSET_ARR.slice(0,5); let x = index">                       
-                        {{item.product_id}} : {{item.product_name}}
-                    </option>
-                </datalist> -->
                                 <div
                                     class="btn-group"
                                     role="group"
@@ -490,7 +527,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-3">
+                        <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="/profile-page">Home</a></li>
                                 <li class="breadcrumb-item active">Sale</li>
@@ -498,8 +535,117 @@
                             </ol>
                         </div>
                     </div>
-                </div><!-- /.container-fluid -->
-            </section>
+                </div>
+            </section> -->
+            <div
+                class="modal fade bd-example-modal-lg"
+                tabindex="-1"
+                role="dialog"
+                aria-labelledby="myLargeModalLabel"
+                aria-hidden="true"
+            >
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5
+                                class="modal-title"
+                                id="exampleModalLabel"
+                            >Add customer</h5>
+                            <button
+                                type="button"
+                                class="close"
+                                data-dismiss="modal"
+                                aria-label="Close"
+                            >
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <h2>Main info</h2>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Username: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #name
+                                            ></td>
+                                        <td><b>User ID: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #id
+                                            ></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Telephone: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #telephone
+                                            ></td>
+                                        <td><b>Address: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #address
+                                            ></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                            <h2>Additional info</h2>
+                            <table class="table table-bordered">
+                                <tbody>
+                                    <tr>
+                                        <td><b>Email: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #email
+                                            ></td>
+                                        <td><b>Role: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #role
+                                            ></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>DOB: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #dob
+                                            ></td>
+                                        <td><b>Gender: </b> </td>
+                                        <td><input
+                                                class="form-control"
+                                                #gender
+                                            ></td>
+                                    </tr>
+                                    <tr>
+                                        <td><b>Additional info</b></td>
+                                        <td colspan="3">
+                                            <textarea
+                                                class="form-control"
+                                                #info
+                                                rows="3"
+                                            ></textarea>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="modal-footer">
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-dismiss="modal"
+                            >Close</button>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)"
+                            >Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <section class="content">
                 <div class="container-fluid">
@@ -507,62 +653,8 @@
                         <div class="col-sm-9">
                             <!-- Profile Image -->
                             <div
-                                class="card bg-white mb-3 "
-                                style="min-height: 380px;max-height: 380px;"
-                            >
-                                <!-- /.card-header -->
-                                <div class="card-body overflow-auto">
-                                    <div class="row">
-                                        <div
-                                            class="col-sm-2"
-                                            *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct"
-                                            (click)="chooseProduct(i)"
-                                        >
-                                            <div class="card mycard">
-                                                <div class="container ">
-                                                    <div class="row ">
-                                                        <div
-                                                            class="col"
-                                                            style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; "
-                                                        >
-                                                            <img
-                                                                class="card-img"
-                                                                style="max-height: 100px; width: auto;"
-                                                                src="https://picsum.photos/200/100"
-                                                                alt="Card image"
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="row"
-                                                        aria-rowspan="2"
-                                                    >
-                                                        <div class="col">
-                                                            <a><b>${{i.product_price}}</b>
-                                                                <small
-                                                                    class="float-right"
-                                                                    style="color:red;"
-                                                                >{{i.product_stock}} left</small></a>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="row"
-                                                        aria-rowspan="2"
-                                                    >
-                                                        <div class="col textover">
-                                                            <a>{{i.product_name}} lorem ipsum diasda lorem ipsum</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                            </div>
-                            <div
-                                class="card bg-white mb-2 overflow-auto"
-                                style="min-height: 430px;max-height: 430px;"
+                                class="card bg-white m-1 overflow-auto"
+                                style="min-height: 450px;max-height: 450px;"
                             >
                                 <!-- /.card-header -->
                                 <nav>
@@ -676,6 +768,62 @@
                                 </div>
                                 <!-- /.card-body -->
                             </div>
+                            <div
+                                class="card bg-white m-1 "
+                                style="min-height: 450px;max-height: 450px;"
+                            >
+                                <div class="card-header">asdfsf</div>
+                                <!-- /.card-header -->
+                                <div class="card-body overflow-auto">
+                                    <div class="row">
+                                        <div
+                                            class="col-sm-2"
+                                            *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct"
+                                            (click)="chooseProduct(i)"
+                                        >
+                                            <div class="card mycard">
+                                                <div class="container ">
+                                                    <div class="row ">
+                                                        <div
+                                                            class="col"
+                                                            style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; "
+                                                        >
+                                                            <img
+                                                                class="card-img"
+                                                                style="max-height: 100px; width: auto;"
+                                                                src="https://picsum.photos/200/100"
+                                                                alt="Card image"
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="row"
+                                                        aria-rowspan="2"
+                                                    >
+                                                        <div class="col">
+                                                            <a><b>${{i.product_price}}</b>
+                                                                <small
+                                                                    class="float-right"
+                                                                    style="color:red;"
+                                                                >{{i.product_stock}} left</small></a>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        class="row"
+                                                        aria-rowspan="2"
+                                                    >
+                                                        <div class="col textover">
+                                                            <small>{{i.product_name}} lorem ipsum diasda lorem
+                                                                ipsum</small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
+                            </div>
                         </div>
                         <!-- <div class="col-sm-9" >
                 
@@ -684,7 +832,7 @@
                         <div class="col-sm-3 ">
                             <div
                                 class="card bg-white mb-4 col-sm-12  overflow-auto "
-                                style="height: 99%;"
+                                style="height: 97%;"
                             >
                                 <!-- /.card-header -->
                                 <h4
@@ -693,11 +841,11 @@
                                 ><b>Order #{{t}}</b></h4>
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="card-body">
+                                        <div class="col">
                                             <h4><b>Customer</b></h4>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="input-group mb-2 ">
+                                        <div class="col">
+                                            <div class="input-group mb-3">
                                                 <select
                                                     class="custom-select"
                                                     [(ngModel)]="u"
@@ -709,56 +857,143 @@
                                                         [ngValue]="u"
                                                     >{{u.user_name}}</option>
                                                 </select>
+                                                <div class="input-group-append">
+                                                    <button
+                                                        type="button"
+                                                        class="input-group-text bg-success"
+                                                        data-toggle="modal"
+                                                        data-target=".bd-example-modal-lg"
+                                                    >
+                                                        <i class="fas fa-plus"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
-                                        <div class="card-body">
+                                        <div class="col">
+                                            <h4><b>Ship option</b></h4>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-1 ">
+                                                <select
+                                                    class="custom-select"
+                                                    [(ngModel)]="shipOptionModel"
+                                                    name="shipOption"
+                                                    (change)="shipOptionAlert(shipOptionModel);"
+                                                >
+                                                    <option>Delivery</option>
+                                                    <option>Pickup at store</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div
+                                        class="row"
+                                        *ngIf="shipOptionModel === 'Delivery' "
+                                    >
+                                        <div class="col">
+                                            <h4><b>Ship fee</b></h4>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-1 ">
+                                                <input
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control col-lg-6 float-right"
+                                                    [(ngModel)]="shipFeeModel"
+                                                    name="shipFee"
+                                                    (blur)="blur_discount_tax()"
+                                                    (focus)="blur_discount_tax()"
+                                                >
+                                            </div>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="row">
+                                        <div class="col">
                                             <h4><b>Sub total </b></h4>
                                         </div>
-                                        <div class="card-body">
-                                            <!-- <h4 *ngIf="tabtotal.length !== 0"  >
-                                    <div class="float-right"  [(ngModel)]="to" name="fieldName1" ngDefaultControl  *ngFor="let item of tabtotal; let x = index" >
-                                        <option type="hidden" *ngIf="item.id === t && item.total === to" [ngValue]="item.total" >
-                                            $ {{to}}
-                                            </option>
-                                    <hr class="mt-2 mb-2"/>
-                                    </div></h4>
-                                <h4 *ngIf="tabtotal.length === 0">
-                                    <span class="float-right">
-                                        <a>$0</a>
-                                    </span>
-                                </h4> -->
+                                        <div class="col">
                                             <h1>
                                                 <div class="float-right">${{to}}</div>
                                             </h1>
                                         </div>
                                     </div>
+
+
+
                                     <div class="row">
-                                        <div class="card-body">
-                                            <h4><b>Discount </b></h4>
+                                        <div class="col">
+                                            <h4><b>Discount/Chiet khau </b></h4>
                                         </div>
-                                        <div class="card-body">
-                                            <input
-                                                [(ngModel)]="discount"
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control col-lg-6 float-right"
-                                                placeholder="$"
-                                                aria-label="Username"
-                                                aria-describedby="basic-addon1"
-                                                (blur)="blur_discount()"
-                                                (focus)="blur_discount()"
-                                            >
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    [(ngModel)]="discount"
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="$"
+                                                    aria-describedby="basic-addon1"
+                                                    (blur)="blur_discount_tax()"
+                                                    (focus)="blur_discount_tax()"
+                                                >
+                                                <div class="input-group-append">
+                                                    <span
+                                                        *ngIf='discountType === false'
+                                                        class="input-group-text bg-success"
+                                                        (click)='setDiscountType();blur_discount_tax()'
+                                                    >
+                                                        <i class="fas fa-percentage"></i>
+                                                    </span>
+                                                    <span
+                                                        *ngIf='discountType === true'
+                                                        class="input-group-text bg-success"
+                                                        (click)='setDiscountType();blur_discount_tax()'
+                                                    >
+                                                        <i class="fas fa-dollar-sign"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <hr class="mt-2 mb-2" />
+
                                     <div class="row">
-                                        <div class="card-body">
+                                        <div class="col">
+                                            <h4><b>Tax </b></h4>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-3">
+                                                <input
+                                                    [(ngModel)]="taxModel"
+                                                    style="text-align: right;"
+                                                    type="number"
+                                                    class="form-control"
+                                                    placeholder="%"
+                                                    aria-describedby="basic-addon1"
+                                                    (blur)="blur_discount_tax()"
+                                                    (focus)="blur_discount_tax()"
+                                                >
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="fas fa-percentage"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <hr class="mt-2 mb-2" />
+
+                                    <div class="row">
+                                        <div class="col">
                                             <h4><b>Total </b></h4>
                                         </div>
-                                        <div class="card-body">
+                                        <div class="col">
                                             <h1 *ngIf="tabtotal.length !== 0">
                                                 <span class="float-right">
                                                     <div>
@@ -767,6 +1002,42 @@
                                                 </span></h1>
                                         </div>
                                     </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <h4><b>Payment option</b></h4>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-1 ">
+                                                <select
+                                                    class="custom-select"
+                                                    [(ngModel)]="paymentOptionModel"
+                                                    name="shipOption"
+                                                >
+                                                    <option>Credit card</option>
+                                                    <option>Cash</option>
+                                                    <option>Bank transfer</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlTextarea1">Additional info</label>
+                                                <textarea
+                                                    [(ngModel)]="infoModel"
+                                                    class="form-control"
+                                                    id="exampleFormControlTextarea1"
+                                                    rows="3"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <span class="badge badge-pill badge-primary">Primary</span>
+
                                     <div class="row">
                                         <button
                                             class="btn btn-success btn-block"

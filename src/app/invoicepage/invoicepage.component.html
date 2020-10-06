@@ -256,9 +256,8 @@
                                     >
                                         To<address>
                                             <strong>{{i.user_name}}</strong><br>
-                                            72 Tran Dang Ninh, Floor 6<br>
-                                            Hanoi, VN 10000<br>
-                                            Phone: (123) 456-789<br>
+                                            Address: <strong>{{i.user_address}}</strong><br>
+                                            Phone: <strong>{{i.user_telephone}}</strong><br>
                                             Email: <b>{{i.user_email}}</b>
                                         </address>
                                     </div>
@@ -351,16 +350,27 @@
                                             >
                                                 <tr>
                                                     <th style="width:50%">Subtotal:</th>
-                                                    <td>${{ i.total_unpaid }}</td>
+                                                    <td>${{ i.order_subtotal }}</td>
                                                 </tr>
                                                 <tr>
-                                                    <th>Total paid:</th>
-                                                    <td>${{ i.total_paid }}</td>
-
+                                                    <th>Discount:</th>
+                                                    <td>
+                                                        <span *ngIf="i.order_discount_type === 'amount'">$</span>
+                                                        {{ i.order_discount }}
+                                                        <span *ngIf="i.order_discount_type === 'percentage'">%</span>
+                                                    </td>
+                                                </tr>
+                                                <tr *ngIf="i.order_ship_option === 'Delivery'">
+                                                    <th>Shipping fee</th>
+                                                    <td>${{i.order_shipfee}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Tax:</th>
+                                                    <td>{{ i.order_tax }}%</td>
                                                 </tr>
                                                 <tr>
                                                     <th>Total:</th>
-                                                    <td>${{ i.total_price }}</td>
+                                                    <td>${{ i.order_total | number:  '1.2-2' }}</td>
                                                 </tr>
                                             </table>
                                         </div>
