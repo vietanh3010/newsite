@@ -22,7 +22,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { removeData, type } from 'jquery';
 import { stringify } from 'querystring';
-import { ThrowStmt } from '@angular/compiler';
+import { getHtmlTagDefinition, ThrowStmt, viewClassName } from '@angular/compiler';
 import { Hash } from 'crypto';
 import { Md5 } from 'ts-md5/dist/md5';
 import { color } from 'html2canvas/dist/types/css/types/color';
@@ -60,7 +60,7 @@ export class SaleComponent implements OnInit {
     err: MyToast[] = [];
     PRODUCT_MOST_STOCK: Product[] = [];
     PRODUCT_MOST_BOUGHT: Product[] = [];
-    t;
+    t = 1;
     u;
     discount;
     sub;
@@ -84,7 +84,6 @@ export class SaleComponent implements OnInit {
     TAB_ARR: TabID[] = [];
     tabtotal: TabTotal[] = [];
     checkq: string[] = [];
-
     private currentAdminSubject: BehaviorSubject<Admin>;
     public currentAdmin: Observable<Admin>;
     constructor(
@@ -109,6 +108,7 @@ export class SaleComponent implements OnInit {
         this.getAll();
         this.getAllproduct();
         this.getAllBranch();
+        this.shipOptionModel = 'Pickup at store';
     }
 
     setDiscountType(): void {
@@ -376,7 +376,7 @@ export class SaleComponent implements OnInit {
     removeAll(tab: number): void {
         for (var i = this.TAB_ARR.length - 1; i >= 0; i--) {
             if (tab === this.TAB_ARR[i].tab_id) {
-                this.TAB_ARR.splice(this.TAB_ARR.indexOf(this.TAB_ARR[i]), 1)
+                this.TAB_ARR.splice(this.TAB_ARR.indexOf(this.TAB_ARR[i]), 1);
             }
         }
 
@@ -394,6 +394,9 @@ export class SaleComponent implements OnInit {
         let sum = 0;
         if (this.t === undefined) {
             this.make_error('warning', 'Please choose a tab first!!!');
+        }
+        else if (this.temporder.length === 0) {
+            this.make_error('warning', 'Please add a tab first!!!');
         }
         else if (this.t !== undefined) {
             for (var i = 0; i < this.TAB_ARR.length; i++) {
@@ -463,8 +466,8 @@ export class SaleComponent implements OnInit {
 
             // console.log(this.tabtotal); this.to = (this.tabtotal.filter(a=>a.id=tabid) as TabTotal[])[0].total
             this.to = sum;
-
             this.blur_discount_tax();
+            console.log(this.TAB_ARR);
         }
     }
 
