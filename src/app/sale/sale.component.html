@@ -3,16 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="IE=edge"
-    >
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
     <title>AdminLTE 3 | User Profile</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
 
 
 </head>
@@ -131,6 +127,11 @@
     .my-toast:hover {
         filter: brightness(90%);
     }
+
+    td.mytd {
+        vertical-align: middle;
+        text-align: center;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -142,24 +143,20 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a
-                        class="nav-link"
+                    <a class="nav-link"
                         data-widget="pushmenu"
                         href="#"
-                        role="button"
-                    ><i class="fas fa-bars"></i></a>
+                        role="button"><i class="fas fa-bars"></i></a>
                 </li>
 
             </ul>
             <!-- mytoast -->
             <ul class="my-toast-wrapper">
-                <li
-                    class="card my-toast"
+                <li class="card my-toast"
                     [ngClass]="toast_type(e.type)"
                     [ngStyle]="toast_color(e.type)"
                     *ngFor="let e of err"
-                    (click)="dismiss_err(e)"
-                >
+                    (click)="dismiss_err(e)">
                     <div class="row">
                         <div *ngIf="e.type === 'danger' "><i class="fas fa-exclamation-circle"></i></div>
                         <div *ngIf="e.type === 'success' "><i class="fas fa-check-circle"></i></div>
@@ -178,41 +175,31 @@
                         <div class="input-group">
                             <div class="input-group-append">
 
-                                <span *ngIf="searchTerm === undefined"><button
-                                        class="btn"
-                                        style="color:gray"
-                                    ><i class="fas fa-search"></i></button></span>
+                                <span *ngIf="searchTerm === undefined"><button class="btn"
+                                        style="color:gray"><i class="fas fa-search"></i></button></span>
                                 <span *ngIf="searchTerm !== undefined || searchTerm === ' ' ">
-                                    <button
-                                        class="btn"
+                                    <button class="btn"
                                         style="color:gray"
-                                        (click)="input_close()"
-                                    >
+                                        (click)="input_close()">
                                         <span *ngIf="searchTerm !== ''"><i class="fas fa-times"></i></span>
                                         <span *ngIf="searchTerm === ''"><i class="fas fa-search"></i></span>
                                     </button>
                                 </span>
 
                                 <div class="mysearch">
-                                    <input
-                                        id="myInput"
+                                    <input id="myInput"
                                         placeholder="Find product..."
                                         [(ngModel)]="searchTerm"
                                         (ngModelChange)="search()"
-                                        (focus)="input_focus()"
-                                    >
+                                        (focus)="input_focus()">
                                     <div class="my-result">
-                                        <a
-                                            *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
-                                            (click)="find_product(item)"
-                                        >
+                                        <a *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
+                                            (click)="find_product(item)">
                                             <div class="container mycon">
                                                 <div class="row">
                                                     <div class="col">
-                                                        <img
-                                                            class="myimg"
-                                                            src="https://picsum.photos/200"
-                                                        >
+                                                        <img class="myimg"
+                                                            src="https://picsum.photos/200">
                                                     </div>
                                                     <div class="col">
                                                         <b>{{item.product_name}} </b>
@@ -234,10 +221,8 @@
 
                                             </div>
                                         </a>
-                                        <p
-                                            class="my-p"
-                                            *ngIf="PSET_ARR.length>3"
-                                        >
+                                        <p class="my-p"
+                                            *ngIf="PSET_ARR.length>3">
                                             <b>There are {{PSET_ARR.length - 3}} more results matches...</b>
                                         </p>
 
@@ -262,39 +247,30 @@
                 <div class="col-sm-2 border">
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">
-                            <button
-                                class="btn btn-secondary"
+                            <button class="btn btn-secondary"
                                 type="button"
                                 id="dropdownMenuButton"
                                 data-toggle="dropdown"
                                 aria-haspopup="true"
-                                aria-expanded="false"
-                            >
+                                aria-expanded="false">
                                 Employee
                             </button>
-                            <div
-                                class="dropdown-menu"
+                            <div class="dropdown-menu"
                                 style="position: absolute;"
                                 aria-labelledby="dropdownMenuButton"
-                                *ngFor="let i of infoarr"
-                            >
+                                *ngFor="let i of infoarr">
                                 <a class="dropdown-item">{{i.admin_name}}</a>
                                 <a class="dropdown-item">{{i.admin_email}}</a>
                                 <a class="dropdown-item">{{i.admin_role}}</a>
-                                <button
-                                    class="btn btn-danger mt-3 mb-3"
-                                    (click)="clickLogout()"
-                                ><a style=" text-align: center; align-items: center;">Logout</a></button>
+                                <button class="btn btn-danger mt-3 mb-3"
+                                    (click)="clickLogout()"><a
+                                        style=" text-align: center; align-items: center;">Logout</a></button>
                             </div>
                         </div>
-                        <select
-                            class="custom-select"
-                            [(ngModel)]="branchModel"
-                        >
-                            <option
-                                *ngFor='let b of allbranch'
-                                [ngValue]='b'
-                            >{{b.branch_name}}</option>
+                        <select class="custom-select"
+                            [(ngModel)]="branchModel">
+                            <option *ngFor='let b of allbranch'
+                                [ngValue]='b'>{{b.branch_name}}</option>
                         </select>
                     </div>
                 </div>
@@ -308,16 +284,12 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a
-                href="/profile-page"
-                class="brand-link"
-            >
-                <img
-                    src="assets/dist/img/AdminLTELogo.png"
+            <a href="/profile-page"
+                class="brand-link">
+                <img src="assets/dist/img/AdminLTELogo.png"
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
-                    style="opacity: .8"
-                >
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
 
@@ -326,37 +298,29 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img
-                            src="assets/dist/img/maleava.png"
+                        <img src="assets/dist/img/maleava.png"
                             class="img-circle elevation-2"
-                            alt="User Image"
-                        >
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a
-                            *ngFor="let i of infoarr"
+                        <a *ngFor="let i of infoarr"
                             href="/profile-page"
-                            class="d-block"
-                        >{{i.admin_name}}</a>
+                            class="d-block">{{i.admin_name}}</a>
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul
-                        class="nav nav-pills nav-sidebar flex-column"
+                    <ul class="nav nav-pills nav-sidebar flex-column"
                         data-widget="treeview"
                         role="menu"
-                        data-accordion="false"
-                    >
+                        data-accordion="false">
 
                         <li class="nav-header">Sale</li>
 
                         <li class="nav-item has-treeview menu-open">
-                            <a
-                                href="/profile-page"
-                                class="nav-link active"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Profile
@@ -366,28 +330,22 @@
                             <ul class="nav nav-treeview">
 
                                 <li class="nav-item">
-                                    <a
-                                        href="/profile-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/profile-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Profile</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/sale-page"
-                                        class="nav-link active"
-                                    >
+                                    <a href="/sale-page"
+                                        class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Sale order</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/invoice-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/invoice-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
                                     </a>
@@ -395,10 +353,8 @@
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-plus-square"></i>
                                 <p>
                                     Authentication
@@ -407,10 +363,8 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a
-                                        href="/login-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/login-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Login</p>
                                     </a>
@@ -420,28 +374,22 @@
 
                         <li class="nav-header">LABELS</li>
                         <li class="nav-item">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p class="text">Important</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>Warning</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Informational</p>
                             </a>
@@ -537,26 +485,20 @@
                     </div>
                 </div>
             </section> -->
-            <div
-                class="modal fade bd-example-modal-lg"
+            <div class="modal fade bd-example-modal-lg"
                 tabindex="-1"
                 role="dialog"
                 aria-labelledby="myLargeModalLabel"
-                aria-hidden="true"
-            >
+                aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5
-                                class="modal-title"
-                                id="exampleModalLabel"
-                            >Add customer</h5>
-                            <button
-                                type="button"
+                            <h5 class="modal-title"
+                                id="exampleModalLabel">Add customer</h5>
+                            <button type="button"
                                 class="close"
                                 data-dismiss="modal"
-                                aria-label="Close"
-                            >
+                                aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
@@ -566,27 +508,19 @@
                                 <tbody>
                                     <tr>
                                         <td><b>Username: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #name
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #name></td>
                                         <td><b>User ID: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #id
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #id></td>
                                     </tr>
                                     <tr>
                                         <td><b>Telephone: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #telephone
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #telephone></td>
                                         <td><b>Address: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #address
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #address></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -596,75 +530,56 @@
                                 <tbody>
                                     <tr>
                                         <td><b>Email: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #email
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #email></td>
                                         <td><b>Role: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #role
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #role></td>
                                     </tr>
                                     <tr>
                                         <td><b>DOB: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #dob
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #dob></td>
                                         <td><b>Gender: </b> </td>
-                                        <td><input
-                                                class="form-control"
-                                                #gender
-                                            ></td>
+                                        <td><input class="form-control"
+                                                #gender></td>
                                     </tr>
                                     <tr>
                                         <td><b>Additional info</b></td>
                                         <td colspan="3">
-                                            <textarea
-                                                class="form-control"
+                                            <textarea class="form-control"
                                                 #info
-                                                rows="3"
-                                            ></textarea>
+                                                rows="3"></textarea>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
                         <div class="modal-footer">
-                            <button
-                                type="button"
+                            <button type="button"
                                 class="btn btn-secondary"
-                                data-dismiss="modal"
-                            >Close</button>
-                            <button
-                                type="button"
+                                data-dismiss="modal">Close</button>
+                            <button type="button"
                                 class="btn btn-primary"
-                                (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)"
-                            >Save changes</button>
+                                (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)">Save
+                                changes</button>
                         </div>
                     </div>
                 </div>
             </div>
-
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-sm-9">
                             <!-- Profile Image -->
-                            <div
-                                class="card bg-white m-1 overflow-auto"
-                                style="min-height: 450px;max-height: 450px;"
-                            >
+                            <div class="card bg-white m-1 overflow-auto"
+                                style="min-height: 450px;max-height: 450px;">
                                 <!-- /.card-header -->
-                                <nav>
-                                    <div
-                                        class="nav nav-tabs d-flex flex-row "
+                                <nav class="bg-light">
+                                    <div class="nav nav-tabs d-flex flex-row "
                                         id="nav-tab"
-                                        role="tablist"
-                                    >
-                                        <a
-                                            class=" nav-item nav-link"
+                                        role="tablist">
+                                        <a class=" nav-item nav-link"
                                             [ngClass]="active()"
                                             id="nav-home-tab"
                                             data-toggle="tab"
@@ -673,93 +588,151 @@
                                             [attr.aria-controls]="'nav-home'"
                                             aria-selected="true"
                                             *ngFor="let i of temporder; let x= index"
-                                            (click)="test(i)"
-                                        >
-                                            Order {{i}} <i
-                                                class="fas fa-times"
-                                                (click)="removeTab(x);removeAll(i)"
-                                            ></i>
+                                            (click)="test(i)">
+                                            Order {{i}} <i class="fas fa-times"
+                                                (click)="removeTab(x);removeAll(i)"></i>
                                         </a>
-                                        <a
-                                            class="nav-item nav-link "
-                                            (click)="addTab()"
-                                        >
+                                        <a class="nav-item nav-link "
+                                            (click)="addTab()">
                                             <i class="fas fa-plus"></i>
                                         </a>
                                     </div>
                                 </nav>
-                                <div
-                                    class="tab-content my-tab"
-                                    id="nav-tabContent"
-                                >
-                                    <div
-                                        class="tab-pane fade show "
+                                <div class="tab-content my-tab"
+                                    id="nav-tabContent">
+                                    <div class="tab-pane fade show "
                                         [attr.id]="'nav-home'"
                                         role="tabpanel"
                                         aria-labelledby="nav-home-tab"
                                         [(ngModel)]="t"
                                         name="fieldName"
-                                        ngDefaultControl
-                                    >
-                                        <div
-                                            class="my-tab-pane"
-                                            *ngFor="let item of TAB_ARR"
-                                        >
+                                        ngDefaultControl>
+                                        <div class="my-tab-pane"
+                                            *ngFor="let item of TAB_ARR">
                                             <div *ngIf="item.tab_id === t">
                                                 <div *ngFor="let pro of item.tab_product">
-                                                    <div
-                                                        id="tab_item"
-                                                        class="card d-flex flex-row shadow bg-white rounded"
-                                                    >
-                                                        <div class="row">
-                                                            <div class="col"><img
-                                                                    class="myimg"
-                                                                    src="https://picsum.photos/200/"
-                                                                ></div>
+                                                    <div id="tab_item"
+                                                        class="card d-flex flex-row bg-white rounded p-0 m-0 border">
+                                                        <!-- <div class="col"><img class="myimg"
+                                                                style="max-width: 70px;max-height: 70px;"
+                                                                src="https://picsum.photos/200/100">
                                                         </div>
-                                                        <div class="card-body">
+                                                        <div class="col">
                                                             <a> <b>Product id:</b> {{pro.product_id}}</a>
                                                         </div>
-                                                        <div class="card-body">
-                                                            <button
-                                                                type="button"
+                                                        <div class="col">
+                                                            <button type="button"
                                                                 class="btn btn-light"
-                                                                (click)=" ADD_AND_MINUS('minus',item,pro)"
-                                                            >
+                                                                (click)=" ADD_AND_MINUS('minus',item,pro)">
                                                                 <i class="fas fa-angle-down"></i>
                                                             </button>
                                                             <b>Quantity:</b> {{pro.product_quantity}}
-                                                            <button
-                                                                type="button"
+                                                            <button type="button"
                                                                 class="btn btn-light"
-                                                                (click)=" ADD_AND_MINUS('add',item,pro)"
-                                                            >
+                                                                (click)=" ADD_AND_MINUS('add',item,pro)">
                                                                 <i class="fas fa-angle-up"></i>
                                                             </button>
                                                         </div>
-                                                        <div class="card-body">
+                                                        <div class="col">
                                                             <span *ngFor="let pr of allproduct">
                                                                 <span *ngIf="pr.product_id === pro.product_id">
                                                                     <b>Price: $</b>{{pr?.product_price}}
                                                                 </span>
                                                             </span>
                                                         </div>
-                                                        <div class="card-body">
+                                                        <div class="col">
                                                             <span *ngFor="let pr of allproduct">
                                                                 <span *ngIf="pr.product_id === pro.product_id">
                                                                     <b>Total:
                                                                         $</b>{{pro.product_quantity * pr?.product_price}}
-                                                                    <button
-                                                                        type="button"
+                                                                    <button type="button"
                                                                         class="btn btn-danger"
-                                                                        (click)=" remove_tabproduct(item,pro)"
-                                                                    >
+                                                                        (click)=" remove_tabproduct(item,pro)">
                                                                         <i class="fas fa-trash-alt"></i>
                                                                     </button>
                                                                 </span>
                                                             </span>
-                                                        </div>
+                                                        </div> -->
+                                                        <table class="table table-sm m-0 p-0">
+                                                            <tr class="p-0 m-0 d-flex">
+                                                                <td class="col-1 mytd">
+                                                                    <img class="myimg border"
+                                                                        style="max-width: 70px;max-height: 70px;"
+                                                                        src="https://picsum.photos/200">
+                                                                </td>
+                                                                <td class="col-1 mytd"
+                                                                    rowspan="2">
+                                                                    <button type="button"
+                                                                        class="btn btn-light"
+                                                                        (click)=" remove_tabproduct(item,pro)">
+                                                                        <i class="fas fa-trash-alt"></i>
+                                                                    </button>
+                                                                </td>
+                                                                <td class="col-4 mytd">
+                                                                    <table class="table-borderless m-0 p-0">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <small>Id</small>
+                                                                                <h1>{{pro.product_id}}</h1>
+                                                                            </td>
+                                                                            <td></td>
+                                                                            <td>
+                                                                                <small>Name</small>
+                                                                                <h3><span *ngFor="let pr of allproduct">
+                                                                                        <span
+                                                                                            *ngIf="pr.product_id === pro.product_id">{{pr?.product_name}}</span>
+                                                                                    </span></h3>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td class="col-2 mytd">
+                                                                    <table class="table-borderless">
+                                                                        <tr>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    class="btn btn-light"
+                                                                                    (click)=" ADD_AND_MINUS('minus',item,pro)">
+                                                                                    <i class="fas fa-angle-down"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td>
+                                                                                <small>Quantity:</small>
+                                                                                <h1>{{pro.product_quantity}}</h1>
+                                                                            </td>
+                                                                            <td>
+                                                                                <button type="button"
+                                                                                    class="btn btn-light"
+                                                                                    (click)=" ADD_AND_MINUS('add',item,pro)">
+                                                                                    <i class="fas fa-angle-up"></i>
+                                                                                </button>
 
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </td>
+                                                                <td class="col-2 mytd"
+                                                                    rowspan="2">
+                                                                    <span *ngFor="let pr of allproduct">
+                                                                        <span *ngIf="pr.product_id === pro.product_id">
+                                                                            <small>Price</small>
+                                                                            <h1>${{pr?.product_price}}</h1>
+                                                                        </span>
+                                                                    </span>
+                                                                </td>
+                                                                <td class="col-2 mytd"
+                                                                    rowspan="2">
+                                                                    <span *ngFor="let pr of allproduct">
+                                                                        <span *ngIf="pr.product_id === pro.product_id">
+                                                                            <small>Total</small>
+                                                                            <h1>${{pro.product_quantity * pr?.product_price}}
+                                                                            </h1>
+
+                                                                        </span>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
@@ -768,50 +741,37 @@
                                 </div>
                                 <!-- /.card-body -->
                             </div>
-                            <div
-                                class="card bg-white m-1 "
-                                style="min-height: 450px;max-height: 450px;"
-                            >
+                            <div class="card bg-white m-1 "
+                                style="min-height: 450px;max-height: 450px;">
                                 <div class="card-header">asdfsf</div>
                                 <!-- /.card-header -->
                                 <div class="card-body overflow-auto">
                                     <div class="row">
-                                        <div
-                                            class="col-sm-2"
+                                        <div class="col-sm-2"
                                             *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct"
-                                            (click)="chooseProduct(i)"
-                                        >
+                                            (click)="chooseProduct(i)">
                                             <div class="card mycard">
                                                 <div class="container ">
                                                     <div class="row ">
-                                                        <div
-                                                            class="col"
-                                                            style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; "
-                                                        >
-                                                            <img
-                                                                class="card-img"
+                                                        <div class="col"
+                                                            style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; ">
+                                                            <img class="card-img"
                                                                 style="max-height: 100px; width: auto;"
                                                                 src="https://picsum.photos/200/100"
-                                                                alt="Card image"
-                                                            />
+                                                                alt="Card image" />
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="row"
-                                                        aria-rowspan="2"
-                                                    >
+                                                    <div class="row"
+                                                        aria-rowspan="2">
                                                         <div class="col">
                                                             <a><b>${{i.product_price}}</b>
-                                                                <small
-                                                                    class="float-right"
-                                                                    style="color:red;"
-                                                                >{{i.product_stock}} left</small></a>
+                                                                <small class="float-right"
+                                                                    style="color:red;">{{i.product_stock}}
+                                                                    left</small></a>
                                                         </div>
                                                     </div>
-                                                    <div
-                                                        class="row"
-                                                        aria-rowspan="2"
-                                                    >
+                                                    <div class="row"
+                                                        aria-rowspan="2">
                                                         <div class="col textover">
                                                             <small>{{i.product_name}} lorem ipsum diasda lorem
                                                                 ipsum</small>
@@ -830,15 +790,11 @@
                 
             </div> -->
                         <div class="col-sm-3 ">
-                            <div
-                                class="card bg-white mb-4 col-sm-12  overflow-auto "
-                                style="height: 97%;"
-                            >
+                            <div class="card bg-white mb-4 col-sm-12  overflow-auto "
+                                style="height: 97%;">
                                 <!-- /.card-header -->
-                                <h4
-                                    class="mt-4"
-                                    style="text-align: center;"
-                                ><b>Order #{{t}}</b></h4>
+                                <h4 class="mt-4"
+                                    style="text-align: center;"><b>Order #{{t}}</b></h4>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
@@ -846,24 +802,18 @@
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-3">
-                                                <select
-                                                    class="custom-select"
+                                                <select class="custom-select"
                                                     [(ngModel)]="u"
                                                     name="targetuser"
-                                                    (change)="change(u);"
-                                                >
-                                                    <option
-                                                        *ngFor="let u of alluser"
-                                                        [ngValue]="u"
-                                                    >{{u.user_name}}</option>
+                                                    (change)="change(u);">
+                                                    <option *ngFor="let u of alluser"
+                                                        [ngValue]="u">{{u.user_name}}</option>
                                                 </select>
                                                 <div class="input-group-append">
-                                                    <button
-                                                        type="button"
+                                                    <button type="button"
                                                         class="input-group-text bg-success"
                                                         data-toggle="modal"
-                                                        data-target=".bd-example-modal-lg"
-                                                    >
+                                                        data-target=".bd-example-modal-lg">
                                                         <i class="fas fa-plus"></i>
                                                     </button>
                                                 </div>
@@ -877,12 +827,10 @@
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-1 ">
-                                                <select
-                                                    class="custom-select"
+                                                <select class="custom-select"
                                                     [(ngModel)]="shipOptionModel"
                                                     name="shipOption"
-                                                    (change)="shipOptionAlert(shipOptionModel);"
-                                                >
+                                                    (change)="shipOptionAlert(shipOptionModel);">
                                                     <option>Delivery</option>
                                                     <option>Pickup at store</option>
                                                 </select>
@@ -890,24 +838,20 @@
                                         </div>
                                     </div>
 
-                                    <div
-                                        class="row"
-                                        *ngIf="shipOptionModel === 'Delivery' "
-                                    >
+                                    <div class="row"
+                                        *ngIf="shipOptionModel === 'Delivery' ">
                                         <div class="col">
                                             <h4><b>Ship fee</b></h4>
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-1 ">
-                                                <input
-                                                    style=" text-align: right;"
+                                                <input style=" text-align: right;"
                                                     type="number"
                                                     class="form-control col-lg-6 float-right"
                                                     [(ngModel)]="shipFeeModel"
                                                     name="shipFee"
                                                     (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()"
-                                                >
+                                                    (focus)="blur_discount_tax()">
                                             </div>
                                         </div>
                                     </div>
@@ -932,29 +876,23 @@
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-3">
-                                                <input
-                                                    [(ngModel)]="discount"
+                                                <input [(ngModel)]="discount"
                                                     style=" text-align: right;"
                                                     type="number"
                                                     class="form-control"
                                                     placeholder="$"
                                                     aria-describedby="basic-addon1"
                                                     (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()"
-                                                >
+                                                    (focus)="blur_discount_tax()">
                                                 <div class="input-group-append">
-                                                    <span
-                                                        *ngIf='discountType === false'
+                                                    <span *ngIf='discountType === false'
                                                         class="input-group-text bg-success"
-                                                        (click)='setDiscountType();blur_discount_tax()'
-                                                    >
+                                                        (click)='setDiscountType();blur_discount_tax()'>
                                                         <i class="fas fa-percentage"></i>
                                                     </span>
-                                                    <span
-                                                        *ngIf='discountType === true'
+                                                    <span *ngIf='discountType === true'
                                                         class="input-group-text bg-success"
-                                                        (click)='setDiscountType();blur_discount_tax()'
-                                                    >
+                                                        (click)='setDiscountType();blur_discount_tax()'>
                                                         <i class="fas fa-dollar-sign"></i>
                                                     </span>
                                                 </div>
@@ -968,16 +906,14 @@
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-3">
-                                                <input
-                                                    [(ngModel)]="taxModel"
+                                                <input [(ngModel)]="taxModel"
                                                     style="text-align: right;"
                                                     type="number"
                                                     class="form-control"
                                                     placeholder="%"
                                                     aria-describedby="basic-addon1"
                                                     (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()"
-                                                >
+                                                    (focus)="blur_discount_tax()">
                                                 <div class="input-group-append">
                                                     <span class="input-group-text">
                                                         <i class="fas fa-percentage"></i>
@@ -1009,11 +945,9 @@
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-1 ">
-                                                <select
-                                                    class="custom-select"
+                                                <select class="custom-select"
                                                     [(ngModel)]="paymentOptionModel"
-                                                    name="shipOption"
-                                                >
+                                                    name="shipOption">
                                                     <option>Credit card</option>
                                                     <option>Cash</option>
                                                     <option>Bank transfer</option>
@@ -1026,12 +960,10 @@
                                         <div class="col">
                                             <div class="form-group">
                                                 <label for="exampleFormControlTextarea1">Additional info</label>
-                                                <textarea
-                                                    [(ngModel)]="infoModel"
+                                                <textarea [(ngModel)]="infoModel"
                                                     class="form-control"
                                                     id="exampleFormControlTextarea1"
-                                                    rows="3"
-                                                ></textarea>
+                                                    rows="3"></textarea>
                                             </div>
                                         </div>
 
@@ -1039,10 +971,8 @@
                                     <span class="badge badge-pill badge-primary">Primary</span>
 
                                     <div class="row">
-                                        <button
-                                            class="btn btn-success btn-block"
-                                            (click)="payandprint()"
-                                        >
+                                        <button class="btn btn-success btn-block"
+                                            (click)="payandprint()">
                                             <i class="far fa-credit-card"></i>
                                             Pay and print</button>
                                     </div>

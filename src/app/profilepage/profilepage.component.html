@@ -3,16 +3,12 @@
 
 <head>
     <meta charset="utf-8">
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="IE=edge"
-    >
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
     <title>AdminLTE 3 | User Profile</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
 
 
 </head>
@@ -65,23 +61,19 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a
-                        class="nav-link"
+                    <a class="nav-link"
                         data-widget="pushmenu"
                         href="#"
-                        role="button"
-                    ><i class="fas fa-bars"></i></a>
+                        role="button"><i class="fas fa-bars"></i></a>
                 </li>
 
             </ul>
 
             <!-- mytoast -->
             <ul class="my-toast-wrapper">
-                <li
-                    class=" card my-toast callout callout-danger"
+                <li class=" card my-toast callout callout-danger"
                     *ngFor="let e of err"
-                    (click)="dismiss_err(e)"
-                >
+                    (click)="dismiss_err(e)">
                     <div class="row">
                         <div><i class="fas fa-exclamation-circle"></i></div>
                         <div class="col">
@@ -93,13 +85,11 @@
             </ul>
             <!-- mytoast -->
             <ul class="my-toast-wrapper">
-                <li
-                    class="card my-toast"
+                <li class="card my-toast"
                     [ngClass]="toast_type(e.type)"
                     [ngStyle]="toast_color(e.type)"
                     *ngFor="let e of err"
-                    (click)="dismiss_err(e)"
-                >
+                    (click)="dismiss_err(e)">
                     <div class="row">
                         <div *ngIf="e.type === 'danger' "><i class="fas fa-exclamation-circle"></i></div>
                         <div *ngIf="e.type === 'success' "><i class="fas fa-check-circle"></i></div>
@@ -120,16 +110,12 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a
-                href="/profile-page"
-                class="brand-link"
-            >
-                <img
-                    src="assets/dist/img/AdminLTELogo.png"
+            <a href="/profile-page"
+                class="brand-link">
+                <img src="assets/dist/img/AdminLTELogo.png"
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
-                    style="opacity: .8"
-                >
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
 
@@ -138,37 +124,29 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img
-                            src="assets/dist/img/maleava.png"
+                        <img src="assets/dist/img/maleava.png"
                             class="img-circle elevation-2"
-                            alt="User Image"
-                        >
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a
-                            *ngFor="let i of infoarr"
+                        <a *ngFor="let i of infoarr"
                             href="/profile-page"
-                            class="d-block"
-                        >{{i.user_name}}</a>
+                            class="d-block">{{i.user_name}}</a>
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul
-                        class="nav nav-pills nav-sidebar flex-column"
+                    <ul class="nav nav-pills nav-sidebar flex-column"
                         data-widget="treeview"
                         role="menu"
-                        data-accordion="false"
-                    >
+                        data-accordion="false">
 
                         <li class="nav-header">ADMIN PROFILE</li>
 
                         <li class="nav-item has-treeview menu-open">
-                            <a
-                                href="/profile-page"
-                                class="nav-link active"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Profile
@@ -178,28 +156,22 @@
                             <ul class="nav nav-treeview">
 
                                 <li class="nav-item">
-                                    <a
-                                        href="/profile-page"
-                                        class="nav-link active"
-                                    >
+                                    <a href="/profile-page"
+                                        class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Profile</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/sale-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/sale-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Sale order</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/invoice-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/invoice-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
                                     </a>
@@ -207,10 +179,8 @@
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-plus-square"></i>
                                 <p>
                                     Authentication
@@ -219,10 +189,8 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a
-                                        href="/login-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/login-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Login</p>
                                     </a>
@@ -232,28 +200,22 @@
 
                         <li class="nav-header">LABELS</li>
                         <li class="nav-item">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p class="text">Important</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>Warning</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Informational</p>
                             </a>
@@ -288,9 +250,8 @@
             <section class="content">
                 <div class="container-fluid">
                     <div class="row">
-                        <div class="col-md-3">
+                        <!-- <div class="col-md-3">
 
-                            <!-- Profile Image -->
                             <div class="card card-primary card-outline">
                                 <div class="card-body box-profile">
                                     <div class="text-center">
@@ -332,108 +293,78 @@
                                         (click)="clickLogout()"
                                     >Log out</button>
                                 </div>
-                                <!-- /.card-body -->
                             </div>
-                            <!-- /.card -->
 
 
-                            <!-- /.card -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-9">
+                        </div> -->
+                        <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header p-2">
                                     <ul class="nav nav-pills">
-                                        <li class="nav-item"><a
-                                                class="nav-link active"
+                                        <li class="nav-item"><a class="nav-link active"
                                                 href="#tab-users"
                                                 data-toggle="tab"
-                                                (click)="pagi_user(1)"
-                                            >Users</a></li>
-                                        <li class="nav-item"><a
-                                                class="nav-link"
+                                                (click)="pagi_user(1)">Users</a></li>
+                                        <li class="nav-item"><a class="nav-link"
                                                 href="#tab-products"
                                                 data-toggle="tab"
-                                                (click)="pagi_product(1)"
-                                            >Products</a></li>
-                                        <li class="nav-item"><a
-                                                class="nav-link"
+                                                (click)="pagi_product(1)">Products</a></li>
+                                        <li class="nav-item"><a class="nav-link"
                                                 href="#tab-orders"
                                                 data-toggle="tab"
-                                                (click)="pagi_order(1)"
-                                            >Orders</a></li>
+                                                (click)="pagi_order(1)">Orders</a></li>
                                     </ul>
                                 </div><!-- /.card-header -->
                                 <div class="card-body">
                                     <div class="tab-content">
-                                        <div
-                                            class="active tab-pane"
-                                            id="tab-users"
-                                        >
+                                        <div class="active tab-pane"
+                                            id="tab-users">
                                             <!--User-->
                                             <div class="d-flex justify-content-between">
                                                 <div class="p-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                            <span
-                                                                class="input-group-text"
-                                                                id="basic-addon1"
-                                                            >
-                                                                <i
-                                                                    class="fa fa-search"
-                                                                    aria-hidden="true"
-                                                                ></i>
+                                                            <span class="input-group-text"
+                                                                id="basic-addon1">
+                                                                <i class="fa fa-search"
+                                                                    aria-hidden="true"></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                            type="text"
+                                                        <input type="text"
                                                             class="form-control"
                                                             name="search"
                                                             [(ngModel)]="searchUser"
-                                                            placeholder="Search user table"
-                                                        >
+                                                            placeholder="Find user...">
                                                     </div>
 
                                                 </div>
                                                 <div class="p-2">
-                                                    <button
-                                                        class="btn btn-primary"
+                                                    <button class="btn btn-primary"
                                                         data-toggle="modal"
-                                                        data-target="#exampleModal"
-                                                    >
-                                                        <i
-                                                            class="fa fa-plus"
-                                                            aria-hidden="true"
-                                                        ></i>
+                                                        data-target="#exampleModal">
+                                                        <i class="fa fa-plus"
+                                                            aria-hidden="true"></i>
                                                         Add user
                                                     </button>
                                                 </div>
                                             </div>
 
-                                            <div
-                                                class="modal fade"
+                                            <div class="modal fade"
                                                 id="exampleModal"
                                                 tabindex="-1"
                                                 role="dialog"
                                                 aria-labelledby="exampleModalLabel"
-                                                aria-hidden="true"
-                                            >
-                                                <div
-                                                    class="modal-dialog"
-                                                    role="document"
-                                                >
+                                                aria-hidden="true">
+                                                <div class="modal-dialog"
+                                                    role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h2
-                                                                class="modal-title"
-                                                                id="exampleModalLabel"
-                                                            >Add user</h2>
-                                                            <button
-                                                                type="button"
+                                                            <h2 class="modal-title"
+                                                                id="exampleModalLabel">Add user</h2>
+                                                            <button type="button"
                                                                 class="close"
                                                                 data-dismiss="modal"
-                                                                aria-label="Close"
-                                                            >
+                                                                aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -445,19 +376,16 @@
                                                                         <td>
                                                                             <div class="input-group mb-3">
                                                                                 <div class="input-group-prepend">
-                                                                                    <span
-                                                                                        class="input-group-text"
-                                                                                        id="basic-addon1"
-                                                                                    ><i class="fas fa-user"></i></span>
+                                                                                    <span class="input-group-text"
+                                                                                        id="basic-addon1"><i
+                                                                                            class="fas fa-user"></i></span>
                                                                                 </div>
-                                                                                <input
-                                                                                    #newUsername
+                                                                                <input #newUsername
                                                                                     type="text"
                                                                                     class="form-control"
                                                                                     placeholder="Username"
                                                                                     aria-label="Username"
-                                                                                    aria-describedby="basic-addon1"
-                                                                                >
+                                                                                    aria-describedby="basic-addon1">
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -465,19 +393,16 @@
                                                                         <td>
                                                                             <div class="input-group mb-3">
                                                                                 <div class="input-group-prepend">
-                                                                                    <span
-                                                                                        class="input-group-text"
-                                                                                        id="basic-addon1"
-                                                                                    ><i class="fas fa-at"></i></span>
+                                                                                    <span class="input-group-text"
+                                                                                        id="basic-addon1"><i
+                                                                                            class="fas fa-at"></i></span>
                                                                                 </div>
-                                                                                <input
-                                                                                    #newEmail
+                                                                                <input #newEmail
                                                                                     type="text"
                                                                                     class="form-control"
                                                                                     placeholder="Email"
                                                                                     aria-label="Email"
-                                                                                    aria-describedby="basic-addon1"
-                                                                                >
+                                                                                    aria-describedby="basic-addon1">
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -485,19 +410,16 @@
                                                                         <td>
                                                                             <div class="input-group mb-3">
                                                                                 <div class="input-group-prepend">
-                                                                                    <span
-                                                                                        class="input-group-text"
-                                                                                        id="basic-addon1"
-                                                                                    ><i class="fas fa-key"></i></span>
+                                                                                    <span class="input-group-text"
+                                                                                        id="basic-addon1"><i
+                                                                                            class="fas fa-key"></i></span>
                                                                                 </div>
-                                                                                <input
-                                                                                    #newPassword
+                                                                                <input #newPassword
                                                                                     type="text"
                                                                                     class="form-control"
                                                                                     placeholder="Password"
                                                                                     aria-label="Password"
-                                                                                    aria-describedby="basic-addon1"
-                                                                                >
+                                                                                    aria-describedby="basic-addon1">
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -505,20 +427,16 @@
                                                                         <td>
                                                                             <div class="input-group mb-3">
                                                                                 <div class="input-group-prepend">
-                                                                                    <span
-                                                                                        class="input-group-text"
-                                                                                        id="basic-addon1"
-                                                                                    ><i
+                                                                                    <span class="input-group-text"
+                                                                                        id="basic-addon1"><i
                                                                                             class="fas fa-user-shield"></i></span>
                                                                                 </div>
-                                                                                <input
-                                                                                    #newRole
+                                                                                <input #newRole
                                                                                     type="text"
                                                                                     class="form-control"
                                                                                     placeholder="Role"
                                                                                     aria-label="Role"
-                                                                                    aria-describedby="basic-addon1"
-                                                                                >
+                                                                                    aria-describedby="basic-addon1">
                                                                             </div>
                                                                         </td>
                                                                     </tr>
@@ -526,12 +444,10 @@
                                                             </table>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button
-                                                                type="button"
+                                                            <button type="button"
                                                                 class="btn btn-success"
                                                                 data-dismiss="modal"
-                                                                (click)="addnewUser(newUsername.value,newEmail.value,newPassword.value,newRole.value)"
-                                                            >
+                                                                (click)="addnewUser(newUsername.value,newEmail.value,newPassword.value,newRole.value)">
                                                                 <i class="fas fa-paper-plane"></i>
                                                                 Submit
                                                             </button>
@@ -542,111 +458,89 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr class="bg-light">
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('user_id')"
-                                                        > <b>ID</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('user_id')"> <b>ID</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser === 'user_id' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser === 'user_id' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser === 'user_id' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser === 'user_id' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'user_id' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('user_name')"
-                                                        ><b>Username</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('user_name')"><b>Username</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser === 'user_name' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser === 'user_name' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser === 'user_name' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser === 'user_name' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'user_name' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('user_email')"
-                                                        ><b>Email</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('user_email')"><b>Email</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser==='user_email' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser==='user_email' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser==='user_email' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser==='user_email' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'user_email' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('user_password')"
-                                                        ><b>Password</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('user_password')"><b>Password</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser==='user_password' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser==='user_password' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser==='user_password' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser==='user_password' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'user_password' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('is_login')"
-                                                        ><b>Is login</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('is_login')"><b>Is login</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser==='is_login' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser==='is_login' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser==='is_login' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser==='is_login' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'is_login' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortUser('user_role')"
-                                                        ><b>Role</b>
+                                                        <th scope="row"
+                                                            (click)="sortUser('user_role')"><b>Role</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="userSort===true && chooseUser==='user_role' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="userSort===true && chooseUser==='user_role' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="userSort===false && chooseUser==='user_role' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="userSort===false && chooseUser==='user_role' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseUser !== 'user_role' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
                                                     </tr>
-                                                    <tbody
-                                                        [attr.id]="'accordion_' + x"
-                                                        *ngFor="let i of USER_TEMP.slice(0,10) | filter : searchUser; let x = index"
-                                                    >
-                                                        <tr
-                                                            class="hover"
+                                                    <tbody [attr.id]="'accordion_' + x"
+                                                        *ngFor="let i of USER_TEMP.slice(0,10) | filter : searchUser; let x = index">
+                                                        <tr class="hover"
                                                             data-toggle="collapse"
                                                             [attr.data-parent]="'#accordion_' + x"
-                                                            [attr.href]="'#collapseOne_' + x"
-                                                        >
+                                                            [attr.href]="'#collapseOne_' + x">
                                                             <th scope="row">{{i.user_id}}</th>
                                                             <td>{{i.user_name}}</td>
                                                             <td>{{i.user_email}}</td>
@@ -654,64 +548,48 @@
                                                             <td>{{i.is_login}}</td>
                                                             <td>{{i.user_role}}</td>
                                                         </tr>
-                                                        <tr class="border">
-                                                            <td
-                                                                style="padding: 0%"
-                                                                colspan="6"
-                                                            >
-                                                                <div
-                                                                    class="margin:0%"
+                                                        <tr>
+                                                            <td style="padding: 0%;"
+                                                                colspan="6">
+                                                                <div class="margin:0%"
                                                                     [attr.id]="'collapseOne_' + x "
-                                                                    class=" collapse"
-                                                                >
-                                                                    <div
-                                                                        class="card bg-light"
-                                                                        style="margin-bottom: 0%;padding:10px 10px 20px 10px;"
-                                                                    >
-                                                                        <ul
-                                                                            class="nav nav-tabs"
+                                                                    class=" collapse">
+                                                                    <div class="card bg-light "
+                                                                        style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                                                        <ul class="nav nav-tabs"
                                                                             id="myTab"
-                                                                            role="tablist"
-                                                                        >
+                                                                            role="tablist">
                                                                             <li class="nav-item">
-                                                                                <a
-                                                                                    class="nav-link active "
+                                                                                <a class="nav-link active "
                                                                                     id="home-tab"
                                                                                     data-toggle="tab"
                                                                                     [attr.href]="'#tabUser1' + x"
                                                                                     role="tab"
                                                                                     aria-controls="home"
-                                                                                    aria-selected="true"
-                                                                                >Update</a>
+                                                                                    aria-selected="true">Update</a>
                                                                             </li>
                                                                             <li class="nav-item">
-                                                                                <a
-                                                                                    class="nav-link"
+                                                                                <a class="nav-link"
                                                                                     id="profile-tab"
                                                                                     data-toggle="tab"
                                                                                     [attr.href]="'#tabUser2' + x"
                                                                                     role="tab"
                                                                                     aria-controls="profile"
-                                                                                    aria-selected="false"
-                                                                                >Purchase History</a>
+                                                                                    aria-selected="false">Purchase
+                                                                                    History</a>
                                                                             </li>
 
                                                                         </ul>
-                                                                        <div
-                                                                            class="tab-content"
-                                                                            id="myTabContent"
-                                                                        >
-                                                                            <div
-                                                                                class="tab-pane fade show active border-right border-left border-bottom"
+                                                                        <div class="tab-content"
+                                                                            id="myTabContent">
+                                                                            <div class="tab-pane fade show active border-right border-left border-bottom"
                                                                                 [attr.id]="'tabUser1' + x"
                                                                                 role="tabpanel"
-                                                                                aria-labelledby="home-tab"
-                                                                            >
+                                                                                aria-labelledby="home-tab">
                                                                                 <div class="card p-4 shadow-none">
                                                                                     <table
                                                                                         class="table table-borderless"
-                                                                                        style="width: 100%;"
-                                                                                    >
+                                                                                        style="width: 100%;">
                                                                                         <tbody>
                                                                                             <tr class="bg-light">
                                                                                                 <td><b>Username</b></td>
@@ -728,8 +606,7 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_name}}"
                                                                                                         aria-label="username"
-                                                                                                        aria-describedby="basic-addon"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon">
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input
@@ -738,8 +615,7 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_email}}"
                                                                                                         aria-label="useremail"
-                                                                                                        aria-describedby="basic-addon"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon">
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input
@@ -748,8 +624,7 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_password}}"
                                                                                                         aria-label="userpassword"
-                                                                                                        aria-describedby="basic-addon"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon">
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input
@@ -758,21 +633,17 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_password}}"
                                                                                                         aria-label="userrole"
-                                                                                                        aria-describedby="basic-addon"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon">
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                         <tr>
-                                                                                            <td
-                                                                                                colspan="4"
-                                                                                                style="align-items: right;text-align: right;"
-                                                                                            >
+                                                                                            <td colspan="4"
+                                                                                                style="align-items: right;text-align: right;">
                                                                                                 <button
                                                                                                     class="btn btn-danger"
                                                                                                     style="margin: 5px;"
-                                                                                                    (click)="removeUser(i)"
-                                                                                                >
+                                                                                                    (click)="removeUser(i)">
                                                                                                     <i
                                                                                                         class="fas fa-trash-alt"></i>
                                                                                                     Delete
@@ -781,8 +652,7 @@
                                                                                                     data-toggle="collapse"
                                                                                                     [attr.href]="'#collapseOne_' + x"
                                                                                                     class="btn btn-success"
-                                                                                                    (click)="updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)"
-                                                                                                >
+                                                                                                    (click)="updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)">
                                                                                                     <i
                                                                                                         class="fas fa-save"></i>
                                                                                                     Save
@@ -792,12 +662,10 @@
                                                                                     </table>
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="tab-pane fade border-right border-left border-bottom"
+                                                                            <div class="tab-pane fade border-right border-left border-bottom"
                                                                                 [attr.id]="'tabUser2' + x"
                                                                                 role="tabpanel"
-                                                                                aria-labelledby="profile-tab"
-                                                                            >
+                                                                                aria-labelledby="profile-tab">
                                                                                 <div class="card p-4 shadow-none">
                                                                                     <table class="table">
                                                                                         <tbody>
@@ -812,10 +680,8 @@
                                                                                                 </td>
                                                                                                 <td><b>Invoice</b></td>
                                                                                             </tr>
-                                                                                            <tr
-                                                                                                class="hover"
-                                                                                                *ngFor="let o of allneworder"
-                                                                                            >
+                                                                                            <tr class="hover"
+                                                                                                *ngFor="let o of allneworder">
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
                                                                                                     {{o.order_id}}</td>
@@ -838,13 +704,12 @@
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
                                                                                                     <button
-                                                                                                        class="btn btn-info"
-                                                                                                    >
+                                                                                                        class="btn btn-info">
                                                                                                         <i
                                                                                                             class="fas fa-file-invoice"></i>
                                                                                                         <span
-                                                                                                            [routerLink]="['/invoice-page', { orderid: o.order_hash }]"
-                                                                                                        > Invoice</span>
+                                                                                                            [routerLink]="['/invoice-page', { orderid: o.order_hash }]">
+                                                                                                            Invoice</span>
                                                                                                     </button>
                                                                                                 </td>
                                                                                             </tr>
@@ -860,105 +725,73 @@
                                                     </tbody>
                                                 </table>
                                                 <ul class="nav nav-pills justify-content-end">
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_user(1)"
-                                                    ><a
-                                                            class="nav-link active"
+                                                    <li class="nav-item"
+                                                        (click)="pagi_user(1)"><a class="nav-link active"
                                                             href="#tabU1"
-                                                            data-toggle="tab"
-                                                        >First</a></li>
-                                                    <li
-                                                        class="nav-item"
+                                                            data-toggle="tab">First</a></li>
+                                                    <li class="nav-item"
                                                         (click)="pagi_user(pag)"
-                                                        *ngFor="let pag of PAGI_COUNT_USER;let x = index"
-                                                    >
-                                                        <a
-                                                            class="nav-link"
+                                                        *ngFor="let pag of PAGI_COUNT_USER;let x = index">
+                                                        <a class="nav-link"
                                                             [attr.href]="'#tabU2'+x"
-                                                            data-toggle="tab"
-                                                        >{{pag}}</a>
+                                                            data-toggle="tab">{{pag}}</a>
                                                     </li>
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_user(PAGI_COUNT_USER.length)"
-                                                    ><a
-                                                            class="nav-link"
+                                                    <li class="nav-item"
+                                                        (click)="pagi_user(PAGI_COUNT_USER.length)"><a class="nav-link"
                                                             href="#tabU3"
-                                                            data-toggle="tab"
-                                                        >Last</a></li>
+                                                            data-toggle="tab">Last</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                         <!-- /.tab-pane -->
-                                        <div
-                                            class="tab-pane"
-                                            id="tab-products"
-                                        >
+                                        <div class="tab-pane"
+                                            id="tab-products">
                                             <!--Product-->
                                             <div class="d-flex justify-content-between">
                                                 <div class="p-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                            <span
-                                                                class="input-group-text"
-                                                                id="basic-addon1"
-                                                            >
-                                                                <i
-                                                                    class="fa fa-search"
-                                                                    aria-hidden="true"
-                                                                ></i>
+                                                            <span class="input-group-text"
+                                                                id="basic-addon1">
+                                                                <i class="fa fa-search"
+                                                                    aria-hidden="true"></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                            type="text"
+                                                        <input type="text"
                                                             class="form-control"
                                                             name="search"
                                                             [(ngModel)]="searchProduct"
-                                                            placeholder="Search product table"
-                                                        >
+                                                            placeholder="Search product table">
                                                     </div>
                                                 </div>
                                                 <div class="p-2">
-                                                    <button
-                                                        class="btn btn-primary"
+                                                    <button class="btn btn-primary"
                                                         data-toggle="modal"
-                                                        data-target="#productModal"
-                                                    >
-                                                        <i
-                                                            class="fa fa-plus"
-                                                            aria-hidden="true"
-                                                        ></i>
+                                                        data-target="#productModal">
+                                                        <i class="fa fa-plus"
+                                                            aria-hidden="true"></i>
                                                         Add product
                                                     </button>
                                                 </div>
                                             </div>
-                                            <div
-                                                class="modal fade"
+                                            <div class="modal fade"
                                                 id="productModal"
                                                 tabindex="-1"
                                                 role="dialog"
                                                 aria-labelledby="productModalLabel"
-                                                aria-hidden="true"
-                                            >
-                                                <div
-                                                    class="modal-dialog"
-                                                    role="document"
-                                                >
+                                                aria-hidden="true">
+                                                <div class="modal-dialog"
+                                                    role="document">
                                                     <div class="modal-content">
                                                         <div class="modal-header">
-                                                            <h5
-                                                                class="modal-title"
-                                                                id="productModalLabel"
-                                                            >
+                                                            <h5 class="modal-title"
+                                                                id="productModalLabel">
                                                                 Add product
                                                             </h5>
-                                                            <button
-                                                                type="button"
+                                                            <button type="button"
                                                                 class="close"
                                                                 data-dismiss="modal"
-                                                                aria-label="Close"
-                                                            >
+                                                                aria-label="Close">
                                                                 <span aria-hidden="true">&times;</span>
                                                             </button>
                                                         </div>
@@ -968,47 +801,39 @@
                                                                 <tbody>
                                                                     <tr>
                                                                         <td>Product name</td>
-                                                                        <td><input
-                                                                                #newProductname
+                                                                        <td><input #newProductname
                                                                                 type="text"
                                                                                 class="form-control"
                                                                                 placeholder="Product name"
                                                                                 aria-label="name"
-                                                                                aria-describedby="basic-addon1"
-                                                                            ></td>
+                                                                                aria-describedby="basic-addon1"></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Product price</td>
-                                                                        <td><input
-                                                                                #newProductprice
+                                                                        <td><input #newProductprice
                                                                                 type="text"
                                                                                 class="form-control"
                                                                                 placeholder="Product price"
                                                                                 aria-label="price"
-                                                                                aria-describedby="basic-addon1"
-                                                                            ></td>
+                                                                                aria-describedby="basic-addon1"></td>
                                                                     </tr>
                                                                     <tr>
                                                                         <td>Product img</td>
-                                                                        <td><input
-                                                                                #newProductimg
+                                                                        <td><input #newProductimg
                                                                                 type="text"
                                                                                 class="form-control"
                                                                                 placeholder="Product img"
                                                                                 aria-label="img"
-                                                                                aria-describedby="basic-addon1"
-                                                                            ></td>
+                                                                                aria-describedby="basic-addon1"></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
                                                         </div>
                                                         <div class="modal-footer">
-                                                            <button
-                                                                type="button"
+                                                            <button type="button"
                                                                 class="btn btn-success"
                                                                 data-dismiss="modal"
-                                                                (click)="addnewProduct(newProductname.value,newProductprice.value,newProductimg.value)"
-                                                            >
+                                                                (click)="addnewProduct(newProductname.value,newProductprice.value,newProductimg.value)">
                                                                 <i class="fas fa-paper-plane"></i>
                                                                 Submit
                                                             </button>
@@ -1020,113 +845,91 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr class=" bg-light">
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_id')"
-                                                        ><b>Product id</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_id')"><b>Product id</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_id' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_id' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_id' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_id' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_id' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_name')"
-                                                        ><b>Product name</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_name')"><b>Product name</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_name' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_name' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_name' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_name' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_name' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_price')"
-                                                        ><b>Product price</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_price')"><b>Product price</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_price' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_price' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_price' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_price' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_price' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_img')"
-                                                        ><b>Product img</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_img')"><b>Product img</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_img' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_img' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_img' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_img' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_img' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_stock')"
-                                                        ><b>Stock</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_stock')"><b>Stock</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_stock' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_stock' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_stock' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_stock' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_stock' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortProduct('product_bought')"
-                                                        ><b>Bought</b>
+                                                        <th scope="row"
+                                                            (click)="sortProduct('product_bought')"><b>Bought</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="productSort===true && chooseProduct === 'product_bought' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="productSort===true && chooseProduct === 'product_bought' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="productSort===false && chooseProduct === 'product_bought' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="productSort===false && chooseProduct === 'product_bought' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseProduct !== 'product_bought' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
                                                     </tr>
-                                                    <tbody
-                                                        [attr.id]="'accordion_' + x"
-                                                        *ngFor="let i of PRODUCT_TEMP.slice(0,10) | filter:searchProduct; let x = index"
-                                                    >
-                                                        <tr
-                                                            class="hover"
+                                                    <tbody [attr.id]="'accordion_' + x"
+                                                        *ngFor="let i of PRODUCT_TEMP.slice(0,10) | filter:searchProduct; let x = index">
+                                                        <tr class="hover"
                                                             data-toggle="collapse"
                                                             [attr.data-parent]="'#accordion_' + x"
-                                                            [attr.href]="'#collapseTwo_' + x"
-                                                        >
+                                                            [attr.href]="'#collapseTwo_' + x">
                                                             <th scope="row">{{i.product_id}}</th>
                                                             <td> {{i.product_name}}</td>
                                                             <td>${{i.product_price}}</td>
@@ -1136,25 +939,17 @@
                                                         </tr>
 
 
-                                                        <tr class="border">
-                                                            <td
-                                                                style="padding: 0%"
-                                                                colspan="6"
-                                                            >
-                                                                <div
-                                                                    class="margin:0%"
+                                                        <tr>
+                                                            <td style="padding: 0%"
+                                                                colspan="6">
+                                                                <div class="margin:0%"
                                                                     [attr.id]="'collapseTwo_' + x "
-                                                                    class="collapse"
-                                                                >
-                                                                    <div
-                                                                        class="card bg-light"
-                                                                        style="margin-bottom: 0%;padding:10px 10px 0px 10px;"
-                                                                    >
+                                                                    class="collapse">
+                                                                    <div class="card bg-light"
+                                                                        style="margin-bottom: 0%;padding:10px 10px 0px 10px;">
                                                                         <div class="card p-4 shadow-none border">
-                                                                            <table
-                                                                                class="table table-borderless"
-                                                                                style="width: 100%;"
-                                                                            >
+                                                                            <table class="table table-borderless"
+                                                                                style="width: 100%;">
                                                                                 <tbody>
                                                                                     <tr class="bg-light">
                                                                                         <td><b>Name</b></td>
@@ -1163,57 +958,45 @@
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td>
-                                                                                            <input
-                                                                                                #inputProductname
+                                                                                            <input #inputProductname
                                                                                                 type="text"
                                                                                                 class="form-control"
                                                                                                 placeholder="{{i.product_name}}"
                                                                                                 aria-label="productname"
-                                                                                                aria-describedby="basic-addon1"
-                                                                                            >
+                                                                                                aria-describedby="basic-addon1">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input
-                                                                                                #inputProductprice
+                                                                                            <input #inputProductprice
                                                                                                 type="text"
                                                                                                 class="form-control"
                                                                                                 placeholder="{{i.product_price}}"
                                                                                                 aria-label="productprice"
-                                                                                                aria-describedby="basic-addon1"
-                                                                                            >
+                                                                                                aria-describedby="basic-addon1">
                                                                                         </td>
                                                                                         <td>
-                                                                                            <input
-                                                                                                #inputProductimg
+                                                                                            <input #inputProductimg
                                                                                                 type="text"
                                                                                                 class="form-control"
                                                                                                 placeholder="{{i.product_img}}"
                                                                                                 aria-label="productimg"
-                                                                                                aria-describedby="basic-addon1"
-                                                                                            >
+                                                                                                aria-describedby="basic-addon1">
                                                                                         </td>
                                                                                     </tr>
                                                                                 </tbody>
                                                                                 <tr>
-                                                                                    <td
-                                                                                        colspan="3"
-                                                                                        style="align-items: right;text-align: right;"
-                                                                                    >
-                                                                                        <button
-                                                                                            class="btn btn-danger"
+                                                                                    <td colspan="3"
+                                                                                        style="align-items: right;text-align: right;">
+                                                                                        <button class="btn btn-danger"
                                                                                             style="margin: 5px;"
-                                                                                            (click)="removeProduct(i)"
-                                                                                        >
+                                                                                            (click)="removeProduct(i)">
                                                                                             <i
                                                                                                 class="fas fa-trash-alt"></i>
                                                                                             Delete
                                                                                         </button>
-                                                                                        <button
-                                                                                            data-toggle="collapse"
+                                                                                        <button data-toggle="collapse"
                                                                                             [attr.href]="'#collapseTwo_' + x"
                                                                                             class="btn btn-success"
-                                                                                            (click)="updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)"
-                                                                                        >
+                                                                                            (click)="updateProduct(i,inputProductname.value,inputProductprice.value,inputProductimg.value)">
                                                                                             <i class="fas fa-save"></i>
                                                                                             Save
                                                                                         </button>
@@ -1229,65 +1012,46 @@
                                                 </table>
 
                                                 <ul class="nav nav-pills justify-content-end">
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_product(1)"
-                                                    ><a
-                                                            class="nav-link active"
+                                                    <li class="nav-item"
+                                                        (click)="pagi_product(1)"><a class="nav-link active"
                                                             href="#tabP1"
-                                                            data-toggle="tab"
-                                                        >First</a></li>
-                                                    <li
-                                                        class="nav-item"
+                                                            data-toggle="tab">First</a></li>
+                                                    <li class="nav-item"
                                                         (click)="pagi_product(pag)"
-                                                        *ngFor="let pag of PAGI_COUNT_PRODUCT;let x =index"
-                                                    >
-                                                        <a
-                                                            class="nav-link"
+                                                        *ngFor="let pag of PAGI_COUNT_PRODUCT;let x =index">
+                                                        <a class="nav-link"
                                                             [attr.href]="'#tabP2'+x"
-                                                            data-toggle="tab"
-                                                        >{{pag}}</a>
+                                                            data-toggle="tab">{{pag}}</a>
                                                     </li>
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_product(PAGI_COUNT_PRODUCT.length)"
-                                                    ><a
+                                                    <li class="nav-item"
+                                                        (click)="pagi_product(PAGI_COUNT_PRODUCT.length)"><a
                                                             class="nav-link"
                                                             href="#tabP3"
-                                                            data-toggle="tab"
-                                                        >Last</a></li>
+                                                            data-toggle="tab">Last</a></li>
                                                 </ul>
 
                                             </div>
                                         </div>
                                         <!-- /.tab-pane  setOrder(neworder_user.value)-->
 
-                                        <div
-                                            class="tab-pane"
-                                            id="tab-orders"
-                                        >
+                                        <div class="tab-pane"
+                                            id="tab-orders">
                                             <!--Order-->
                                             <div class="d-flex justify-content-between">
                                                 <div class="p-2">
                                                     <div class="input-group mb-3">
                                                         <div class="input-group-prepend">
-                                                            <span
-                                                                class="input-group-text"
-                                                                id="basic-addon1"
-                                                            >
-                                                                <i
-                                                                    class="fa fa-search"
-                                                                    aria-hidden="true"
-                                                                ></i>
+                                                            <span class="input-group-text"
+                                                                id="basic-addon1">
+                                                                <i class="fa fa-search"
+                                                                    aria-hidden="true"></i>
                                                             </span>
                                                         </div>
-                                                        <input
-                                                            type="text"
+                                                        <input type="text"
                                                             class="form-control"
                                                             name="search"
                                                             [(ngModel)]="searchOrder"
-                                                            placeholder="Find order"
-                                                        >
+                                                            placeholder="Find order">
                                                     </div>
 
                                                 </div>
@@ -1301,113 +1065,91 @@
                                             <div class="table-responsive">
                                                 <table class="table">
                                                     <tr class=" bg-light">
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('order_id')"
-                                                        ><b>Order id</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('order_id')"><b>Order id</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'order_id' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_id' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'order_id' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_id' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'order_id' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('order_subtotal')"
-                                                        ><b>Total price</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('order_subtotal')"><b>Total price</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'order_subtotal' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_subtotal' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'order_subtotal' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_subtotal' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'order_subtotal' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('order_discount')"
-                                                        ><b>Discount</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('order_discount')"><b>Discount</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'order_discount' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_discount' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'order_discount' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_discount' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'order_discount' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('order_total')"
-                                                        ><b>Total unpaid</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('order_total')"><b>Total unpaid</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'order_total' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'order_total' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'order_total' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'order_total' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'order_total' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('created_at')"
-                                                        ><b>Date purchase</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('created_at')"><b>Date purchase</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'created_at' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'created_at' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'created_at' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'created_at' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'created_at' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
-                                                        <th
-                                                            scope="row"
-                                                            (click)="sortOrder('updated_at')"
-                                                        ><b>Last updated</b>
+                                                        <th scope="row"
+                                                            (click)="sortOrder('updated_at')"><b>Last updated</b>
                                                             <span class="float-right">
                                                                 <span
-                                                                    *ngIf="orderSort===true && chooseOrder === 'updated_at' "
-                                                                ><i class="fas fa-caret-down"></i></span>
+                                                                    *ngIf="orderSort===true && chooseOrder === 'updated_at' "><i
+                                                                        class="fas fa-caret-down"></i></span>
                                                                 <span
-                                                                    *ngIf="orderSort===false && chooseOrder === 'updated_at' "
-                                                                ><i class="fas fa-caret-up"></i></span>
+                                                                    *ngIf="orderSort===false && chooseOrder === 'updated_at' "><i
+                                                                        class="fas fa-caret-up"></i></span>
                                                                 <span *ngIf="chooseOrder !== 'updated_at' "><i
-                                                                        class="fas fa-sort"
-                                                                    ></i></span>
+                                                                        class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
                                                     </tr>
-                                                    <tbody
-                                                        [attr.id]="'accordion' + z"
-                                                        *ngFor="let i of ORDER_TEMP.slice(0,10) | filter : searchOrder; let z = index"
-                                                    >
-                                                        <tr
-                                                            class="hover"
+                                                    <tbody [attr.id]="'accordion' + z"
+                                                        *ngFor="let i of ORDER_TEMP.slice(0,10) | filter : searchOrder; let z = index">
+                                                        <tr class="hover"
                                                             data-toggle="collapse"
                                                             [attr.data-parent]="'#accordion' + z"
-                                                            [attr.href]="'#collapseThree_' + z"
-                                                        >
+                                                            [attr.href]="'#collapseThree_' + z">
                                                             <th scope="row">{{i.order_id}}</th>
                                                             <td>${{i.order_subtotal}}</td>
                                                             <td>${{i.order_discount}}</td>
@@ -1416,74 +1158,56 @@
                                                             <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
                                                         </tr>
 
-                                                        <tr class="border">
-                                                            <td
-                                                                style="padding: 0%"
-                                                                colspan="6"
-                                                            >
-                                                                <div
-                                                                    class="margin:0%"
+                                                        <tr>
+                                                            <td style="padding: 0%"
+                                                                colspan="6">
+                                                                <div class="margin:0%"
                                                                     [attr.id]="'collapseThree_' + z "
-                                                                    class="collapse"
-                                                                >
-                                                                    <div
-                                                                        class="card bg-light"
-                                                                        style="margin-bottom: 0%;padding:10px 10px 20px 10px;"
-                                                                    >
-                                                                        <ul
-                                                                            class="nav nav-tabs"
+                                                                    class="collapse">
+                                                                    <div class="card bg-light"
+                                                                        style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                                                        <ul class="nav nav-tabs"
                                                                             id="myTab"
-                                                                            role="tablist"
-                                                                        >
+                                                                            role="tablist">
                                                                             <li class="nav-item">
-                                                                                <a
-                                                                                    class="nav-link active "
+                                                                                <a class="nav-link active "
                                                                                     id="home-tab"
                                                                                     data-toggle="tab"
                                                                                     [attr.href]="'#tab1'+z"
                                                                                     role="tab"
                                                                                     aria-controls="home"
-                                                                                    aria-selected="true"
-                                                                                >Update</a>
+                                                                                    aria-selected="true">Update</a>
                                                                             </li>
                                                                             <li class="nav-item">
-                                                                                <a
-                                                                                    class="nav-link"
+                                                                                <a class="nav-link"
                                                                                     id="profile-tab"
                                                                                     data-toggle="tab"
                                                                                     [attr.href]="'#tab2'+z"
                                                                                     role="tab"
                                                                                     aria-controls="profile"
-                                                                                    aria-selected="false"
-                                                                                >Customer</a>
+                                                                                    aria-selected="false">Customer</a>
                                                                             </li>
                                                                             <li class="nav-item">
-                                                                                <a
-                                                                                    class="nav-link"
+                                                                                <a class="nav-link"
                                                                                     id="contact-tab"
                                                                                     data-toggle="tab"
                                                                                     [attr.href]="'#tab3'+z"
                                                                                     role="tab"
                                                                                     aria-controls="contact"
-                                                                                    aria-selected="false"
-                                                                                >Order product</a>
+                                                                                    aria-selected="false">Order
+                                                                                    product</a>
                                                                             </li>
                                                                         </ul>
-                                                                        <div
-                                                                            class="tab-content"
-                                                                            id="myTabContent"
-                                                                        >
-                                                                            <div
-                                                                                class="tab-pane fade show active border-right border-left border-bottom"
+                                                                        <div class="tab-content"
+                                                                            id="myTabContent">
+                                                                            <div class="tab-pane fade show active border-right border-left border-bottom"
                                                                                 [attr.id]="'tab1' + z "
                                                                                 role="tabpanel"
-                                                                                aria-labelledby="home-tab"
-                                                                            >
+                                                                                aria-labelledby="home-tab">
                                                                                 <div class="card p-4 shadow-none">
                                                                                     <table
                                                                                         class="table table-borderless "
-                                                                                        style="width: 100%;"
-                                                                                    >
+                                                                                        style="width: 100%;">
                                                                                         <tbody>
                                                                                             <tr class="bg-light">
                                                                                                 <td><b>Total price</b>
@@ -1500,8 +1224,7 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.order_subtotal}}"
                                                                                                         aria-label="tprice"
-                                                                                                        aria-describedby="basic-addon2"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon2">
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input
@@ -1509,8 +1232,7 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.order_discount}}"
                                                                                                         aria-label="tpaid"
-                                                                                                        aria-describedby="basic-addon2"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon2">
                                                                                                 </td>
                                                                                                 <td>
                                                                                                     <input
@@ -1518,21 +1240,17 @@
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.order_total}}"
                                                                                                         aria-label="tunprice"
-                                                                                                        aria-describedby="basic-addon2"
-                                                                                                    >
+                                                                                                        aria-describedby="basic-addon2">
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
                                                                                         <tr>
-                                                                                            <td
-                                                                                                colspan="3"
-                                                                                                style="align-items: right;text-align: right;"
-                                                                                            >
+                                                                                            <td colspan="3"
+                                                                                                style="align-items: right;text-align: right;">
                                                                                                 <button
                                                                                                     class="btn btn-danger"
                                                                                                     style="margin: 3px;"
-                                                                                                    (click)="removeNeworder(i)"
-                                                                                                >
+                                                                                                    (click)="removeNeworder(i)">
                                                                                                     <i
                                                                                                         class="fas fa-trash-alt"></i>
                                                                                                     Delete
@@ -1543,8 +1261,7 @@
                                                                                                     data-toggle="collapse"
                                                                                                     [attr.href]="'#collapseThree_' + z"
                                                                                                     class="btn btn-success"
-                                                                                                    (click)="updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)"
-                                                                                                >
+                                                                                                    (click)="updateNeworder(i,inputTotalprice.value,inputTotalpaid.value,inputTotalunpaid.value)">
                                                                                                     <i
                                                                                                         class="fas fa-save"></i>
                                                                                                     Save
@@ -1554,17 +1271,13 @@
                                                                                     </table>
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="tab-pane fade border-right border-left border-bottom"
+                                                                            <div class="tab-pane fade border-right border-left border-bottom"
                                                                                 [attr.id]="'tab2' + z "
                                                                                 role="tabpanel"
-                                                                                aria-labelledby="profile-tab"
-                                                                            >
+                                                                                aria-labelledby="profile-tab">
                                                                                 <div class="card p-4 shadow-none">
-                                                                                    <table
-                                                                                        class="table table-striped"
-                                                                                        style="width: 100%;"
-                                                                                    >
+                                                                                    <table class="table table-striped"
+                                                                                        style="width: 100%;">
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td><b>ID</b></td>
@@ -1583,17 +1296,13 @@
                                                                                     </table>
                                                                                 </div>
                                                                             </div>
-                                                                            <div
-                                                                                class="tab-pane fade border-right border-left border-bottom"
+                                                                            <div class="tab-pane fade border-right border-left border-bottom"
                                                                                 [attr.id]="'tab3' + z "
                                                                                 role="tabpanel"
-                                                                                aria-labelledby="contact-tab"
-                                                                            >
+                                                                                aria-labelledby="contact-tab">
                                                                                 <div class="card p-4 shadow-none">
-                                                                                    <table
-                                                                                        class="table table-striped"
-                                                                                        style="width: 100%;"
-                                                                                    >
+                                                                                    <table class="table table-striped"
+                                                                                        style="width: 100%;">
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td><b>ID</b></td>
@@ -1606,8 +1315,7 @@
                                                                                                 <td><a>{{p.product_id}}</a>
                                                                                                 </td>
                                                                                                 <span
-                                                                                                    *ngFor="let pp of allproduct"
-                                                                                                >
+                                                                                                    *ngFor="let pp of allproduct">
                                                                                                     <td
                                                                                                         *ngIf="pp.product_id === p.product_id">
                                                                                                         {{pp.product_name}}
@@ -1616,8 +1324,7 @@
                                                                                                 <td>{{p.product_quantity}}
                                                                                                 </td>
                                                                                                 <span
-                                                                                                    *ngFor="let pp of allproduct"
-                                                                                                >
+                                                                                                    *ngFor="let pp of allproduct">
                                                                                                     <td
                                                                                                         *ngIf="pp.product_id === p.product_id">
                                                                                                         ${{pp.product_price}}
@@ -1627,13 +1334,10 @@
                                                                                         </tbody>
                                                                                         <tr>
                                                                                             <td colspan="2"></td>
-                                                                                            <td
-                                                                                                colspan="2"
-                                                                                                class="align-items:right;text-align:right"
-                                                                                            >
+                                                                                            <td colspan="2"
+                                                                                                class="align-items:right;text-align:right">
                                                                                                 <table
-                                                                                                    class="table table-bordered"
-                                                                                                >
+                                                                                                    class="table table-bordered">
                                                                                                     <tr>
                                                                                                         <td><b>Subtotal</b>
                                                                                                         </td>
@@ -1656,19 +1360,16 @@
                                                                                             </td>
                                                                                         </tr>
                                                                                         <tr>
-                                                                                            <td
-                                                                                                colspan="4"
-                                                                                                style="align-items: right;text-align: right;"
-                                                                                            >
+                                                                                            <td colspan="4"
+                                                                                                style="align-items: right;text-align: right;">
                                                                                                 <button
                                                                                                     class="btn btn-info"
-                                                                                                    style="margin: 3px;"
-                                                                                                >
+                                                                                                    style="margin: 3px;">
                                                                                                     <i
                                                                                                         class="fas fa-file-invoice"></i>
                                                                                                     <span
-                                                                                                        [routerLink]="['/invoice-page', { orderid: i.order_hash }]"
-                                                                                                    > Invoice</span>
+                                                                                                        [routerLink]="['/invoice-page', { orderid: i.order_hash }]">
+                                                                                                        Invoice</span>
                                                                                                 </button>
                                                                                             </td>
                                                                                         </tr>
@@ -1683,33 +1384,22 @@
                                                     </tbody>
                                                 </table>
                                                 <ul class="nav nav-pills justify-content-end">
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_order(1)"
-                                                    ><a
-                                                            class="nav-link active"
+                                                    <li class="nav-item"
+                                                        (click)="pagi_order(1)"><a class="nav-link active"
                                                             href="#tabO1"
-                                                            data-toggle="tab"
-                                                        >First</a></li>
-                                                    <li
-                                                        class="nav-item"
+                                                            data-toggle="tab">First</a></li>
+                                                    <li class="nav-item"
                                                         (click)="pagi_order(pag)"
-                                                        *ngFor="let pag of PAGI_COUNT_ORDER;let x =index"
-                                                    >
-                                                        <a
-                                                            class="nav-link"
+                                                        *ngFor="let pag of PAGI_COUNT_ORDER;let x =index">
+                                                        <a class="nav-link"
                                                             [attr.href]="'#tabO2'+x"
-                                                            data-toggle="tab"
-                                                        >{{pag}}</a>
+                                                            data-toggle="tab">{{pag}}</a>
                                                     </li>
-                                                    <li
-                                                        class="nav-item"
-                                                        (click)="pagi_order(PAGI_COUNT_ORDER.length)"
-                                                    ><a
+                                                    <li class="nav-item"
+                                                        (click)="pagi_order(PAGI_COUNT_ORDER.length)"><a
                                                             class="nav-link"
                                                             href="#tabO3"
-                                                            data-toggle="tab"
-                                                        >Last</a></li>
+                                                            data-toggle="tab">Last</a></li>
                                                 </ul>
                                             </div>
                                         </div>

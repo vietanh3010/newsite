@@ -3,10 +3,8 @@
 
 <head>
     <meta charset="utf-8">
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="IE=edge"
-    >
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
     <title>AdminLTE 3 | Invoice</title>
 
 </head>
@@ -20,12 +18,10 @@
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a
-                        class="nav-link"
+                    <a class="nav-link"
                         data-widget="pushmenu"
                         href="#"
-                        role="button"
-                    ><i class="fas fa-bars"></i></a>
+                        role="button"><i class="fas fa-bars"></i></a>
                 </li>
 
             </ul>
@@ -38,16 +34,12 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a
-                href="/profile-page"
-                class="brand-link"
-            >
-                <img
-                    src="assets/dist/img/AdminLTELogo.png"
+            <a href="/profile-page"
+                class="brand-link">
+                <img src="assets/dist/img/AdminLTELogo.png"
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
-                    style="opacity: .8"
-                >
+                    style="opacity: .8">
                 <span class="brand-text font-weight-light">AdminLTE 3</span>
             </a>
 
@@ -56,37 +48,29 @@
                 <!-- Sidebar user (optional) -->
                 <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                     <div class="image">
-                        <img
-                            src="assets/dist/img/maleava.png"
+                        <img src="assets/dist/img/maleava.png"
                             class="img-circle elevation-2"
-                            alt="User Image"
-                        >
+                            alt="User Image">
                     </div>
                     <div class="info">
-                        <a
-                            *ngFor="let i of infoarr"
+                        <a *ngFor="let i of infoarr"
                             href="/profile-page"
-                            class="d-block"
-                        >{{i.user_name}}</a>
+                            class="d-block">{{i.user_name}}</a>
                     </div>
                 </div>
 
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
-                    <ul
-                        class="nav nav-pills nav-sidebar flex-column"
+                    <ul class="nav nav-pills nav-sidebar flex-column"
                         data-widget="treeview"
                         role="menu"
-                        data-accordion="false"
-                    >
+                        data-accordion="false">
 
                         <li class="nav-header">ADMIN PROFILE</li>
 
                         <li class="nav-item has-treeview menu-open">
-                            <a
-                                href="/profile-page"
-                                class="nav-link active"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link active">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Profile
@@ -95,28 +79,22 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a
-                                        href="/profile-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/profile-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Profile</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/sale-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/sale-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Sale order</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a
-                                        href="/invoice-page"
-                                        class="nav-link active"
-                                    >
+                                    <a href="/invoice-page"
+                                        class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
                                     </a>
@@ -124,10 +102,8 @@
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-plus-square"></i>
                                 <p>
                                     Authentication
@@ -136,10 +112,8 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a
-                                        href="/login-page"
-                                        class="nav-link"
-                                    >
+                                    <a href="/login-page"
+                                        class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Login</p>
                                     </a>
@@ -149,28 +123,22 @@
 
                         <li class="nav-header">LABELS</li>
                         <li class="nav-item">
-                            <a
-                                href="#"
-                                class="nav-link"
-                            >
+                            <a href="#"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p class="text">Important</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-warning"></i>
                                 <p>Warning</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a
-                                href="/profile-page"
-                                class="nav-link"
-                            >
+                            <a href="/profile-page"
+                                class="nav-link">
                                 <i class="nav-icon far fa-circle text-info"></i>
                                 <p>Informational</p>
                             </a>
@@ -206,21 +174,15 @@
                     <div class="row">
                         <div class="col-12">
                             <!-- Main content -->
-                            <div
-                                class="invoice p-3 mb-3"
+                            <div class="invoice p-3 mb-3"
                                 id="pdfTable"
-                                #pdfTable
-                            >
+                                #pdfTable>
                                 <div class="row">
                                     <div class="col-12">
-                                        <small
-                                            style="margin-bottom:5%"
-                                            class="d-block"
-                                        >
-                                            <img
-                                                style="min-width: 15%;"
-                                                src="assets/dist/img/csell_logo.png"
-                                            >
+                                        <small style="margin-bottom:5%"
+                                            class="d-block">
+                                            <img style="min-width: 15%;"
+                                                src="assets/dist/img/csell_logo.png">
                                         </small>
                                     </div>
                                 </div>
@@ -229,10 +191,8 @@
                                     <div class="col-12">
                                         <h1>
                                             <i class="fas fa-globe"></i> CSELL GLOBAL, Inc.
-                                            <small
-                                                class="float-right"
-                                                *ngFor="let i of currentDate"
-                                            >{{i | date:"MMM d, y"}}</small>
+                                            <small class="float-right"
+                                                *ngFor="let i of currentDate">{{i | date:"MMM d, y"}}</small>
                                         </h1>
                                     </div>
                                     <!-- /.col -->
@@ -250,10 +210,8 @@
                                         </address>
                                     </div>
                                     <!-- /.col -->
-                                    <div
-                                        class="col-sm-4 invoice-col"
-                                        *ngFor="let i of singleCustomer"
-                                    >
+                                    <div class="col-sm-4 invoice-col"
+                                        *ngFor="let i of singleCustomer">
                                         To<address>
                                             <strong>{{i.user_name}}</strong><br>
                                             Address: <strong>{{i.user_address}}</strong><br>
@@ -262,10 +220,8 @@
                                         </address>
                                     </div>
                                     <!-- /.col -->
-                                    <div
-                                        class="col-sm-4 invoice-col"
-                                        *ngFor="let i of singleOrder"
-                                    >
+                                    <div class="col-sm-4 invoice-col"
+                                        *ngFor="let i of singleOrder">
                                         <b>Invoice #</b> {{i.order_hash}}<br>
                                         <br>
                                         <b>Order ID: </b> {{i.order_id}}<br>
@@ -309,31 +265,21 @@
                                     <!-- accepted payments column -->
                                     <div class="col-6">
                                         <p class="lead">Payment Methods:</p>
-                                        <img
-                                            style="margin:2px"
+                                        <img style="margin:2px"
                                             src="assets/dist/img/credit/visa.png"
-                                            alt="Visa"
-                                        >
-                                        <img
-                                            style="margin:2px"
+                                            alt="Visa">
+                                        <img style="margin:2px"
                                             src="assets/dist/img/credit/mastercard.png"
-                                            alt="Mastercard"
-                                        >
-                                        <img
-                                            style="margin:2px"
+                                            alt="Mastercard">
+                                        <img style="margin:2px"
                                             src="assets/dist/img/credit/american-express.png"
-                                            alt="American Express"
-                                        >
-                                        <img
-                                            style="margin:2px"
+                                            alt="American Express">
+                                        <img style="margin:2px"
                                             src="assets/dist/img/credit/paypal2.png"
-                                            alt="Paypal"
-                                        >
+                                            alt="Paypal">
 
-                                        <p
-                                            class="text-muted well well-sm shadow-none"
-                                            style="margin-top: 10px;"
-                                        >
+                                        <p class="text-muted well well-sm shadow-none"
+                                            style="margin-top: 10px;">
                                             Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles, weebly ning
                                             heekya handango imeem
                                             plugg
@@ -344,10 +290,8 @@
                                     <div class="col-6">
 
                                         <div class="table-responsive">
-                                            <table
-                                                class="table"
-                                                *ngFor="let i of singleOrder; let x = index"
-                                            >
+                                            <table class="table"
+                                                *ngFor="let i of singleOrder; let x = index">
                                                 <tr>
                                                     <th style="width:50%">Subtotal:</th>
                                                     <td>${{ i.order_subtotal }}</td>
@@ -355,8 +299,8 @@
                                                 <tr>
                                                     <th>Discount:</th>
                                                     <td>
-                                                        <span *ngIf="i.order_discount_type === 'amount'">$</span>
-                                                        {{ i.order_discount }}
+                                                        <span
+                                                            *ngIf="i.order_discount_type === 'amount'">$</span>{{ i.order_discount}}
                                                         <span *ngIf="i.order_discount_type === 'percentage'">%</span>
                                                     </td>
                                                 </tr>
@@ -380,13 +324,11 @@
                                 <!-- /.row -->
                                 <div class="row no-print">
                                     <div class="col-12">
-                                        <button
-                                            id="btnf"
+                                        <button id="btnf"
                                             type="button"
                                             class="btn btn-primary float-right"
                                             style="margin-right: 5px;"
-                                            (click)="printpdfisntant()"
-                                        >
+                                            (click)="printpdfisntant()">
                                             <i class="fas fa-download"></i> Generate PDF
                                         </button>
 

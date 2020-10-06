@@ -19,6 +19,7 @@ import { InvoicepageComponent } from './invoicepage/invoicepage.component';
 import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaleComponent } from './sale/sale.component';
+import { MatInputModule } from '@angular/material/input';
 
 const routes: Routes = [
     { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
@@ -52,6 +53,7 @@ const routes: Routes = [
         FormsModule,
         Ng2SearchPipeModule,
         BrowserAnimationsModule,
+        MatInputModule,
     ],
     exports: [
     ],

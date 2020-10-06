@@ -550,7 +550,7 @@ export class SaleComponent implements OnInit {
                 const orderID = 'myoID';
                 const orderSubtotal = this.to;
                 const orderDiscount = this.discount;
-                const orderTotal = this.sub;
+                const orderTotal = Number((Math.ceil(Number(this.sub) * 100) / 100).toFixed(2));
                 const customer1: User = this.u;
                 const products1: Cart[] = [];
                 const createdAt = Date();
@@ -562,12 +562,13 @@ export class SaleComponent implements OnInit {
                 else { orderShipFee = this.shipFeeModel; }
                 const orderTax = this.taxModel;
                 const orderPaymentOption = this.paymentOptionModel;
-                const orderBranch = this.branchModel;
+                const orderBranch = this.branchModel as Branch;
                 const orderTag = [];
                 const orderShipOption = this.shipOptionModel;
                 const orderStatus = [];
                 const orderDelivertyTime = Date();
                 const additionalInfo = this.infoModel;
+                const orderSalePerson = this.infoarr[0] as Admin;
                 let typeDiscount;
                 if (this.discountType) { typeDiscount = 'amount'; }
                 else { typeDiscount = 'percentage'; }
@@ -601,6 +602,7 @@ export class SaleComponent implements OnInit {
                     order_status: orderStatus,
                     order_delivery_time: orderDelivertyTime,
                     additional_info: additionalInfo,
+                    order_sale_person: orderSalePerson,
                     order_discount_type: typeDiscount,
                 };
                 const newOrder: Neworder = unknOrder as Neworder;
