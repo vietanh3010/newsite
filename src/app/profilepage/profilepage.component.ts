@@ -213,17 +213,36 @@ export class ProfilepageComponent implements OnInit {
         this.routeLogout.navigate(['login-page']);
     }
     // update
-    updateUser(u: User, name: string, email: string, password: string, role: string): void {
+    updateUser(
+        u: User, name: string, password: string, telephone: string, address: string,
+        email: string, role: string, dob: Date, gender: string, info: string): void {
         if (name !== '') { u.user_name = name; }
-        if (email !== '') { u.user_email = email; }
         if (password !== '') { u.user_password = password; }
+        if (address !== '') { u.user_address.push(address); }
         if (role !== '') { u.user_role = role; }
 
-        this.getUserService.updateUser(u).subscribe(
-            response => { console.log(response); },
-            error => { console.log(error); }
-        );
-        this.make_error('success', 'User ' + u.user_id + 'updated successfully.');
+        if (dob !== null) { u.user_dob = dob; }
+        if (gender !== '') { u.user_gender = gender; }
+        if (info !== '') { u.additional_info = info; }
+
+        if (email !== '' || telephone !== '') {
+            if (this.alluser.filter(a => a.user_email === email).length > 0) {
+                this.make_error('danger', 'This email has been registered!');
+            }
+            else if (this.alluser.filter(a => a.user_telephone === telephone).length > 0) {
+                this.make_error('danger', 'This telephone has been registered!');
+            }
+            else {
+                if (email !== '') { u.user_email = email; }
+                if (telephone !== '') { u.user_telephone = telephone; }
+                this.getUserService.updateUser(u).subscribe(
+                    response => { console.log(response); },
+                    error => { console.log(error); }
+                );
+                this.make_error('success', 'User ' + u.user_id + 'updated successfully.');
+            }
+        }
+
     }
     updateProduct(p: Product, productName: string, productPrice: number, productImg: string): void {
         if (productName !== '') { p.product_name = productName; }

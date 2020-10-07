@@ -590,51 +590,108 @@
                                                                                     <table
                                                                                         class="table table-borderless"
                                                                                         style="width: 100%;">
-                                                                                        <tbody>
-                                                                                            <tr class="bg-light">
-                                                                                                <td><b>Username</b></td>
-                                                                                                <td><b>Email</b></td>
-                                                                                                <td><b>Password</b></td>
-                                                                                                <td><b>Role</b></td>
-
-                                                                                            </tr>
+                                                                                        <tbody class="bg-light">
                                                                                             <tr>
+                                                                                                <td><b>Username</b></td>
                                                                                                 <td>
                                                                                                     <input
-                                                                                                        #inputUsername
+                                                                                                        #inputUserName
                                                                                                         type="text"
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_name}}"
                                                                                                         aria-label="username"
                                                                                                         aria-describedby="basic-addon">
                                                                                                 </td>
+                                                                                                <td><b>Password</b></td>
                                                                                                 <td>
                                                                                                     <input
-                                                                                                        #inputUseremail
-                                                                                                        type="text"
-                                                                                                        class="form-control"
-                                                                                                        placeholder="{{i.user_email}}"
-                                                                                                        aria-label="useremail"
-                                                                                                        aria-describedby="basic-addon">
-                                                                                                </td>
-                                                                                                <td>
-                                                                                                    <input
-                                                                                                        #inputUserpassword
+                                                                                                        #inputUserPassword
                                                                                                         type="text"
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_password}}"
                                                                                                         aria-label="userpassword"
                                                                                                         aria-describedby="basic-addon">
                                                                                                 </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><b>Telephone</b>
+                                                                                                </td>
                                                                                                 <td>
                                                                                                     <input
-                                                                                                        #inputUserrole
+                                                                                                        #inputUserTelephone
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.user_telephone}}"
+                                                                                                        aria-label="usertelephone"
+                                                                                                        aria-describedby="basic-addon">
+                                                                                                </td>
+                                                                                                <td><b>Address</b></td>
+                                                                                                <td>
+                                                                                                    <input
+                                                                                                        #inputUserAddress
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.user_address[0]}}"
+                                                                                                        aria-label="useraddress"
+                                                                                                        aria-describedby="basic-addon">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><b>Email</b></td>
+                                                                                                <td>
+                                                                                                    <input
+                                                                                                        #inputUserEmail
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.user_email}}"
+                                                                                                        aria-label="useremail"
+                                                                                                        aria-describedby="basic-addon">
+                                                                                                </td>
+                                                                                                <td><b>Role</b></td>
+                                                                                                <td>
+                                                                                                    <input
+                                                                                                        #inputUserRole
                                                                                                         type="text"
                                                                                                         class="form-control"
                                                                                                         placeholder="{{i.user_password}}"
                                                                                                         aria-label="userrole"
                                                                                                         aria-describedby="basic-addon">
                                                                                                 </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><b>DOB</b></td>
+                                                                                                <td>
+                                                                                                    <input #inputUserDob
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.user_dob}}"
+                                                                                                        aria-label="userdob"
+                                                                                                        aria-describedby="basic-addon">
+                                                                                                </td>
+                                                                                                <td><b>Gender</b></td>
+                                                                                                <td>
+                                                                                                    <input
+                                                                                                        #inputUserGender
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.user_gender}}"
+                                                                                                        aria-label="usergender"
+                                                                                                        aria-describedby="basic-addon">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td rowspan="2"><b>Extra
+                                                                                                        info</b></td>
+                                                                                                <td colspan="3">
+                                                                                                    <textarea
+                                                                                                        #inputUserInfo
+                                                                                                        type="text"
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.additional_info}}"
+                                                                                                        aria-label="userinfo"
+                                                                                                        aria-describedby="basic-addon"></textarea>
+                                                                                                </td>
+
                                                                                             </tr>
                                                                                         </tbody>
                                                                                         <tr>
@@ -652,7 +709,11 @@
                                                                                                     data-toggle="collapse"
                                                                                                     [attr.href]="'#collapseOne_' + x"
                                                                                                     class="btn btn-success"
-                                                                                                    (click)="updateUser(i,inputUsername.value,inputUseremail.value,inputUserpassword.value,inputUserrole.value)">
+                                                                                                    (click)="updateUser(i,inputUserName.value,inputUserPassword.value,
+                                                                                                    inputUserTelephone.value, inputUserAddress.value,
+                                                                                                    inputUserEmail.value, inputUserRole.value,
+                                                                                                    inputUserDob.value, inputUserGender.value,
+                                                                                                    inputUserInfo.value )">
                                                                                                     <i
                                                                                                         class="fas fa-save"></i>
                                                                                                     Save
@@ -672,13 +733,13 @@
                                                                                             <tr class="bg-light">
                                                                                                 <th scope="row"><b>
                                                                                                         Id</b></th>
-                                                                                                <td><b>Total</b></td>
+                                                                                                <td><b>Subtotal</b></td>
                                                                                                 <td><b>Discount</b></td>
                                                                                                 <td><b>Tax</b></td>
                                                                                                 <td><b>Ship option</b>
                                                                                                 </td>
                                                                                                 <td><b>Ship fee</b></td>
-                                                                                                <td><b>Subtotal</b></td>
+                                                                                                <td><b>Total</b></td>
                                                                                                 <td><b>Date
                                                                                                         purchased</b>
                                                                                                 </td>
@@ -687,44 +748,44 @@
                                                                                             <tr class="hover"
                                                                                                 *ngFor="let o of allneworder">
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     {{o.order_id}}</td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     ${{o.order_subtotal}}
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     <span
                                                                                                         *ngIf="o.order_discount_type === 'amount'">${{o.order_discount}}</span>
                                                                                                     <span
                                                                                                         *ngIf="o.order_discount_type === 'percentage'">{{o.order_discount}}%</span>
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     {{o.order_tax}}%
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     {{o.order_ship_option}}
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     <span
                                                                                                         *ngIf="o.order_ship_option === 'Delivery'">{{o.order_shipfee}}</span>
                                                                                                     <span
                                                                                                         *ngIf="o.order_ship_option !== 'Delivery'">null</span>
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     ${{o.order_total}}
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     {{o.created_at | date:"d/M/yy, h:mm:ss a"}}
                                                                                                 </td>
                                                                                                 <td
-                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    *ngIf="o.customer.user_hash_id === i.user_hash_id">
                                                                                                     <button
                                                                                                         class="btn btn-info">
                                                                                                         <i
@@ -1101,7 +1162,7 @@
                                                             </span>
                                                         </th>
                                                         <th scope="row"
-                                                            (click)="sortOrder('order_subtotal')"><b>Total price</b>
+                                                            (click)="sortOrder('order_subtotal')"><b>Subtotal</b>
                                                             <span class="float-right">
                                                                 <span
                                                                     *ngIf="orderSort===true && chooseOrder === 'order_subtotal' "><i
@@ -1127,7 +1188,7 @@
                                                             </span>
                                                         </th>
                                                         <th scope="row"
-                                                            (click)="sortOrder('order_total')"><b>Total unpaid</b>
+                                                            (click)="sortOrder('order_total')"><b>Total</b>
                                                             <span class="float-right">
                                                                 <span
                                                                     *ngIf="orderSort===true && chooseOrder === 'order_total' "><i
@@ -1321,8 +1382,13 @@
                                                                                                 <td><b>Address</b></td>
                                                                                             </tr>
                                                                                             <tr>
-                                                                                                <td>{{i.customer.user_id}}
-                                                                                                </td>
+                                                                                                <span
+                                                                                                    *ngFor="let u of alluser">
+                                                                                                    <td
+                                                                                                        *ngIf="u.user_hash_id === i.customer.user_hash_id">
+                                                                                                        {{u.user_id}}
+                                                                                                    </td>
+                                                                                                </span>
                                                                                                 <td>{{i.customer.user_name}}
                                                                                                 </td>
                                                                                                 <td>{{i.customer.user_email}}

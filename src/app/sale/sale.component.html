@@ -767,6 +767,18 @@
                                                 <span *ngIf="proSize === true"> <i class="fas fa-th-large"></i> </span>
                                                 <span *ngIf="proSize !== true"> <i class="fas fa-th"></i></span>
                                             </button>
+                                            <button class="btn btn-light border"
+                                                (click)="changeImgSize()">
+                                                <span *ngIf="imgSize === true"> <i class="fas fa-image"></i> </span>
+                                                <span *ngIf="imgSize !== true"><i class="fas fa-eye-slash"></i></span>
+                                            </button>
+                                            <button class="btn btn-light border"
+                                                (click)="changeArrSize()">
+                                                <span *ngIf="productArraySize === 20"> 20</span>
+                                                <span *ngIf="productArraySize === 30">30</span>
+                                                <span *ngIf="productArraySize === 40">40</span>
+
+                                            </button>
                                         </div>
                                         <div class="col"
                                             style="text-align: right;">
@@ -825,7 +837,7 @@
                                 <div class="card-body overflow-auto">
                                     <div class="row">
                                         <div [ngClass]="productSize()"
-                                            *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct"
+                                            *ngFor="let i of allproduct.slice(0,productArraySize) | filter:searchProduct"
                                             (click)="chooseProduct(i)">
                                             <div class="card mycard">
                                                 <div class="container ">
@@ -834,6 +846,7 @@
                                                             style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; ">
                                                             <img class="card-img"
                                                                 style="max-height: 100px; width: auto;"
+                                                                [ngStyle]="imageSize()"
                                                                 src="https://picsum.photos/200/100"
                                                                 alt="Card image" />
                                                         </div>
@@ -938,7 +951,7 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <button class="btn btn-white"
+                                            <button class="btn btn-light"
                                                 id="dropdownDiscount"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
@@ -996,28 +1009,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="row"
-                                        *ngIf="shipOptionModel === 'Delivery' ">
-                                        <div class="col">
-                                            <button class="btn btn-white">Ship fee</button>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group mb-1 ">
-                                                <input style=" text-align: right;"
-                                                    type="number"
-                                                    class="form-control orderinput"
-                                                    [(ngModel)]="shipFeeModel"
-                                                    name="shipFee"
-                                                    (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()">
-                                            </div>
-                                        </div>
-                                    </div>
-
                                     <div class="row">
                                         <div class="col">
 
-                                            <button class="btn btn-white"
+                                            <button class="btn btn-light"
                                                 id="dropdownTax"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
@@ -1062,6 +1057,24 @@
                                                 placeholder="$"
                                                 aria-describedby="basic-addon1"
                                                 readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        *ngIf="shipOptionModel === 'Delivery' ">
+                                        <div class="col">
+                                            <button class="btn btn-white">Ship fee</button>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-1 ">
+                                                <input style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    [(ngModel)]="shipFeeModel"
+                                                    name="shipFee"
+                                                    (blur)="blur_discount_tax()"
+                                                    (focus)="blur_discount_tax()">
+                                            </div>
                                         </div>
                                     </div>
 

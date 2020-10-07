@@ -82,6 +82,9 @@ export class SaleComponent implements OnInit {
     employee;
     paymentOptionModel;
     proSize = true;
+    imgSize = true;
+    productArraySize = 20;
+
     temporder: any[] = [1];
     TAB_ARR: TabID[] = [];
     tabtotal: TabTotal[] = [];
@@ -554,16 +557,21 @@ export class SaleComponent implements OnInit {
                     }
                 }
                 // window.alert("Order and stock updated sucessfully!");
+
+
                 const orderID = 'myoID';
                 const orderSubtotal = this.to;
                 const orderDiscount = this.discount;
                 const orderTotal = Number((Math.ceil(Number(this.sub) * 100) / 100).toFixed(2));
-                const customer1: User = this.u;
+
+
+
                 const products1: Cart[] = [];
                 const createdAt = Date();
                 const updatedAt = Date();
                 // tslint:disable-next-line: new-parens
                 const orderHashID: string = (new Md5).appendStr(orderID + createdAt).end().toString();
+                const customer1: User = this.u;
                 let orderShipFee;
                 if (this.shipOptionModel !== 'Delivery') { orderShipFee = 0; }
                 else { orderShipFee = this.shipFeeModel; }
@@ -776,7 +784,7 @@ export class SaleComponent implements OnInit {
                     user_gender: gender,
                     user_address: userAddress,
                     user_tag: userTag,
-                    additional_info: info
+                    additional_info: info,
                 };
                 const newUser: User = unknUser as User;
                 this.getUserService.addUser(newUser).subscribe();
@@ -812,6 +820,40 @@ export class SaleComponent implements OnInit {
             this.proSize = true;
         }
         this.productSize();
+    }
+    imageSize(): object {
+        if (!this.imgSize) {
+            return {
+                'height': '0',
+                'width': '0'
+            };
+        }
+        else {
+            return {
+                'height': 'auto',
+                'width': 'auto',
+            };
+        }
+    }
+    changeImgSize(): void {
+        if (this.imgSize) {
+            this.imgSize = false;
+        }
+        else {
+            this.imgSize = true;
+        }
+        this.imageSize();
+    }
+    changeArrSize(): void {
+        if (this.productArraySize === 20) {
+            this.productArraySize = 30;
+        }
+        else if (this.productArraySize === 30) {
+            this.productArraySize = 40;
+        }
+        else if (this.productArraySize === 40) {
+            this.productArraySize = 20;
+        }
     }
 
 }
