@@ -634,7 +634,7 @@
                                         id="nav-tab"
                                         role="tablist">
                                         <a class=" nav-item nav-link"
-                                            [ngClass]=""
+                                            [ngClass]="{active: t === i}"
                                             [attr.id]=" 'navhometab'+x"
                                             data-toggle="tab"
                                             [attr.href]="'#nav-home'+ i"
@@ -647,7 +647,10 @@
                                                 (click)="removeTab(x);removeAll(i)"></i>
                                         </a>
                                         <a class="nav-item nav-link "
-                                            (click)="addTab()">
+                                            (click)="addTab()"
+                                            data-toggle="tab"
+                                            [attr.href]="'#nav-home'+ t"
+                                            style="color:gray;background-color: lightgray;">
                                             <i class="fas fa-plus"></i>
                                         </a>
                                     </div>
@@ -749,6 +752,7 @@
                                                             </tr>
                                                         </table>
                                                     </div>
+
                                                 </div>
                                             </div>
                                         </div>
@@ -839,36 +843,40 @@
                                         <div [ngClass]="productSize()"
                                             *ngFor="let i of allproduct.slice(0,productArraySize) | filter:searchProduct"
                                             (click)="chooseProduct(i)">
-                                            <div class="card mycard">
-                                                <div class="container ">
-                                                    <div class="row ">
-                                                        <div class="col"
-                                                            style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; ">
-                                                            <img class="card-img"
-                                                                style="max-height: 100px; width: auto;"
-                                                                [ngStyle]="imageSize()"
-                                                                src="https://picsum.photos/200/100"
-                                                                alt="Card image" />
+                                            <a data-toggle="tab"
+                                                [attr.href]="'#nav-home'+ t"
+                                                style="color:black">
+                                                <div class="card mycard">
+                                                    <div class="container ">
+                                                        <div class="row ">
+                                                            <div class="col"
+                                                                style="max-width: 200px;max-height: 100px;justify-content: center; display: flex; overflow: hidden; ">
+                                                                <img class="card-img"
+                                                                    style="max-height: 100px; width: auto;"
+                                                                    [ngStyle]="imageSize()"
+                                                                    src="https://picsum.photos/200/100"
+                                                                    alt="Card image" />
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row"
-                                                        aria-rowspan="2">
-                                                        <div class="col">
-                                                            <a><b>${{i.product_price}}</b>
-                                                                <small class="float-right"
-                                                                    style="color:red;">{{i.product_stock}}
-                                                                    left</small></a>
+                                                        <div class="row"
+                                                            aria-rowspan="2">
+                                                            <div class="col">
+                                                                <a><b>${{i.product_price}}</b>
+                                                                    <small class="float-right"
+                                                                        style="color:red;">{{i.product_stock}}
+                                                                        left</small></a>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="row"
-                                                        aria-rowspan="2">
-                                                        <div class="col textover">
-                                                            <small>{{i.product_name}} lorem ipsum diasda lorem
-                                                                ipsum</small>
+                                                        <div class="row"
+                                                            aria-rowspan="2">
+                                                            <div class="col textover">
+                                                                <small>{{i.product_name}} lorem ipsum diasda lorem
+                                                                    ipsum</small>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

@@ -115,7 +115,6 @@ export class SaleComponent implements OnInit {
         this.getAllBranch();
         this.shipOptionModel = 'Pickup at store';
         this.paymentOptionModel = 'Cash';
-
         // const returnFunc = synapseThrow();
     }
     setDiscountType(): void {
@@ -370,6 +369,7 @@ export class SaleComponent implements OnInit {
         while (this.temporder.includes(tempc)) {
             tempc++;
         }
+        this.t = tempc;
         this.temporder.push(tempc);
     }
     removeTab(x: number): void {
@@ -866,5 +866,7 @@ export class SaleComponent implements OnInit {
             this.productArraySize = 20;
         }
     }
+
+
 
 }
