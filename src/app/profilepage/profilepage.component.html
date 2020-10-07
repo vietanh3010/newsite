@@ -670,10 +670,14 @@
                                                                                     <table class="table">
                                                                                         <tbody>
                                                                                             <tr class="bg-light">
-                                                                                                <th scope="row"><b>Order
-                                                                                                        id</b></th>
+                                                                                                <th scope="row"><b>
+                                                                                                        Id</b></th>
                                                                                                 <td><b>Total</b></td>
                                                                                                 <td><b>Discount</b></td>
+                                                                                                <td><b>Tax</b></td>
+                                                                                                <td><b>Ship option</b>
+                                                                                                </td>
+                                                                                                <td><b>Ship fee</b></td>
                                                                                                 <td><b>Subtotal</b></td>
                                                                                                 <td><b>Date
                                                                                                         purchased</b>
@@ -691,7 +695,25 @@
                                                                                                 </td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
-                                                                                                    ${{o.order_discount}}
+                                                                                                    <span
+                                                                                                        *ngIf="o.order_discount_type === 'amount'">${{o.order_discount}}</span>
+                                                                                                    <span
+                                                                                                        *ngIf="o.order_discount_type === 'percentage'">{{o.order_discount}}%</span>
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    {{o.order_tax}}%
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    {{o.order_ship_option}}
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    *ngIf="o.customer.user_id === i.user_id">
+                                                                                                    <span
+                                                                                                        *ngIf="o.order_ship_option === 'Delivery'">{{o.order_shipfee}}</span>
+                                                                                                    <span
+                                                                                                        *ngIf="o.order_ship_option !== 'Delivery'">null</span>
                                                                                                 </td>
                                                                                                 <td
                                                                                                     *ngIf="o.customer.user_id === i.user_id">
@@ -1066,7 +1088,7 @@
                                                 <table class="table">
                                                     <tr class=" bg-light">
                                                         <th scope="row"
-                                                            (click)="sortOrder('order_id')"><b>Order id</b>
+                                                            (click)="sortOrder('order_id')"><b>Id</b>
                                                             <span class="float-right">
                                                                 <span
                                                                     *ngIf="orderSort===true && chooseOrder === 'order_id' "><i
@@ -1143,6 +1165,12 @@
                                                                         class="fas fa-sort"></i></span>
                                                             </span>
                                                         </th>
+                                                        <th scope="row">
+                                                            <b>Employee</b>
+                                                        </th>
+                                                        <th scope="row">
+                                                            <b>Branch</b>
+                                                        </th>
                                                     </tr>
                                                     <tbody [attr.id]="'accordion' + z"
                                                         *ngFor="let i of ORDER_TEMP.slice(0,10) | filter : searchOrder; let z = index">
@@ -1152,15 +1180,20 @@
                                                             [attr.href]="'#collapseThree_' + z">
                                                             <th scope="row">{{i.order_id}}</th>
                                                             <td>${{i.order_subtotal}}</td>
-                                                            <td>${{i.order_discount}}</td>
+                                                            <td *ngIf="i.order_discount_type==='amount'">
+                                                                ${{i.order_discount}}</td>
+                                                            <td *ngIf="i.order_discount_type!=='amount'">
+                                                                {{i.order_discount}}%</td>
                                                             <td>${{i.order_total}}</td>
                                                             <td>{{i.created_at | date:"d/M/yy, h:mm:ss a"}}</td>
                                                             <td>{{i.updated_at | date:"d/M/yy, h:mm:ss a"}}</td>
+                                                            <td>{{i.order_sale_person.admin_name}}</td>
+                                                            <td>{{i.order_branch.branch_name}}</td>
                                                         </tr>
 
                                                         <tr>
                                                             <td style="padding: 0%"
-                                                                colspan="6">
+                                                                colspan="10">
                                                                 <div class="margin:0%"
                                                                     [attr.id]="'collapseThree_' + z "
                                                                     class="collapse">
