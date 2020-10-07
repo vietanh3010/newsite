@@ -243,7 +243,7 @@
                                                     <th>Product</th>
                                                     <th>Serial ID#</th>
                                                     <th>Description</th>
-                                                    <th>Subtotal</th>
+                                                    <th>Price/unit</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -290,31 +290,55 @@
                                     <div class="col-6">
 
                                         <div class="table-responsive">
-                                            <table class="table"
+                                            <table class="table text-right"
                                                 *ngFor="let i of singleOrder; let x = index">
                                                 <tr>
                                                     <th style="width:50%">Subtotal:</th>
-                                                    <td>${{ i.order_subtotal }}</td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Discount:</th>
                                                     <td>
-                                                        <span
-                                                            *ngIf="i.order_discount_type === 'amount'">$</span>{{ i.order_discount}}
-                                                        <span *ngIf="i.order_discount_type === 'percentage'">%</span>
+                                                        <h1>${{ i.order_subtotal | number:  '1.2-2'}}</h1>
                                                     </td>
                                                 </tr>
+                                                <tr *ngIf="i.order_discount_type === 'percentage'">
+                                                    <th>Discount: ({{ i.order_discount}}%)</th>
+                                                    <td>
+                                                        <h1>-${{ i.order_subtotal * i.order_discount/100 | number:  '1.2-2'}}
+                                                        </h1>
+                                                    </td>
+                                                </tr>
+
+                                                <tr *ngIf="i.order_discount_type === 'amount'">
+                                                    <th>Discount:</th>
+                                                    <td>
+                                                        <h1>-${{ i.order_discount | number:  '1.2-2'}}</h1>
+                                                    </td>
+                                                </tr>
+
+
+
+                                                <tr>
+                                                    <th>Tax: ({{ i.order_tax }}%)</th>
+                                                    <td *ngIf="i.order_discount_type === 'amount'">
+                                                        <h1>${{ (i.order_subtotal - i.order_discount)*i.order_tax/100 | number:  '1.2-2' }}
+                                                        </h1>
+                                                    </td>
+                                                    <td *ngIf="i.order_discount_type === 'percentage'">
+                                                        <h1>${{ (i.order_subtotal - i.order_subtotal * i.order_discount/100) * i.order_tax/100  | number:  '1.2-2'}}
+                                                        </h1>
+                                                    </td>
+                                                </tr>
+
                                                 <tr *ngIf="i.order_ship_option === 'Delivery'">
                                                     <th>Shipping fee</th>
-                                                    <td>${{i.order_shipfee}}</td>
+                                                    <td>
+                                                        <h1>${{i.order_shipfee}}</h1>
+                                                    </td>
                                                 </tr>
-                                                <tr>
-                                                    <th>Tax:</th>
-                                                    <td>{{ i.order_tax }}%</td>
-                                                </tr>
+
                                                 <tr>
                                                     <th>Total:</th>
-                                                    <td>${{ i.order_total | number:  '1.2-2' }}</td>
+                                                    <td>
+                                                        <h1>${{ i.order_total | number:  '1.2-2' }}</h1>
+                                                    </td>
                                                 </tr>
                                             </table>
                                         </div>

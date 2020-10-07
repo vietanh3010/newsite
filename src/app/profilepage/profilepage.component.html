@@ -1210,11 +1210,11 @@
                                                                                         style="width: 100%;">
                                                                                         <tbody>
                                                                                             <tr class="bg-light">
-                                                                                                <td><b>Total price</b>
+                                                                                                <td><b>Subtotal</b>
                                                                                                 </td>
-                                                                                                <td><b>Total paid</b>
+                                                                                                <td><b>Discount</b>
                                                                                                 </td>
-                                                                                                <td><b>Total unpaid</b>
+                                                                                                <td><b>Total</b>
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr>
@@ -1283,6 +1283,9 @@
                                                                                                 <td><b>ID</b></td>
                                                                                                 <td><b>Name</b></td>
                                                                                                 <td><b>Email</b></td>
+                                                                                                <td><b>Telephone</b>
+                                                                                                </td>
+                                                                                                <td><b>Address</b></td>
                                                                                             </tr>
                                                                                             <tr>
                                                                                                 <td>{{i.customer.user_id}}
@@ -1290,6 +1293,12 @@
                                                                                                 <td>{{i.customer.user_name}}
                                                                                                 </td>
                                                                                                 <td>{{i.customer.user_email}}
+                                                                                                </td>
+                                                                                                <td>{{i.customer.user_telephone}}
+                                                                                                </td>
+                                                                                                <td
+                                                                                                    *ngFor="let a of i.customer.user_address">
+                                                                                                    {{a}}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -1308,7 +1317,8 @@
                                                                                                 <td><b>ID</b></td>
                                                                                                 <td><b>Name</b></td>
                                                                                                 <td><b>Quantity</b></td>
-                                                                                                <td><b>Price</b></td>
+                                                                                                <td><b>Price/unit</b>
+                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr
                                                                                                 *ngFor="let p of i.products">
@@ -1341,19 +1351,49 @@
                                                                                                     <tr>
                                                                                                         <td><b>Subtotal</b>
                                                                                                         </td>
-                                                                                                        <td>${{i.order_subtotal}}
+                                                                                                        <td>${{i.order_subtotal | number:  '1.2-2'}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
-                                                                                                        <td><b>Discount</b>
+                                                                                                        <td><b>Discount
+                                                                                                            </b>
+                                                                                                            <small
+                                                                                                                *ngIf="i.order_discount_type === 'percentage'">({{i.order_discount | number:  '1.2-2'}}%)</small>
                                                                                                         </td>
-                                                                                                        <td>${{i.order_discount}}
+                                                                                                        <td
+                                                                                                            *ngIf="i.order_discount_type === 'amount'">
+                                                                                                            ${{i.order_discount | number:  '1.2-2'}}
+                                                                                                        </td>
+                                                                                                        <td
+                                                                                                            *ngIf="i.order_discount_type === 'percentage' ">
+                                                                                                            -${{i.order_subtotal * i.order_discount /100 | number:  '1.2-2'}}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td><b>Tax </b>
+                                                                                                            <small>{{i.order_tax | number:  '1.2-2'}}%</small>
+                                                                                                        </td>
+                                                                                                        <td
+                                                                                                            *ngIf="i.order_discount_type === 'amount'">
+                                                                                                            ${{(i.order_subtotal - i.order_discount)*i.order_tax /100 | number:  '1.2-2'}}
+                                                                                                        </td>
+                                                                                                        <td
+                                                                                                            *ngIf="i.order_discount_type === 'percentage'">
+                                                                                                            ${{(i.order_subtotal - i.order_subtotal * i.order_discount /100)*i.order_tax /100 | number:  '1.2-2'}}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr
+                                                                                                        *ngIf="i.order_ship_option === 'Delivery'">
+                                                                                                        <td><b>Shipping
+                                                                                                                fee</b>
+                                                                                                        </td>
+                                                                                                        <td>${{i.order_shipfee | number:  '1.2-2'}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                     <tr>
                                                                                                         <td><b>Total</b>
                                                                                                         </td>
-                                                                                                        <td>${{i.order_total}}
+                                                                                                        <td>${{i.order_total | number:  '1.2-2'}}
                                                                                                         </td>
                                                                                                     </tr>
                                                                                                 </table>

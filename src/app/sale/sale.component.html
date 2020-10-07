@@ -9,6 +9,8 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport"
         content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 
 <style>
@@ -130,6 +132,38 @@
     td.mytd {
         vertical-align: middle;
         text-align: center;
+    }
+
+    .orderinput::-webkit-outer-spin-button,
+    .orderinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .orderinputsmall::-webkit-outer-spin-button,
+    .orderinputsmall::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .orderinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 24px;
+    }
+
+    .orderinputsmall {
+        border-radius: 0;
+        border: none;
+        width: 75%;
+        padding: 0px;
+        border-bottom: 1px solid lightgray;
+        font-size: 15px;
+    }
+
+    .orderinput:focus {
+        border-bottom: 1px solid green;
     }
 </style>
 
@@ -283,7 +317,9 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-sm-4 border">adsf</div>
+                <div class="col-sm-4">
+
+                </div>
             </div>
             <!-- Right navbar links -->
 
@@ -513,50 +549,59 @@
                         </div>
                         <div class="modal-body">
                             <h2>Main info</h2>
-                            <table class="table table-bordered">
+                            <table class="table">
                                 <tbody>
                                     <tr>
                                         <td><b>Username: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Username..."
                                                 #name></td>
                                         <td><b>User ID: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Hash id..."
                                                 #id></td>
-                                    </tr>
-                                    <tr>
-                                        <td><b>Telephone: </b> </td>
-                                        <td><input class="form-control"
-                                                #telephone></td>
-                                        <td><b>Address: </b> </td>
-                                        <td><input class="form-control"
-                                                #address></td>
                                     </tr>
                                 </tbody>
                             </table>
 
                             <h2>Additional info</h2>
-                            <table class="table table-bordered">
+                            <table class="table">
                                 <tbody>
+                                    <tr>
+                                        <td><b>Telephone: </b> </td>
+                                        <td><input class="form-control"
+                                                placeholder="Telephone..."
+                                                #telephone></td>
+                                        <td><b>Address: </b> </td>
+                                        <td><input class="form-control"
+                                                placeholder="Address..."
+                                                #address></td>
+                                    </tr>
                                     <tr>
                                         <td><b>Email: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Email..."
                                                 #email></td>
                                         <td><b>Role: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Role..."
                                                 #role></td>
                                     </tr>
                                     <tr>
                                         <td><b>DOB: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Birthday..."
                                                 #dob></td>
                                         <td><b>Gender: </b> </td>
                                         <td><input class="form-control"
+                                                placeholder="Gender..."
                                                 #gender></td>
                                     </tr>
                                     <tr>
-                                        <td><b>Additional info</b></td>
+                                        <td><b>Extra info</b></td>
                                         <td colspan="3">
                                             <textarea class="form-control"
+                                                placeholder="More info..."
                                                 #info
                                                 rows="3"></textarea>
                                         </td>
@@ -622,46 +667,6 @@
                                                 <div *ngFor="let pro of item.tab_product">
                                                     <div id="tab_item"
                                                         class="card d-flex flex-row bg-white rounded p-0 m-0 border">
-                                                        <!-- <div class="col"><img class="myimg"
-                                                                        style="max-width: 70px;max-height: 70px;"
-                                                                        src="https://picsum.photos/200/100">
-                                                                </div>
-                                                                <div class="col">
-                                                                    <a> <b>Product id:</b> {{pro.product_id}}</a>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <button type="button"
-                                                                        class="btn btn-light"
-                                                                        (click)=" ADD_AND_MINUS('minus',item,pro)">
-                                                                        <i class="fas fa-angle-down"></i>
-                                                                    </button>
-                                                                    <b>Quantity:</b> {{pro.product_quantity}}
-                                                                    <button type="button"
-                                                                        class="btn btn-light"
-                                                                        (click)=" ADD_AND_MINUS('add',item,pro)">
-                                                                        <i class="fas fa-angle-up"></i>
-                                                                    </button>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <span *ngFor="let pr of allproduct">
-                                                                        <span *ngIf="pr.product_id === pro.product_id">
-                                                                            <b>Price: $</b>{{pr?.product_price}}
-                                                                        </span>
-                                                                    </span>
-                                                                </div>
-                                                                <div class="col">
-                                                                    <span *ngFor="let pr of allproduct">
-                                                                        <span *ngIf="pr.product_id === pro.product_id">
-                                                                            <b>Total:
-                                                                                $</b>{{pro.product_quantity * pr?.product_price}}
-                                                                            <button type="button"
-                                                                                class="btn btn-danger"
-                                                                                (click)=" remove_tabproduct(item,pro)">
-                                                                                <i class="fas fa-trash-alt"></i>
-                                                                            </button>
-                                                                        </span>
-                                                                    </span>
-                                                                </div> -->
                                                         <table class="table table-sm m-0 p-0">
                                                             <tr class="p-0 m-0 d-flex">
                                                                 <td class="col-1 mytd">
@@ -754,58 +759,72 @@
                             <div class="card bg-white m-1 p-0 overflow-auto h-50"
                                 style="max-height: 500px;min-height: 500px;">
                                 <div class="card-header bg-light p-0">
-                                    <div style="text-align: right;">
-                                        <button class="btn btn-light border"
-                                            type="button"
-                                            (click)="sort_by_product('product_id')">ID
-                                            <span *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_id' "><i
-                                                    class="fas fa-caret-down"></i></span>
-                                            <span *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_id' "><i
-                                                    class="fas fa-caret-up"></i></span>
-                                            <span *ngIf="CHOSEN_PROPERTY !== 'product_id' "><i
-                                                    class="fas fa-sort"></i></span>
-                                        </button>
-                                        <button class="btn btn-light border"
-                                            type="button"
-                                            (click)="sort_by_product('product_bought')">Purchase
-                                            <span
-                                                *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_bought' "><i
-                                                    class="fas fa-caret-down"></i></span>
-                                            <span
-                                                *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_bought' "><i
-                                                    class="fas fa-caret-up"></i></span>
-                                            <span *ngIf="CHOSEN_PROPERTY !== 'product_bought' "><i
-                                                    class="fas fa-sort"></i></span>
-                                        </button>
-                                        <button class="btn btn-light border"
-                                            type="button"
-                                            (click)="sort_by_product('product_stock')">Stock
-                                            <span *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_stock' "><i
-                                                    class="fas fa-caret-down"></i></span>
-                                            <span
-                                                *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_stock' "><i
-                                                    class="fas fa-caret-up"></i></span>
-                                            <span *ngIf="CHOSEN_PROPERTY !== 'product_stock' "><i
-                                                    class="fas fa-sort"></i></span>
-                                        </button>
-                                        <button class="btn btn-light border"
-                                            type="button"
-                                            (click)="sort_by_product('product_updated_at')">Update time
-                                            <span
-                                                *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_updated_at' "><i
-                                                    class="fas fa-caret-down"></i></span>
-                                            <span
-                                                *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_updated_at' "><i
-                                                    class="fas fa-caret-up"></i></span>
-                                            <span *ngIf="CHOSEN_PROPERTY !== 'product_updated_at' "><i
-                                                    class="fas fa-sort"></i></span>
-                                        </button>
+                                    <div class="row m-0">
+                                        <div class="col"
+                                            style="text-align: left;">
+                                            <button class="btn btn-light border"
+                                                (click)="changeProSize()">
+                                                <span *ngIf="proSize === true"> <i class="fas fa-th-large"></i> </span>
+                                                <span *ngIf="proSize !== true"> <i class="fas fa-th"></i></span>
+                                            </button>
+                                        </div>
+                                        <div class="col"
+                                            style="text-align: right;">
+                                            <button class="btn btn-light border"
+                                                type="button"
+                                                (click)="sort_by_product('product_id')">ID
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_id' "><i
+                                                        class="fas fa-caret-down"></i></span>
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_id' "><i
+                                                        class="fas fa-caret-up"></i></span>
+                                                <span *ngIf="CHOSEN_PROPERTY !== 'product_id' "><i
+                                                        class="fas fa-sort"></i></span>
+                                            </button>
+                                            <button class="btn btn-light border"
+                                                type="button"
+                                                (click)="sort_by_product('product_bought')">Purchase
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_bought' "><i
+                                                        class="fas fa-caret-down"></i></span>
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_bought' "><i
+                                                        class="fas fa-caret-up"></i></span>
+                                                <span *ngIf="CHOSEN_PROPERTY !== 'product_bought' "><i
+                                                        class="fas fa-sort"></i></span>
+                                            </button>
+                                            <button class="btn btn-light border"
+                                                type="button"
+                                                (click)="sort_by_product('product_stock')">Stock
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_stock' "><i
+                                                        class="fas fa-caret-down"></i></span>
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_stock' "><i
+                                                        class="fas fa-caret-up"></i></span>
+                                                <span *ngIf="CHOSEN_PROPERTY !== 'product_stock' "><i
+                                                        class="fas fa-sort"></i></span>
+                                            </button>
+                                            <button class="btn btn-light border"
+                                                type="button"
+                                                (click)="sort_by_product('product_updated_at')">Update time
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_updated_at' "><i
+                                                        class="fas fa-caret-down"></i></span>
+                                                <span
+                                                    *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_updated_at' "><i
+                                                        class="fas fa-caret-up"></i></span>
+                                                <span *ngIf="CHOSEN_PROPERTY !== 'product_updated_at' "><i
+                                                        class="fas fa-sort"></i></span>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
-                                <!-- /.card-header -->
+                                <!-- /.card-header col-sm-2-->
                                 <div class="card-body overflow-auto">
                                     <div class="row">
-                                        <div class="col-sm-2"
+                                        <div [ngClass]="productSize()"
                                             *ngFor="let i of allproduct.slice(0,20) | filter:searchProduct"
                                             (click)="chooseProduct(i)">
                                             <div class="card mycard">
@@ -850,14 +869,14 @@
                 
             </div> -->
                         <div class="col-sm-3 p-0 m-0">
-                            <div class="card bg-white m-1 p-0  overflow-auto h-100">
+                            <div class="card bg-white m-0 p-0  overflow-auto h-100">
                                 <!-- /.card-header -->
                                 <h4 class="mt-4"
                                     style="text-align: center;"><b>Order #{{t}}</b></h4>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Customer</b></h4>
+                                            <button class="btn btn-white">Customer</button>
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-3">
@@ -882,7 +901,7 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Ship option</b></h4>
+                                            <button class="btn btn-white">Ship option</button>
                                         </div>
                                         <div class="col">
                                             <div class="input-group mb-1 ">
@@ -899,32 +918,18 @@
                                         </div>
                                     </div>
 
-                                    <div class="row"
-                                        *ngIf="shipOptionModel === 'Delivery' ">
-                                        <div class="col">
-                                            <h4><b>Ship fee</b></h4>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group mb-1 ">
-                                                <input style=" text-align: right;"
-                                                    type="number"
-                                                    class="form-control col-lg-6 float-right"
-                                                    [(ngModel)]="shipFeeModel"
-                                                    name="shipFee"
-                                                    (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()">
-                                            </div>
-                                        </div>
-                                    </div>
-
-
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Sub total </b></h4>
+                                            <button class="btn btn-white">Subtotal</button>
                                         </div>
                                         <div class="col">
                                             <h1>
-                                                <div class="float-right">${{to}}</div>
+                                                <input style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    placeholder="${{to | number:  '1.2-2'}}"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
                                             </h1>
                                         </div>
                                     </div>
@@ -933,53 +938,146 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Discount/Chiet khau </b></h4>
+                                            <button class="btn btn-white"
+                                                id="dropdownDiscount"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                Discount
+                                            </button>
+                                            <small *ngIf='discountType === false'>
+                                                ({{discount | number:  '1.2-2'}}%)
+                                            </small>
+                                            <small *ngIf='discountType === true'></small>
+                                            <div class="dropdown-menu"
+                                                aria-labelledby="dropdownDiscount">
+                                                <div class="dropdown-item">
+                                                    <input [(ngModel)]="discount"
+                                                        style=" text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinputsmall"
+                                                        placeholder="$"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()">
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div class="col input-group">
+                                            <div class="input-group-prepend">
+                                                <button *ngIf='discountType === false'
+                                                    class="btn btn-light"
+                                                    (click)='setDiscountType();blur_discount_tax()'>
+                                                    <i class="fas fa-percentage"></i>
+                                                </button>
+                                                <button *ngIf='discountType === true'
+                                                    class="btn btn-light"
+                                                    (click)='setDiscountType();blur_discount_tax()'>
+                                                    <i class="fas fa-dollar-sign"></i>
+                                                </button>
+
+                                            </div>
+                                            <input *ngIf='discountType === false'
+                                                style=" text-align: right;"
+                                                type="number"
+                                                class="form-control orderinput"
+                                                placeholder="-${{ to * discount /100 | number:  '1.2-2'}}"
+                                                aria-describedby="basic-addon1"
+                                                readonly>
+                                            <input *ngIf='discountType === true'
+                                                style=" text-align: right;"
+                                                type="number"
+                                                class="form-control orderinput"
+                                                placeholder="-${{discount | number:  '1.2-2'}}"
+                                                aria-describedby="basic-addon1"
+                                                readonly>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        *ngIf="shipOptionModel === 'Delivery' ">
+                                        <div class="col">
+                                            <button class="btn btn-white">Ship fee</button>
                                         </div>
                                         <div class="col">
-                                            <div class="input-group mb-3">
-                                                <input [(ngModel)]="discount"
-                                                    style=" text-align: right;"
+                                            <div class="input-group mb-1 ">
+                                                <input style=" text-align: right;"
                                                     type="number"
-                                                    class="form-control"
-                                                    placeholder="$"
-                                                    aria-describedby="basic-addon1"
+                                                    class="form-control orderinput"
+                                                    [(ngModel)]="shipFeeModel"
+                                                    name="shipFee"
                                                     (blur)="blur_discount_tax()"
                                                     (focus)="blur_discount_tax()">
-                                                <div class="input-group-append">
-                                                    <span *ngIf='discountType === false'
-                                                        class="input-group-text bg-success"
-                                                        (click)='setDiscountType();blur_discount_tax()'>
-                                                        <i class="fas fa-percentage"></i>
-                                                    </span>
-                                                    <span *ngIf='discountType === true'
-                                                        class="input-group-text bg-success"
-                                                        (click)='setDiscountType();blur_discount_tax()'>
-                                                        <i class="fas fa-dollar-sign"></i>
-                                                    </span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Tax </b></h4>
+
+                                            <button class="btn btn-white"
+                                                id="dropdownTax"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">Tax
+                                            </button>
+
+                                            <small>({{taxModel}}%)</small>
+
+                                            <div class="dropdown-menu"
+                                                aria-labelledby="dropdownDiscount">
+                                                <div class="dropdown-item">
+                                                    <input [(ngModel)]="taxModel"
+                                                        style="text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinputsmall"
+                                                        placeholder="$"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="col">
-                                            <div class="input-group mb-3">
-                                                <input [(ngModel)]="taxModel"
-                                                    style="text-align: right;"
-                                                    type="number"
-                                                    class="form-control"
-                                                    placeholder="%"
-                                                    aria-describedby="basic-addon1"
-                                                    (blur)="blur_discount_tax()"
-                                                    (focus)="blur_discount_tax()">
-                                                <div class="input-group-append">
-                                                    <span class="input-group-text">
-                                                        <i class="fas fa-percentage"></i>
-                                                    </span>
-                                                </div>
+                                            <input *ngIf='discountType === false && to !== undefined'
+                                                style=" text-align: right;"
+                                                type="number"
+                                                class="form-control orderinput"
+                                                placeholder="${{(to - to * discount /100)* taxModel/100 | number:  '1.2-2'}}"
+                                                aria-describedby="basic-addon1"
+                                                readonly>
+                                            <input *ngIf='discountType === true && to !== undefined'
+                                                style=" text-align: right;"
+                                                type="number"
+                                                class="form-control orderinput"
+                                                placeholder="${{to*taxModel/100 - discount*taxModel/100 | number:  '1.2-2'}}"
+                                                aria-describedby="basic-addon1"
+                                                readonly>
+                                            <input *ngIf='to === undefined'
+                                                style=" text-align: right;"
+                                                type="number"
+                                                class="form-control orderinput"
+                                                placeholder="$"
+                                                aria-describedby="basic-addon1"
+                                                readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col">
+                                            <button class="btn btn-white">Payment option</button>
+                                        </div>
+                                        <div class="col">
+                                            <div class="input-group mb-1 ">
+                                                <select class="custom-select"
+                                                    [(ngModel)]="paymentOptionModel"
+                                                    name="shipOption">
+                                                    <option>Credit card</option>
+                                                    <option selected>Cash</option>
+                                                    <option>Bank transfer</option>
+                                                </select>
                                             </div>
                                         </div>
                                     </div>
@@ -988,39 +1086,25 @@
 
                                     <div class="row">
                                         <div class="col">
-                                            <h4><b>Total </b></h4>
+                                            <button class="btn btn-white"><b>Total </b></button>
                                         </div>
                                         <div class="col">
                                             <h1 *ngIf="tabtotal.length !== 0">
                                                 <span class="float-right">
                                                     <div>
-                                                        ${{sub}}
+                                                        ${{sub | number:  '1.2-2'}}
                                                     </div>
                                                 </span></h1>
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <h4><b>Payment option</b></h4>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group mb-1 ">
-                                                <select class="custom-select"
-                                                    [(ngModel)]="paymentOptionModel"
-                                                    name="shipOption">
-                                                    <option>Credit card</option>
-                                                    <option>Cash</option>
-                                                    <option>Bank transfer</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
+
 
                                     <div class="row">
                                         <div class="col">
                                             <div class="form-group">
-                                                <label for="exampleFormControlTextarea1">Additional info</label>
+                                                <label for="exampleFormControlTextarea1"><button
+                                                        class="btn btn-white">Addiditional info</button></label>
                                                 <textarea [(ngModel)]="infoModel"
                                                     class="form-control"
                                                     id="exampleFormControlTextarea1"
@@ -1029,7 +1113,6 @@
                                         </div>
 
                                     </div>
-                                    <span class="badge badge-pill badge-primary">Primary</span>
 
                                     <div class="row">
                                         <button class="btn btn-success btn-block"

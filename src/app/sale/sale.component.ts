@@ -27,6 +27,7 @@ import { Hash } from 'crypto';
 import { Md5 } from 'ts-md5/dist/md5';
 import { color } from 'html2canvas/dist/types/css/types/color';
 import { LoginServiceService } from '../service/login/login-service.service';
+import * as $ from 'jquery';
 
 export interface TabID {
     tab_id: number;
@@ -38,6 +39,7 @@ export interface TabTotal {
     id: number;
     total: number;
 }
+declare var jQuery: any;
 
 @Component({
     selector: 'app-sale',
@@ -79,7 +81,7 @@ export class SaleComponent implements OnInit {
     branchModel;
     employee;
     paymentOptionModel;
-
+    proSize = true;
     temporder: any[] = [1];
     TAB_ARR: TabID[] = [];
     tabtotal: TabTotal[] = [];
@@ -109,8 +111,10 @@ export class SaleComponent implements OnInit {
         this.getAllproduct();
         this.getAllBranch();
         this.shipOptionModel = 'Pickup at store';
-    }
+        this.paymentOptionModel = 'Cash';
 
+        // const returnFunc = synapseThrow();
+    }
     setDiscountType(): void {
         if (!this.discountType) {
             this.discountType = true;
@@ -573,6 +577,8 @@ export class SaleComponent implements OnInit {
                 const additionalInfo = this.infoModel;
                 const orderSalePerson = this.infoarr[0] as Admin;
                 let typeDiscount;
+                const orderAddress = '';
+
                 if (this.discountType) { typeDiscount = 'amount'; }
                 else { typeDiscount = 'percentage'; }
 
@@ -607,6 +613,7 @@ export class SaleComponent implements OnInit {
                     additional_info: additionalInfo,
                     order_sale_person: orderSalePerson,
                     order_discount_type: typeDiscount,
+                    order_address: orderAddress,
                 };
                 const newOrder: Neworder = unknOrder as Neworder;
                 this.getNeworderService.addNeworder(newOrder).subscribe(); // update to order table
@@ -784,6 +791,27 @@ export class SaleComponent implements OnInit {
     public clickLogout(): void {
         this.logoutService.logout();
         this.routeLogout.navigate(['login-page']);
+    }
+    productSize(): object {
+        if (this.proSize) {
+            return {
+                'col-sm-2': true,
+            };
+        }
+        else {
+            return {
+                'col-sm-1': true,
+            };
+        }
+    }
+    changeProSize(): void {
+        if (this.proSize) {
+            this.proSize = false;
+        }
+        else {
+            this.proSize = true;
+        }
+        this.productSize();
     }
 
 }

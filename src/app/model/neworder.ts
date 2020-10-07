@@ -25,4 +25,5 @@ export interface Neworder {
     additional_info: string;
     order_sale_person: Admin;
     order_discount_type: string;
+    order_address: string;
 }
