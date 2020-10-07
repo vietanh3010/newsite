@@ -729,22 +729,33 @@ export class SaleComponent implements OnInit {
         if (u.length === 1) {
             const existUser: User = u[0];
             if (name !== '') { existUser.user_name = name; }
-            if (telephone !== '') { existUser.user_telephone = telephone; }
             if (address !== '') {
                 if (existUser.user_address.filter(x => x === address)[0].length === 0) {
                     existUser.user_address.push(address);
                 }
             }
-            if (email !== '') { existUser.user_email = email; }
             if (role !== '') { existUser.user_role = role; }
             if (dob.toString() !== '') { existUser.user_dob = dob; }
             if (gender !== '') { existUser.user_gender = gender; }
             if (info !== '') { existUser.additional_info = info; }
 
-            this.u = existUser;
-            this.make_error('info',
-                'Found user matches provided ID. New info will be updated.');
-            this.getUserService.updateUser(existUser).subscribe();
+            if (email !== '' || telephone !== '') {
+                if (this.alluser.filter(a => a.user_email === email).length > 0) {
+                    this.make_error('danger', 'This email has been registered!');
+                }
+                else if (this.alluser.filter(a => a.user_telephone === telephone).length > 0) {
+                    this.make_error('danger', 'This telephone has been registered!');
+                }
+                else {
+                    if (telephone !== '') { existUser.user_telephone = telephone; }
+                    if (email !== '') { existUser.user_email = email; }
+
+                    this.u = existUser;
+                    this.make_error('info',
+                        'Found user matches provided ID. New info will be updated.');
+                    this.getUserService.updateUser(existUser).subscribe();
+                }
+            }
         }
         else {
             if (name === '') {
