@@ -16,7 +16,7 @@ export interface Neworder {
     order_hash: string;
     order_shipfee: number;
     order_tax: number;
-    order_payment_option: string;
+    order_payment_option: string[];
     order_branch: Branch;
     order_tag: string[];
     order_ship_option: string;
@@ -26,4 +26,6 @@ export interface Neworder {
     order_sale_person: Admin;
     order_discount_type: string;
     order_address: string;
+    order_paid: number;
+    order_change: number;
 }

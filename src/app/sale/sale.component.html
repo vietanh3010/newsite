@@ -146,6 +146,19 @@
         margin: 0;
     }
 
+    .userinput::-webkit-outer-spin-button,
+    .userinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .userinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 16px;
+    }
+
     .orderinput {
         border-radius: 0;
         border: none;
@@ -156,7 +169,7 @@
     .orderinputsmall {
         border-radius: 0;
         border: none;
-        width: 75%;
+        width: 100%;
         padding: 0px;
         border-bottom: 1px solid lightgray;
         font-size: 15px;
@@ -164,6 +177,14 @@
 
     .orderinput:focus {
         border-bottom: 1px solid green;
+    }
+
+    .userinput:focus {
+        border-bottom: 1px solid green;
+    }
+
+    input:read-only {
+        background-color: white;
     }
 </style>
 
@@ -278,36 +299,34 @@
                 </div>
                 <div class="col-sm-3">
                     <div class="input-group col-sm-12">
-                        <div class="input-group-prepend">
-                            <button class="btn btn-secondary"
-                                type="button"
-                                id="dropdownMenuButton"
-                                data-toggle="dropdown"
-                                aria-haspopup="true"
-                                aria-expanded="false">
-                                Employee
-                            </button>
-                            <div class="dropdown-menu text-center"
-                                style="position: absolute;"
-                                aria-labelledby="dropdownMenuButton"
-                                *ngFor="let i of infoarr">
-                                <div class="dropdown-item text-left">
-                                    <i class="fas fa-user"></i>
-                                    {{i.admin_name}}
-                                </div>
-                                <div class="dropdown-item text-left">
-                                    <i class="fas fa-at"></i>
-                                    {{i.admin_email}}
-                                </div>
-                                <div class="dropdown-item text-left">
-                                    <i class="fas fa-user-shield"></i>
-                                    {{i.admin_role}}
-                                </div>
-                                <div class="dropdown-item text-center"><button class="btn btn-danger mt-1 mb-1"
-                                        (click)="clickLogout()"><a
-                                            style=" text-align: center; align-items: center;">Logout</a>
-                                    </button>
-                                </div>
+                        <button class="btn btn-light"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-toggle="dropdown"
+                            aria-haspopup="true"
+                            aria-expanded="false">
+                            Employee
+                        </button>
+                        <div class="dropdown-menu text-center"
+                            style="position: absolute;"
+                            aria-labelledby="dropdownMenuButton"
+                            *ngFor="let i of infoarr">
+                            <div class="dropdown-item text-left">
+                                <i class="fas fa-user"></i>
+                                {{i.admin_name}}
+                            </div>
+                            <div class="dropdown-item text-left">
+                                <i class="fas fa-at"></i>
+                                {{i.admin_email}}
+                            </div>
+                            <div class="dropdown-item text-left">
+                                <i class="fas fa-user-shield"></i>
+                                {{i.admin_role}}
+                            </div>
+                            <div class="dropdown-item text-center"><button class="btn btn-danger mt-1 mb-1"
+                                    (click)="clickLogout()"><a
+                                        style=" text-align: center; align-items: center;">Logout</a>
+                                </button>
                             </div>
                         </div>
                         <select class="custom-select"
@@ -552,12 +571,12 @@
                             <table class="table">
                                 <tbody>
                                     <tr>
-                                        <td><b>Username: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Username:</b> </button> </td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Username..."
                                                 #name></td>
                                         <td><b>User ID: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><input class="form-control userinput"
                                                 placeholder="Hash id..."
                                                 #id></td>
                                     </tr>
@@ -565,40 +584,40 @@
                             </table>
 
                             <h2>Additional info</h2>
-                            <table class="table">
+                            <table class="table table-borderless">
                                 <tbody>
                                     <tr>
-                                        <td><b>Telephone: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Telephone: </b></button> </td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Telephone..."
                                                 #telephone></td>
-                                        <td><b>Address: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Address: </b></button> </td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Address..."
                                                 #address></td>
                                     </tr>
                                     <tr>
-                                        <td><b>Email: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Email: </b> </button></td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Email..."
                                                 #email></td>
-                                        <td><b>Role: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Role: </b></button> </td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Role..."
                                                 #role></td>
                                     </tr>
                                     <tr>
-                                        <td><b>DOB: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>DOB: </b> </button></td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Birthday..."
                                                 #dob></td>
-                                        <td><b>Gender: </b> </td>
-                                        <td><input class="form-control"
+                                        <td><button class="btn btn-white"><b>Gender: </b></button> </td>
+                                        <td><input class="form-control userinput"
                                                 placeholder="Gender..."
                                                 #gender></td>
                                     </tr>
                                     <tr>
-                                        <td><b>Extra info</b></td>
+                                        <td><button class="btn btn-white"><b>Extra info</b></button></td>
                                         <td colspan="3">
                                             <textarea class="form-control"
                                                 placeholder="More info..."
@@ -650,7 +669,7 @@
                                             (click)="addTab()"
                                             data-toggle="tab"
                                             [attr.href]="'#nav-home'+ t"
-                                            style="color:gray;background-color: lightgray;">
+                                            style="color:gray;background-color: #F8F9FA;">
                                             <i class="fas fa-plus"></i>
                                         </a>
                                     </div>
@@ -892,14 +911,16 @@
                         <div class="col-sm-3 p-0 m-0">
                             <div class="card bg-white m-0 p-0  overflow-auto h-100">
                                 <!-- /.card-header -->
-                                <h4 class="mt-4"
-                                    style="text-align: center;"><b>Order #{{t}}</b></h4>
+                                <div class="card-header bg-light">
+                                    <h3 style="text-align: center;"><b>Order #{{t}}</b></h3>
+                                </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col">
                                             <button class="btn btn-white">Customer</button>
                                         </div>
-                                        <div class="col">
+                                        <div class="col"
+                                            aria-colspan="2">
                                             <div class="input-group mb-3">
                                                 <select class="custom-select"
                                                     [(ngModel)]="u"
@@ -924,7 +945,8 @@
                                         <div class="col">
                                             <button class="btn btn-white">Ship option</button>
                                         </div>
-                                        <div class="col">
+                                        <div class="col"
+                                            aria-colspan="2">
                                             <div class="input-group mb-1 ">
                                                 <select class="custom-select"
                                                     id="select"
@@ -943,12 +965,13 @@
                                         <div class="col">
                                             <button class="btn btn-white">Subtotal</button>
                                         </div>
-                                        <div class="col">
+                                        <div class="col"
+                                            aria-colspan="2">
                                             <h1>
                                                 <input style=" text-align: right;"
                                                     type="number"
                                                     class="form-control orderinput"
-                                                    placeholder="${{to | number:  '1.2-2'}}"
+                                                    placeholder="{{to | number:  '1.2-2'}}"
                                                     aria-describedby="basic-addon1"
                                                     readonly>
                                             </h1>
@@ -958,21 +981,50 @@
 
 
                                     <div class="row">
-                                        <div class="col">
-                                            <button class="btn btn-light"
-                                                id="dropdownDiscount"
-                                                data-toggle="dropdown"
-                                                aria-haspopup="true"
-                                                aria-expanded="false">
-                                                Discount
+                                        <div class="col"
+                                            aria-colspan="2">
+                                            <button class="btn btn-white">Discount
+                                            </button>
+                                            <button *ngIf='discountType === false'
+                                                class="btn btn-light"
+                                                (click)='setDiscountType();blur_discount_tax()'>
+                                                <i class="fas fa-percentage"></i>
+                                            </button>
+                                            <button *ngIf='discountType === true'
+                                                class="btn btn-light"
+                                                (click)='setDiscountType();blur_discount_tax()'>
+                                                <i class="fas fa-dollar-sign"></i>
                                             </button>
                                             <small *ngIf='discountType === false'>
                                                 ({{discount | number:  '1.2-2'}}%)
                                             </small>
                                             <small *ngIf='discountType === true'></small>
+                                        </div>
+                                        <div class="col">
+                                            <button class="btn p-0 m-0"
+                                                id="dropdownDiscount"
+                                                data-toggle="dropdown"
+                                                aria-haspopup="true"
+                                                aria-expanded="false">
+                                                <input *ngIf='discountType === false'
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    placeholder="-{{ to * discount /100 | number:  '1.2-2'}}"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
+                                                <input *ngIf='discountType === true'
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    placeholder="-{{discount | number:  '1.2-2'}}"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
+
+                                            </button>
                                             <div class="dropdown-menu"
                                                 aria-labelledby="dropdownDiscount">
-                                                <div class="dropdown-item">
+                                                <div class="dropdown-item m-0 p-0">
                                                     <input [(ngModel)]="discount"
                                                         style=" text-align: right;"
                                                         type="number"
@@ -983,96 +1035,68 @@
                                                         (focus)="blur_discount_tax()">
                                                 </div>
                                             </div>
-
-                                        </div>
-                                        <div class="col input-group">
-                                            <div class="input-group-prepend">
-                                                <button *ngIf='discountType === false'
-                                                    class="btn btn-light"
-                                                    (click)='setDiscountType();blur_discount_tax()'>
-                                                    <i class="fas fa-percentage"></i>
-                                                </button>
-                                                <button *ngIf='discountType === true'
-                                                    class="btn btn-light"
-                                                    (click)='setDiscountType();blur_discount_tax()'>
-                                                    <i class="fas fa-dollar-sign"></i>
-                                                </button>
-
-                                            </div>
-                                            <input *ngIf='discountType === false'
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control orderinput"
-                                                placeholder="-${{ to * discount /100 | number:  '1.2-2'}}"
-                                                aria-describedby="basic-addon1"
-                                                readonly>
-                                            <input *ngIf='discountType === true'
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control orderinput"
-                                                placeholder="-${{discount | number:  '1.2-2'}}"
-                                                aria-describedby="basic-addon1"
-                                                readonly>
-
                                         </div>
                                     </div>
 
-                                    <div class="row">
+                                    <div class="row"
+                                        aria-rowspan="3">
+                                        <div class="col">
+                                            <button class="btn btn-white">Tax
+                                            </button>
+                                            <small>({{taxModel}}%)</small>
+                                        </div>
                                         <div class="col">
 
-                                            <button class="btn btn-light"
+                                            <button class="btn p-0 m-0"
                                                 id="dropdownTax"
                                                 data-toggle="dropdown"
                                                 aria-haspopup="true"
-                                                aria-expanded="false">Tax
-                                            </button>
+                                                aria-expanded="false">
+                                                <input *ngIf='discountType === false && to !== undefined'
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    placeholder="{{(to - to * discount /100)* taxModel/100 | number:  '1.2-2'}}"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
 
-                                            <small>({{taxModel}}%)</small>
+                                                <input *ngIf='discountType === true && to !== undefined'
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    placeholder="{{to*taxModel/100 - discount*taxModel/100 | number:  '1.2-2'}}"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
+                                                <input *ngIf='to === undefined'
+                                                    style=" text-align: right;"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
+                                            </button>
 
                                             <div class="dropdown-menu"
                                                 aria-labelledby="dropdownDiscount">
-                                                <div class="dropdown-item">
+                                                <div class="dropdown-item p-0 m-0">
                                                     <input [(ngModel)]="taxModel"
                                                         style="text-align: right;"
                                                         type="number"
                                                         class="form-control orderinputsmall"
-                                                        placeholder="$"
                                                         aria-describedby="basic-addon1"
                                                         (blur)="blur_discount_tax()"
                                                         (focus)="blur_discount_tax()">
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="col">
-                                            <input *ngIf='discountType === false && to !== undefined'
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control orderinput"
-                                                placeholder="${{(to - to * discount /100)* taxModel/100 | number:  '1.2-2'}}"
-                                                aria-describedby="basic-addon1"
-                                                readonly>
-                                            <input *ngIf='discountType === true && to !== undefined'
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control orderinput"
-                                                placeholder="${{to*taxModel/100 - discount*taxModel/100 | number:  '1.2-2'}}"
-                                                aria-describedby="basic-addon1"
-                                                readonly>
-                                            <input *ngIf='to === undefined'
-                                                style=" text-align: right;"
-                                                type="number"
-                                                class="form-control orderinput"
-                                                placeholder="$"
-                                                aria-describedby="basic-addon1"
-                                                readonly>
-                                        </div>
                                     </div>
 
                                     <div class="row"
                                         *ngIf="shipOptionModel === 'Delivery' ">
-                                        <div class="col">
+                                        <div class="col"
+                                            aria-colspan="2">
                                             <button class="btn btn-white">Ship fee</button>
                                         </div>
+
                                         <div class="col">
                                             <div class="input-group mb-1 ">
                                                 <input style=" text-align: right;"
@@ -1086,27 +1110,9 @@
                                         </div>
                                     </div>
 
-                                    <div class="row">
-                                        <div class="col">
-                                            <button class="btn btn-white">Payment option</button>
-                                        </div>
-                                        <div class="col">
-                                            <div class="input-group mb-1 ">
-                                                <select class="custom-select"
-                                                    [(ngModel)]="paymentOptionModel"
-                                                    name="shipOption">
-                                                    <option>Credit card</option>
-                                                    <option selected>Cash</option>
-                                                    <option>Bank transfer</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <hr class="mt-2 mb-2" />
-
-                                    <div class="row">
-                                        <div class="col">
+                                    <div class="row mt-5">
+                                        <div class="col"
+                                            aria-colspan="2">
                                             <button class="btn btn-white"><b>Total </b></button>
                                         </div>
                                         <div class="col">
@@ -1116,6 +1122,187 @@
                                                         ${{sub | number:  '1.2-2'}}
                                                     </div>
                                                 </span></h1>
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        *ngIf="to !== 0 && to !== undefined">
+                                        <div class="col"
+                                            aria-colspan="2">
+                                            <button class="btn btn-white">Customer pay</button>
+                                            <button class="btn btn-light"
+                                                data-toggle="modal"
+                                                data-target="#paymentOptionModal">
+                                                <i class="far fa-credit-card"></i>
+                                            </button>
+                                        </div>
+
+                                        <div class="col">
+                                            <h2 *ngFor="let i of tabPaymentlist">
+                                                <span *ngIf="i.tab_id === t">
+                                                    <input *ngIf="(i.tab_bank === 0 && i.tab_card === 0)"
+                                                        [(ngModel)]="cashModel"
+                                                        style=" text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinput"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()">
+
+                                                    <input
+                                                        *ngIf="(i.tab_bank === 0 && i.tab_cash === 0 && i.tab_card > 0)"
+                                                        [(ngModel)]="cardModel"
+                                                        style=" text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinput"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()">
+
+                                                    <input
+                                                        *ngIf="(i.tab_cash === 0 && i.tab_card === 0 && i.tab_bank > 0)"
+                                                        [(ngModel)]="bankModel"
+                                                        style=" text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinput"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()">
+
+                                                    <input *ngIf="(i.tab_cash > 0 && i.tab_card > 0) ||
+                                                    (i.tab_cash > 0 && i.tab_bank > 0) ||
+                                                    (i.tab_bank > 0 && i.tab_card > 0) "
+                                                        [(ngModel)]="paymentTotal"
+                                                        style=" text-align: right;"
+                                                        type="number"
+                                                        class="form-control orderinput"
+                                                        aria-describedby="basic-addon1"
+                                                        (blur)="blur_discount_tax()"
+                                                        (focus)="blur_discount_tax()"
+                                                        readonly>
+                                                </span>
+                                            </h2>
+                                            <h3 *ngFor="let i of tabPaymentlist"
+                                                style=" text-align: right;">
+                                                <span
+                                                    *ngIf="(i.tab_id === t && i.tab_card === 0 && i.tab_bank === 0) || (i.tab_id === t && i.tab_cash > 0)"
+                                                    class="badge badge-pill badge-light">Cash</span>
+                                                <span *ngIf="i.tab_id === t && i.tab_card > 0"
+                                                    class="badge badge-pill badge-light">Card</span>
+                                                <span *ngIf="i.tab_id === t && i.tab_bank > 0"
+                                                    class="badge badge-pill badge-light">Bank</span>
+                                            </h3>
+                                        </div>
+                                    </div>
+
+                                    <div class="modal fade"
+                                        id="paymentOptionModal"
+                                        tabindex="-1"
+                                        role="dialog"
+                                        aria-labelledby="paymentOptionModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog"
+                                            role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title"
+                                                        id="paymentOptionModalLabel">Payment option</h1>
+                                                    <button type="button"
+                                                        class="close"
+                                                        data-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table *ngFor="let i of tabPaymentlist"
+                                                        class="table table-borderless m-0 p-0">
+                                                        <tbody *ngIf="i.tab_id === t">
+                                                            <tr>
+                                                                <td>Cash</td>
+                                                                <td><input [(ngModel)]="cashModel"
+                                                                        type="number"
+                                                                        style=" text-align: right;"
+                                                                        #tabCashInput
+                                                                        class="form-control orderinput"
+                                                                        placeholder="{{i.tab_cash}}"
+                                                                        (blur)="blur_discount_tax()"
+                                                                        (focus)="blur_discount_tax()">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Credit card</td>
+                                                                <td><input [(ngModel)]="cardModel"
+                                                                        type="number"
+                                                                        style=" text-align: right;"
+                                                                        #tabCardInput
+                                                                        class="form-control orderinput"
+                                                                        placeholder="{{i.tab_card}}"
+                                                                        (blur)="blur_discount_tax()"
+                                                                        (focus)="blur_discount_tax()">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Bank transfer</td>
+                                                                <td><input [(ngModel)]="bankModel"
+                                                                        type="number"
+                                                                        style=" text-align: right;"
+                                                                        #tabBankInput
+                                                                        class="form-control orderinput"
+                                                                        placeholder="{{i.tab_bank}}"
+                                                                        (blur)="blur_discount_tax()"
+                                                                        (focus)="blur_discount_tax()">
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td>Total</td>
+                                                                <td>
+                                                                    <input [(ngModel)]="paymentTotal"
+                                                                        type="number"
+                                                                        style=" text-align: right"
+                                                                        #tabBankInput
+                                                                        class="form-control orderinput"
+                                                                        placeholder='{{paymentTotal}}'
+                                                                        readonly>
+                                                                </td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td></td>
+                                                                <td style=" text-align: right;">
+                                                                    <button type="button"
+                                                                        class="btn btn-primary m-2"
+                                                                        (click)="savePayment(t,tabCashInput.value,tabCardInput.value,tabBankInput.value);blur_discount_tax()">Save
+                                                                        changes
+                                                                    </button>
+
+                                                                    <button type="button"
+                                                                        class="btn btn-secondary"
+                                                                        data-dismiss="modal">Close
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row"
+                                        *ngIf="to !== 0 && to !== undefined">
+                                        <div class="col">
+                                            <button class="btn btn-white">Change</button>
+                                        </div>
+                                        <div class="col"></div>
+                                        <div class="col">
+                                            <h1>
+                                                <input [(ngModel)]="changeModel"
+                                                    style=" text-align: right; border:none"
+                                                    type="number"
+                                                    class="form-control orderinput"
+                                                    aria-describedby="basic-addon1"
+                                                    readonly>
+                                            </h1>
                                         </div>
                                     </div>
 
@@ -1141,6 +1328,8 @@
                                             <i class="far fa-credit-card"></i>
                                             Pay and print</button>
                                     </div>
+
+
                                 </div>
                                 <!-- /.card-body -->
 

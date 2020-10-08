@@ -27,19 +27,27 @@ import { Hash } from 'crypto';
 import { Md5 } from 'ts-md5/dist/md5';
 import { color } from 'html2canvas/dist/types/css/types/color';
 import { LoginServiceService } from '../service/login/login-service.service';
-import * as $ from 'jquery';
+import { string } from 'src/assets/plugins/jszip/jszip';
 
 export interface TabID {
     tab_id: number;
     tab_product: Cart[];
     tab_price: number;
     tab_total: number;
+
 }
 export interface TabTotal {
     id: number;
     total: number;
 }
-declare var jQuery: any;
+export interface TabPayment {
+    tab_id: number;
+    tab_pay: number;
+    tab_cash: number;
+    tab_card: number;
+    tab_bank: number;
+    tab_change: number;
+}
 
 @Component({
     selector: 'app-sale',
@@ -53,6 +61,7 @@ export class SaleComponent implements OnInit {
     allproduct: Product[] = [];
     allneworder: Neworder[] = [];
     allbranch: Branch[] = [];
+    tabPaymentlist: TabPayment[] = [];
 
     tempneworder: Neworder[] = [];
     productlist: Product[] = [];
@@ -81,6 +90,13 @@ export class SaleComponent implements OnInit {
     branchModel;
     employee;
     paymentOptionModel;
+    amountReceiveModel = 0;
+    changeModel;
+    paymentTotal;
+    cashModel;
+    cardModel;
+    bankModel;
+
     proSize = true;
     imgSize = true;
     productArraySize = 20;
@@ -167,6 +183,30 @@ export class SaleComponent implements OnInit {
         if (this.sub <= 0) {
             this.sub = 0;
         }
+
+
+
+        this.calculatePaymentTotal();
+        var tb = (this.tabPaymentlist.filter(a => a.tab_id === this.t) as TabPayment[])[0];
+        console.log(this.tabPaymentlist);
+        console.log(this.t);
+        if (tb.tab_cash === undefined) { tb.tab_cash = 0; }
+        if (tb.tab_bank === undefined) { tb.tab_bank = 0; }
+        if (tb.tab_card === undefined) { tb.tab_card = 0; }
+
+        if (tb.tab_bank === 0 && tb.tab_card === 0) {
+            this.changeModel = this.cashModel - this.sub;
+        }
+        else if (tb.tab_bank === 0 && tb.tab_cash === 0 && tb.tab_card > 0) {
+            this.changeModel = this.cardModel - this.sub;
+        }
+        else if (tb.tab_card === 0 && tb.tab_cash === 0 && tb.tab_bank > 0) {
+            this.changeModel = this.bankModel - this.sub;
+        }
+        else {
+            this.changeModel = this.paymentTotal - this.sub;
+        }
+        console.log(this.changeModel);
     }
 
     ADD_AND_MINUS(property: string, item: TabID, pro: Cart): void {
@@ -362,6 +402,10 @@ export class SaleComponent implements OnInit {
             }
         });
 
+        var tpl = (this.tabPaymentlist.filter(b => b.tab_id === this.t) as TabPayment[])[0];
+        this.cashModel = tpl.tab_cash;
+        this.cardModel = tpl.tab_card;
+        this.bankModel = tpl.tab_bank;
         this.blur_discount_tax();
     }
     addTab(): void {
@@ -371,6 +415,18 @@ export class SaleComponent implements OnInit {
         }
         this.t = tempc;
         this.temporder.push(tempc);
+
+        console.log(this.t);
+        if (this.tabPaymentlist.filter(a => a.tab_id === this.t).length === 0) {
+            this.tabPaymentlist.push({
+                tab_id: this.t,
+                tab_pay: 0,
+                tab_cash: 0,
+                tab_card: 0,
+                tab_bank: 0,
+                tab_change: 0,
+            });
+        }
     }
     removeTab(x: number): void {
         if (this.t === x) {
@@ -392,7 +448,12 @@ export class SaleComponent implements OnInit {
                 this.tabtotal.splice(this.tabtotal.indexOf(this.tabtotal[i]), 1);
             }
         }
-        console.log('tab' + tab);
+
+        if (this.tabPaymentlist.filter(a => a.tab_id === tab).length === 1) {
+            this.tabPaymentlist.splice(
+                this.tabPaymentlist.indexOf((this.tabPaymentlist.filter(a => a.tab_id === tab) as TabPayment[])[0]), 1);
+        }
+        console.log(this.tabPaymentlist)
     }
     chooseProduct(p: Product): void {
         const tabid = this.t;
@@ -445,6 +506,16 @@ export class SaleComponent implements OnInit {
                     this.tabtotal.splice(this.tabtotal.indexOf(this.tabtotal[i]), 2);
                 }
             }
+            if (this.tabPaymentlist.filter(a => a.tab_id === this.t).length === 0) {
+                this.tabPaymentlist.push({
+                    tab_id: this.t,
+                    tab_pay: 0,
+                    tab_cash: 0,
+                    tab_card: 0,
+                    tab_bank: 0,
+                    tab_change: 0,
+                });
+            }
 
             this.tabtotal.push({
                 id: tabid,
@@ -481,6 +552,7 @@ export class SaleComponent implements OnInit {
     payandprint(): void {
         // check if tab exist
         this.test(this.t);
+
         // check if any user is selected
         if (this.u === undefined) {
             // this.err=[];
@@ -576,7 +648,11 @@ export class SaleComponent implements OnInit {
                 if (this.shipOptionModel !== 'Delivery') { orderShipFee = 0; }
                 else { orderShipFee = this.shipFeeModel; }
                 const orderTax = this.taxModel;
-                const orderPaymentOption = this.paymentOptionModel;
+                const orderPaymentOption = [
+                    { payment_option: 'Cash', payment_value: this.cashModel },
+                    { payment_option: 'Card', payment_value: this.cardModel },
+                    { payment_option: 'Bank', payment_value: this.bankModel }];
+
                 const orderBranch = this.branchModel as Branch;
                 const orderTag = [];
                 const orderShipOption = this.shipOptionModel;
@@ -586,6 +662,8 @@ export class SaleComponent implements OnInit {
                 const orderSalePerson = this.infoarr[0] as Admin;
                 let typeDiscount;
                 const orderAddress = '';
+                const orderPaid = this.paymentTotal;
+                const orderChange = this.changeModel;
 
                 if (this.discountType) { typeDiscount = 'amount'; }
                 else { typeDiscount = 'percentage'; }
@@ -622,6 +700,8 @@ export class SaleComponent implements OnInit {
                     order_sale_person: orderSalePerson,
                     order_discount_type: typeDiscount,
                     order_address: orderAddress,
+                    order_paid: orderPaid,
+                    order_change: orderChange,
                 };
                 const newOrder: Neworder = unknOrder as Neworder;
                 this.getNeworderService.addNeworder(newOrder).subscribe(); // update to order table
@@ -867,6 +947,28 @@ export class SaleComponent implements OnInit {
         }
     }
 
+    savePayment(currentTab: number, tabCash: number, tabCard: number, tabBank: number): void {
+        const tabid = currentTab;
+        if (tabCash === null || tabCash === undefined || Number(tabCash) === 0) { tabCash = 0; }
+        if (tabCard === null || tabCard === undefined || Number(tabCard) === 0) { tabCard = 0; }
+        if (tabBank === null || tabBank === undefined || Number(tabBank) === 0) { tabBank = 0; }
+
+        this.tabPaymentlist.filter(a => a.tab_id === tabid)[0].tab_cash = Number(tabCash);
+        this.tabPaymentlist.filter(a => a.tab_id === tabid)[0].tab_card = Number(tabCard);
+        this.tabPaymentlist.filter(a => a.tab_id === tabid)[0].tab_bank = Number(tabBank);
+        this.tabPaymentlist.filter(a => a.tab_id === tabid)[0].tab_pay = (tabCash + tabCard + tabBank);
+        this.tabPaymentlist.filter(a => a.tab_id === tabid)[0].tab_change = (tabCash + tabCard + tabBank) - this.sub;
+        this.make_error('success', 'Payment set for Order#' + currentTab.toString());
+        console.log(this.tabPaymentlist);
+    }
+
+    calculatePaymentTotal(): void {
+        if (this.cashModel === undefined) { this.cashModel = 0; }
+        if (this.cardModel === undefined) { this.cardModel = 0; }
+        if (this.bankModel === undefined) { this.bankModel = 0; }
+
+        this.paymentTotal = Number(this.cashModel) + Number(this.cardModel) + Number(this.bankModel);
+    }
 
 
 }

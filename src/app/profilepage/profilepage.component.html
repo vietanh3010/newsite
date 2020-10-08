@@ -1288,8 +1288,9 @@
                                                                                     [attr.href]="'#tab3'+z"
                                                                                     role="tab"
                                                                                     aria-controls="contact"
-                                                                                    aria-selected="false">Order
-                                                                                    product</a>
+                                                                                    aria-selected="false">
+                                                                                    Order detail
+                                                                                </a>
                                                                             </li>
                                                                         </ul>
                                                                         <div class="tab-content"
@@ -1370,6 +1371,8 @@
                                                                                 role="tabpanel"
                                                                                 aria-labelledby="profile-tab">
                                                                                 <div class="card p-4 shadow-none">
+
+
                                                                                     <table class="table table-striped"
                                                                                         style="width: 100%;">
                                                                                         <tbody>
@@ -1395,9 +1398,8 @@
                                                                                                 </td>
                                                                                                 <td>{{i.customer.user_telephone}}
                                                                                                 </td>
-                                                                                                <td
-                                                                                                    *ngFor="let a of i.customer.user_address">
-                                                                                                    {{a}}
+                                                                                                <td>
+                                                                                                    {{i.customer.user_address[0]}}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
@@ -1408,7 +1410,67 @@
                                                                                 [attr.id]="'tab3' + z "
                                                                                 role="tabpanel"
                                                                                 aria-labelledby="contact-tab">
+
                                                                                 <div class="card p-4 shadow-none">
+                                                                                    <table
+                                                                                        class="table table-bordered m-0"
+                                                                                        *ngFor="let u of alluser">
+                                                                                        <tbody
+                                                                                            *ngIf="u.user_hash_id === i.customer.user_hash_id">
+                                                                                            <tr>
+                                                                                                <td>OrderID:</td>
+                                                                                                <td>{{i.order_hash}}
+                                                                                                </td>
+                                                                                                <td>Sale person </td>
+                                                                                                <td>{{i.order_sale_person.admin_name}}
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>Branch:</td>
+                                                                                                <td>{{i.order_branch.branch_name}}
+                                                                                                </td>
+                                                                                                <td>Order status </td>
+                                                                                                <td>{{i.order_status[0]}}
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>Name:</td>
+                                                                                                <td>{{i.customer.user_name}}
+                                                                                                </td>
+                                                                                                <td>ID: </td>
+                                                                                                <td>{{u.user_id}}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>Telephone:</td>
+                                                                                                <td>{{i.customer.user_telephone}}
+                                                                                                </td>
+                                                                                                <td>Address: </td>
+                                                                                                <td>{{i.customer.user_address[0]}}
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td>Email:</td>
+                                                                                                <td>{{i.customer.user_email}}
+                                                                                                </td>
+                                                                                                <td>Role: </td>
+                                                                                                <td>{{u.user_role}}</td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td aria-rowspan="2">
+                                                                                                    Order info</td>
+                                                                                                <td colspan="3">
+                                                                                                    <textarea
+                                                                                                        class="form-control"
+                                                                                                        placeholder="{{i.additional_info}}"
+                                                                                                        readonly>
+
+                                                                                                    </textarea>
+                                                                                                </td>
+                                                                                            </tr>
+
+
+                                                                                        </tbody>
+                                                                                    </table>
                                                                                     <table class="table table-striped"
                                                                                         style="width: 100%;">
                                                                                         <tbody>
@@ -1442,11 +1504,43 @@
                                                                                             </tr>
                                                                                         </tbody>
                                                                                         <tr>
-                                                                                            <td colspan="2"></td>
+                                                                                            <td colspan="2">
+                                                                                                <table
+                                                                                                    class="table table-bordered m-0"
+                                                                                                    *ngFor="let u of alluser">
+                                                                                                    <tbody
+                                                                                                        *ngIf="u.user_hash_id === i.customer.user_hash_id">
+                                                                                                        <tr
+                                                                                                            *ngFor="let j of i.order_payment_option">
+                                                                                                            <td><b>{{j.payment_option}}</b>
+                                                                                                            </td>
+                                                                                                            <td>${{j.payment_value | number:  '1.2-2'}}
+                                                                                                            </td>
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td><b>Amount
+                                                                                                                    paid:</b>
+                                                                                                            </td>
+                                                                                                            <td>${{i.order_paid | number:  '1.2-2'}}
+                                                                                                            </td>
+
+                                                                                                        </tr>
+                                                                                                        <tr>
+                                                                                                            <td><b>Change:</b>
+                                                                                                            </td>
+                                                                                                            <td>${{i.order_change | number:  '1.2-2'}}
+                                                                                                            </td>
+                                                                                                        </tr>
+
+
+                                                                                                    </tbody>
+                                                                                                </table>
+                                                                                            </td>
                                                                                             <td colspan="2"
                                                                                                 class="align-items:right;text-align:right">
                                                                                                 <table
                                                                                                     class="table table-bordered">
+
                                                                                                     <tr>
                                                                                                         <td><b>Subtotal</b>
                                                                                                         </td>
