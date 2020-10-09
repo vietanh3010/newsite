@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
         content="IE=edge">
-    <title>AdminLTE 3 | User Profile</title>
+    <title>Order and transaction</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport"
         content="width=device-width, initial-scale=1">
@@ -116,7 +116,7 @@
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Admin</span>
             </a>
 
             <!-- Sidebar -->
@@ -131,7 +131,7 @@
                     <div class="info">
                         <a *ngFor="let i of infoarr"
                             href="/profile-page"
-                            class="d-block">{{i.user_name}}</a>
+                            class="d-block">{{i.admin_name}}</a>
                     </div>
                 </div>
 
@@ -142,14 +142,20 @@
                         role="menu"
                         data-accordion="false">
 
-                        <li class="nav-header">ADMIN PROFILE</li>
+                        <li class="nav-item active">
+                            <a href="/sale-page"
+                                class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>Sale</p>
+                            </a>
+                        </li>
 
                         <li class="nav-item has-treeview menu-open">
                             <a href="/profile-page"
-                                class="nav-link active">
+                                class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Profile
+                                    Order
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
@@ -159,14 +165,14 @@
                                     <a href="/profile-page"
                                         class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Profile</p>
+                                        <p>Order list</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="/sale-page"
                                         class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Sale order</p>
+                                        <p>Sale</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -174,6 +180,26 @@
                                         class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Product
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/product-page"
+                                        class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product list</p>
                                     </a>
                                 </li>
                             </ul>
@@ -1459,16 +1485,16 @@
                                                                                                 <td aria-rowspan="2">
                                                                                                     Order info</td>
                                                                                                 <td colspan="3">
-                                                                                                    <textarea
+                                                                                                    <textarea #orderInfo
+                                                                                                        type="text"
                                                                                                         class="form-control"
-                                                                                                        placeholder="{{i.additional_info}}"
+                                                                                                        value="{{i.additional_info}}"
+                                                                                                        ria-label="orderinfo"
+                                                                                                        aria-describedby="basic-addon"
                                                                                                         readonly>
-
                                                                                                     </textarea>
                                                                                                 </td>
                                                                                             </tr>
-
-
                                                                                         </tbody>
                                                                                     </table>
                                                                                     <table class="table table-striped"

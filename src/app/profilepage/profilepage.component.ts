@@ -37,7 +37,7 @@ export class ProfilepageComponent implements OnInit {
     sortType: string;
     sortReverse: false;
 
-    infoarr: User[] = [];
+    infoarr: Admin[] = [];
 
     alluser: User[] = [];
     allproduct: Product[] = [];
@@ -91,7 +91,6 @@ export class ProfilepageComponent implements OnInit {
 
     ngOnInit(): void {
         this.infoarr.push(JSON.parse(localStorage.getItem('currentAdmin')));
-        console.log(localStorage.getItem('currentAdmin'));
 
         this.getAll();
         this.getAllproduct();
@@ -428,7 +427,10 @@ export class ProfilepageComponent implements OnInit {
                     product_branch: this.allproduct[i].product_branch,
                     product_tag: this.allproduct[i].product_tag,
                     additional_info: this.allproduct[i].additional_info,
-                }
+                    product_barcode: this.allproduct[i].product_barcode,
+                    product_unit: this.allproduct[i].product_unit,
+                    product_brand: this.allproduct[i].product_unit,
+                };
             }
         }
         return tempProduct;

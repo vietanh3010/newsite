@@ -141,6 +141,9 @@ export class InvoicepageComponent implements OnInit {
                             product_branch: this.productlist[i].product_branch,
                             product_tag: this.productlist[i].product_tag,
                             additional_info: this.productlist[i].additional_info,
+                            product_barcode: this.productlist[i].product_barcode,
+                            product_unit: this.productlist[i].product_unit,
+                            product_brand: this.productlist[i].product_brand,
                         });
                         j = this.productlist.length;
                     }

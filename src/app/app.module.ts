@@ -20,6 +20,7 @@ import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaleComponent } from './sale/sale.component';
 import { MatInputModule } from '@angular/material/input';
+import { ProductComponent } from './productpage/product.component';
 
 const routes: Routes = [
     { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
@@ -29,6 +30,7 @@ const routes: Routes = [
             { path: 'invoicepage/:id', component: InvoicepageComponent }
         ]
     },
+    { path: 'product-page', component: ProductComponent, canActivate: [AuthGuard] },
     { path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard] },
     { path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard] },
     // { path: '**', component: PagenotfoundComponent },
@@ -44,6 +46,7 @@ const routes: Routes = [
         InvoicepageComponent,
         PagenotfoundComponent,
         SaleComponent,
+        ProductComponent,
     ],
     imports: [
         BrowserModule,

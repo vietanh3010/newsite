@@ -15,4 +15,7 @@ export interface Product {
     product_branch: string;
     product_tag: string[];
     additional_info: string;
+    product_barcode: number;
+    product_unit: string;
+    product_brand: string;
 }
