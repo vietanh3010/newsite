@@ -26,6 +26,7 @@ import { UserComponent } from './userpage/user.component';
 const routes: Routes = [
     { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
     { path: 'login-page', component: LoginpageComponent },
+    { path: '', component: LoginpageComponent },
     {
         path: 'profile-page', component: ProfilepageComponent, canActivate: [AuthGuard], children: [
             { path: 'invoicepage/:id', component: InvoicepageComponent }

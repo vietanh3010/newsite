@@ -39,6 +39,8 @@ export class LoginpageComponent implements OnInit {
             );
     }
 
+    // login -> email: a2 | password: a2
+
     checkLogin(email: string, password: string): boolean {
         // fetch data down to array adminList
         this.adminService.getAdmin()
