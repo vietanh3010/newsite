@@ -233,11 +233,6 @@ export class ProductComponent implements OnInit {
         this.importExcelProduct = [];
     }
 
-    thisProduct(p: Product): void {
-        console.log(p.product_id);
-    }
-
-
     sortProduct(property: any): void {
         this.chooseProduct = property;
         if (this.chooseProduct === 'product_id' ||
