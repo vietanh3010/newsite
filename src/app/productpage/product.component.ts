@@ -18,6 +18,7 @@ import { Md5 } from 'ts-md5';
 import { string } from 'src/assets/plugins/jszip/jszip';
 import { create } from 'domain';
 import { filter } from 'src/assets/build/npm/Plugins';
+import { data } from 'jquery';
 
 @Component({
     selector: 'app-product',
@@ -154,6 +155,21 @@ export class ProductComponent implements OnInit {
             var index = this.allProduct.indexOf((this.allProduct.filter(a => a.product_hash_id === existProductList[i].product_hash_id) as Product[])[0]);
             this.allProduct[index].product_stock += existProductList[i].product_stock;
             if (this.allProduct[index].product_name !== existProductList[i].product_name) { this.allProduct[index].product_name = existProductList[i].product_name }; //update productname
+            if (this.allProduct[index].product_price !== existProductList[i].product_price) { this.allProduct[index].product_price = existProductList[i].product_price };
+            if (this.allProduct[index].product_img !== existProductList[i].product_img) { this.allProduct[index].product_img = existProductList[i].product_img };
+            if (this.allProduct[index].product_bought !== existProductList[i].product_bought) { this.allProduct[index].product_bought = existProductList[i].product_bought };
+            if (this.allProduct[index].product_created_at !== existProductList[i].product_created_at) { this.allProduct[index].product_created_at = existProductList[i].product_created_at };
+            this.allProduct[index].product_updated_at = new Date();
+
+            if (this.allProduct[index].product_prime_cost !== existProductList[i].product_prime_cost) { this.allProduct[index].product_prime_cost = existProductList[i].product_prime_cost };
+            if (this.allProduct[index].product_category !== existProductList[i].product_category) { this.allProduct[index].product_category = existProductList[i].product_category };
+            if (this.allProduct[index].product_weight !== existProductList[i].product_weight) { this.allProduct[index].product_weight = existProductList[i].product_weight };
+            if (this.allProduct[index].product_tag[0] !== existProductList[i].product_tag[0]) { this.allProduct[index].product_tag[0] = existProductList[i].product_tag[0] };
+            if (this.allProduct[index].additional_info !== existProductList[i].additional_info) { this.allProduct[index].additional_info = existProductList[i].additional_info };
+            if (this.allProduct[index].product_barcode !== existProductList[i].product_barcode) { this.allProduct[index].product_barcode = existProductList[i].product_barcode };
+            if (this.allProduct[index].product_unit !== existProductList[i].product_unit) { this.allProduct[index].product_unit = existProductList[i].product_unit };
+            if (this.allProduct[index].product_brand !== existProductList[i].product_brand) { this.allProduct[index].product_brand = existProductList[i].product_brand };
+
 
             this.getProductService.updateProduct(this.allProduct[index]).subscribe();
 
