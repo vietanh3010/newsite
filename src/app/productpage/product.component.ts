@@ -74,7 +74,6 @@ export class ProductComponent implements OnInit {
             const data = this.getExcelService.importFromFile(bstr) as any[];
 
             var temp = {
-                product_id: '',
                 product_name: '',
                 product_price: null,
                 product_img: '',
