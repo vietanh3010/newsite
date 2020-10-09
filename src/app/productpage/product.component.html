@@ -619,7 +619,8 @@
                                                 </th>
                                             </tr>
                                             <tr class="tbody"
-                                                *ngFor="let i of allProduct">
+                                                *ngFor="let i of allProduct"
+                                                (click)="thisProduct(i)">
                                                 <th scope="row">{{i.product_id}}</th>
                                                 <td>{{i.product_barcode}}</td>
                                                 <td>{{i.product_name}}</td>

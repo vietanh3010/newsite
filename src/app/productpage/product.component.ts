@@ -17,6 +17,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { Md5 } from 'ts-md5';
 import { string } from 'src/assets/plugins/jszip/jszip';
 import { create } from 'domain';
+import { filter } from 'src/assets/build/npm/Plugins';
 
 @Component({
     selector: 'app-product',
@@ -118,70 +119,95 @@ export class ProductComponent implements OnInit {
 
     updateData(): void {
         console.log(this.importExcelProduct);
-        for (var i = 0; i < this.importExcelProduct.length; i++) {
-            for (var j = 0; j < this.allProduct.length; j++) {
-                // found existed product-> update stock
-                if (this.importExcelProduct[i].product_hash_id === this.allProduct[j].product_hash_id) {
-                    this.allProduct[j].product_stock += this.importExcelProduct[i].product_stock;
+        // for (var i = 0; i < this.importExcelProduct.length; i++) {
+        //     for (var j = 0; j < this.allProduct.length; j++) {
+        //         // found existed product-> update stock
+        //         if (this.importExcelProduct[i].product_hash_id === this.allProduct[j].product_hash_id) {
+        //             this.allProduct[j].product_stock += this.importExcelProduct[i].product_stock;
 
-                    if (this.importExcelProduct[i].product_id !== '') { this.allProduct[j].product_id = this.importExcelProduct[i].product_id; }
-                    if (this.importExcelProduct[i].product_name !== '') { this.allProduct[j].product_name = this.importExcelProduct[i].product_name; }
-                    if (this.importExcelProduct[i].product_price !== null) { this.allProduct[j].product_price = this.importExcelProduct[i].product_price; }
-                    if (this.importExcelProduct[i].product_img !== '') { this.allProduct[j].product_img = this.importExcelProduct[i].product_img; }
-                    if (this.importExcelProduct[i].product_bought !== null) { this.allProduct[j].product_bought = this.importExcelProduct[i].product_bought; }
-                    if (this.importExcelProduct[i].product_created_at !== null) { this.allProduct[j].product_created_at = this.importExcelProduct[i].product_created_at; }
+        //             if (this.importExcelProduct[i].product_id !== '') { this.allProduct[j].product_id = this.importExcelProduct[i].product_id; }
+        //             if (this.importExcelProduct[i].product_name !== '') { this.allProduct[j].product_name = this.importExcelProduct[i].product_name; }
+        //             if (this.importExcelProduct[i].product_price !== null) { this.allProduct[j].product_price = this.importExcelProduct[i].product_price; }
+        //             if (this.importExcelProduct[i].product_img !== '') { this.allProduct[j].product_img = this.importExcelProduct[i].product_img; }
+        //             if (this.importExcelProduct[i].product_bought !== null) { this.allProduct[j].product_bought = this.importExcelProduct[i].product_bought; }
+        //             if (this.importExcelProduct[i].product_created_at !== null) { this.allProduct[j].product_created_at = this.importExcelProduct[i].product_created_at; }
 
-                    this.allProduct[j].product_updated_at = new Date();
+        //             this.allProduct[j].product_updated_at = new Date();
 
-                    if (this.importExcelProduct[i].product_prime_cost !== null) { this.allProduct[j].product_prime_cost = this.importExcelProduct[i].product_prime_cost; }
-                    if (this.importExcelProduct[i].product_category !== '') { this.allProduct[j].product_category = this.importExcelProduct[i].product_category; }
-                    if (this.importExcelProduct[i].product_weight !== null) { this.allProduct[j].product_weight = this.importExcelProduct[i].product_weight; }
-                    if (this.importExcelProduct[i].product_description !== '') { this.allProduct[j].product_description = this.importExcelProduct[i].product_description; }
-                    if (this.importExcelProduct[i].product_tag !== []) { this.allProduct[j].product_tag = this.importExcelProduct[i].product_tag; }
-                    if (this.importExcelProduct[i].additional_info !== '') { this.allProduct[j].additional_info = this.importExcelProduct[i].additional_info; }
-                    if (this.importExcelProduct[i].product_barcode !== null) { this.allProduct[j].product_barcode = this.importExcelProduct[i].product_barcode; }
-                    if (this.importExcelProduct[i].product_unit !== '') { this.allProduct[j].product_unit = this.importExcelProduct[i].product_unit; }
-                    if (this.importExcelProduct[i].product_brand !== '') { this.allProduct[j].product_brand = this.importExcelProduct[i].product_brand; }
-                    this.getProductService.updateProduct(this.allProduct[j]).subscribe();
-                }
-                else {
-                    const id = 'myPid';
-                    const name = this.importExcelProduct[i].product_name;
-                    const price = this.importExcelProduct[i].product_price;
-                    const img = this.importExcelProduct[i].product_img;
-                    const stock = this.importExcelProduct[i].product_stock;
-                    const bought = this.importExcelProduct[i].product_bought;
-                    if (this.importExcelProduct[i].product_created_at === null) {
-                        var created = new Date();
-                    }
-                    else {
-                        var created = this.importExcelProduct[i].product_created_at;
-                    }
-                    const updated = new Date();
-                    const md5Product = new Md5();
-                    const hash = md5Product.appendStr(id + name + created).end().toString();
-                    const primeCost = this.importExcelProduct[i].product_prime_cost;
-                    const category = this.importExcelProduct[i].product_category;
-                    const weight = this.importExcelProduct[i].product_weight;
-                    const desscription = this.importExcelProduct[i].product_description;
-                    const branch = this.importExcelProduct[i].product_branch;
-                    const tag = this.importExcelProduct[i].product_tag[0];
-                    const info = this.importExcelProduct[i].additional_info;
-                    const barcode = this.importExcelProduct[i].product_barcode;
-                    const unit = this.importExcelProduct[i].product_unit;
-                    const brand = this.importExcelProduct[i].product_brand;
+        //             if (this.importExcelProduct[i].product_prime_cost !== null) { this.allProduct[j].product_prime_cost = this.importExcelProduct[i].product_prime_cost; }
+        //             if (this.importExcelProduct[i].product_category !== '') { this.allProduct[j].product_category = this.importExcelProduct[i].product_category; }
+        //             if (this.importExcelProduct[i].product_weight !== null) { this.allProduct[j].product_weight = this.importExcelProduct[i].product_weight; }
+        //             if (this.importExcelProduct[i].product_description !== '') { this.allProduct[j].product_description = this.importExcelProduct[i].product_description; }
+        //             if (this.importExcelProduct[i].product_tag !== []) { this.allProduct[j].product_tag = this.importExcelProduct[i].product_tag; }
+        //             if (this.importExcelProduct[i].additional_info !== '') { this.allProduct[j].additional_info = this.importExcelProduct[i].additional_info; }
+        //             if (this.importExcelProduct[i].product_barcode !== null) { this.allProduct[j].product_barcode = this.importExcelProduct[i].product_barcode; }
+        //             if (this.importExcelProduct[i].product_unit !== '') { this.allProduct[j].product_unit = this.importExcelProduct[i].product_unit; }
+        //             if (this.importExcelProduct[i].product_brand !== '') { this.allProduct[j].product_brand = this.importExcelProduct[i].product_brand; }
+        //             this.getProductService.updateProduct(this.allProduct[j]).subscribe();
 
-                    const unknProduct: unknown = {
-                        id, name, price, img, stock, bought, created, updated, hash, primeCost,
-                        category, weight, desscription, branch, tag, info, barcode, unit, brand
-                    };
-                    const newPro: Product = unknProduct as Product;
-                    this.getProductService.addProduct(newPro).subscribe();
-                }
-            }
+
+        //         }
+        //     }
+        // }
+        var existProductList = this.importExcelProduct.filter(a => this.allProduct.some(b => b.product_hash_id === a.product_hash_id)) as Product[]; // exist item found by hashid
+        console.log(existProductList);
+        for (var i = 0; i < existProductList.length; i++) {
+            var index = this.allProduct.indexOf((this.allProduct.filter(a => a.product_hash_id === existProductList[i].product_hash_id) as Product[])[0]);
+            this.allProduct[index].product_stock += existProductList[i].product_stock;
+            if (this.allProduct[index].product_name !== existProductList[i].product_name) { this.allProduct[index].product_name = existProductList[i].product_name }; //update productname
+
+            this.getProductService.updateProduct(this.allProduct[index]).subscribe();
+
         }
-        this.make_error('Success', 'Updated stock successfully');
+
+        var newProductList = this.importExcelProduct.filter(a => existProductList.indexOf(a) < 0) as Product[]; //new item not existm
+        console.log(newProductList);
+        for (var i = 0; i < newProductList.length; i++) {
+            console.log(newProductList[i]);
+            this.getProductService.addProduct(newProductList[i]).subscribe();
+
+            // const id = 'myPid';
+            // const name = newProductList[i].product_name;
+            // const price = newProductList[i].product_price;
+            // const img = newProductList[i].product_img;
+            // const stock = newProductList[i].product_stock;
+            // const bought = newProductList[i].product_bought;
+
+            // if (newProductList[i].product_created_at === null) {
+            //     var created = new Date();
+            // }
+            // else {
+            //     var created = newProductList[i].product_created_at;
+            // }
+            // const updated = new Date();
+            // const md5Product = new Md5();
+            // const hash = md5Product.appendStr(id + name + created).end().toString();
+            // const primeCost = newProductList[i].product_prime_cost;
+            // const category = newProductList[i].product_category;
+            // const weight = newProductList[i].product_weight;
+            // const desscription = newProductList[i].product_description;
+            // const branch = newProductList[i].product_branch;
+            // const tag = newProductList[i].product_tag[0];
+            // const info = newProductList[i].additional_info;
+            // const barcode = newProductList[i].product_barcode;
+            // const unit = newProductList[i].product_unit;
+            // const brand = newProductList[i].product_brand;
+
+            // const unknProduct: unknown = {
+            //     id, name, price, img, stock, bought, created, updated, hash, primeCost,
+            //     category, weight, desscription, branch, tag, info, barcode, unit, brand
+            // };
+            // const newPro: Product = unknProduct as Product;
+            // this.getProductService.addProduct(newPro).subscribe();
+        }
+
+
+        this.make_error('Success', 'Updated stock ' + existProductList.length + ' products. Added ' + newProductList.length + ' new products.');
         this.importExcelProduct = [];
+    }
+
+    thisProduct(p: Product) {
+        console.log(p.product_id);
     }
 
 
