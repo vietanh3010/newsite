@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+    <title>Order and transaction</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+
+</head>
+<style>
+    .hover:hover {
+        background-color: #e2e3e5;
+    }
+
+    table {
+        cursor: pointer;
+    }
+
+    .my-toast {
+        margin: 10px 20px 5px 10px;
+        padding: 20px;
+        min-width: 250px;
+        max-width: 250px;
+        max-height: 150px;
+        color: red;
+    }
+
+    .my-toast-wrapper {
+        overflow: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .my-toast-wrapper:hover {
+        cursor: pointer;
+    }
+
+    .my-toast:hover {
+        filter: brightness(90%);
+    }
+
+    .tab-color {
+        background-color: lightgray !important;
+    }
+
+    ul.pagination:hover {
+        cursor: pointer;
+    }
+</style>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link"
+                        data-widget="pushmenu"
+                        href="#"
+                        role="button"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+
+
+            <!-- mytoast -->
+            <ul class="my-toast-wrapper">
+                <li class="card my-toast"
+                    [ngClass]="toast_type(e.type)"
+                    [ngStyle]="toast_color(e.type)"
+                    *ngFor="let e of err"
+                    (click)="dismiss_err(e)">
+                    <div class="row">
+                        <div *ngIf="e.type === 'danger' "><i class="fas fa-exclamation-circle"></i></div>
+                        <div *ngIf="e.type === 'success' "><i class="fas fa-check-circle"></i></div>
+                        <div *ngIf="e.type === 'warning' "><i class="fas fa-exclamation-triangle"></i></div>
+                        <div *ngIf="e.type === 'info' "><i class="fas fa-info-circle"></i></div>
+                        <div class="col">
+                            <div *ngIf="err.length !== 0">{{e.message}}</div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- Right navbar links -->
+
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a class="brand-link">
+                <img src="assets/dist/img/AdminLTELogo.png"
+                    alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Admin</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="assets/dist/img/maleava.png"
+                            class="img-circle elevation-2"
+                            alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a *ngFor="let i of infoarr"
+                            class="d-block">{{i.admin_name}}</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column"
+                        data-widget="treeview"
+                        role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item active">
+                            <a href="/sale-page"
+                                class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>Sale</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Order
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/profile-page"
+                                        class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Order list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/sale-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sale</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/invoice-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    User
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/user-page"
+                                        class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User list</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview ">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Product
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/product-page"
+                                        class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product list</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon far fa-plus-square"></i>
+                                <p>
+                                    Authentication
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/login-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Login</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-header">LABELS</li>
+                        <li class="nav-item">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-danger"></i>
+                                <p class="text">Important</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-warning"></i>
+                                <p>Warning</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Informational</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>User</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <div class="d-flex justify-content-between">
+                                        <div class="p-0">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"
+                                                        id="basic-addon1">
+                                                        <i class="fa fa-search"
+                                                            aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="search"
+                                                    [(ngModel)]="searchUser"
+                                                    placeholder="Find user...">
+                                            </div>
+
+                                        </div>
+                                        <div class="p-0">
+                                            <button class="btn btn-primary"
+                                                data-toggle="modal"
+                                                data-target=".bd-example-modal-lg">
+                                                <i class="fa fa-plus"
+                                                    aria-hidden="true"></i>
+                                                Add user
+                                            </button>
+                                        </div>
+
+                                        <div class="modal fade bd-example-modal-lg"
+                                            tabindex="-1"
+                                            role="dialog"
+                                            aria-labelledby="myLargeModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title"
+                                                            id="exampleModalLabel">Add customer</h5>
+                                                        <button type="button"
+                                                            class="close"
+                                                            data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <h2>Main info</h2>
+                                                        <table class="table">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><button class="btn btn-white"><b>Username:</b>
+                                                                        </button> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Username..."
+                                                                            #name></td>
+                                                                    <td><b>User ID: </b> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Hash id..."
+                                                                            #id></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+
+                                                        <h2>Additional info</h2>
+                                                        <table class="table table-borderless">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><button class="btn btn-white"><b>Telephone:
+                                                                            </b></button> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Telephone..."
+                                                                            #telephone></td>
+                                                                    <td><button class="btn btn-white"><b>Address:
+                                                                            </b></button> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Address..."
+                                                                            #address></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><button class="btn btn-white"><b>Email: </b>
+                                                                        </button></td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Email..."
+                                                                            #email></td>
+                                                                    <td><button class="btn btn-white"><b>Role:
+                                                                            </b></button> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Role..."
+                                                                            #role></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><button class="btn btn-white"><b>DOB: </b>
+                                                                        </button></td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Birthday..."
+                                                                            #dob></td>
+                                                                    <td><button class="btn btn-white"><b>Gender:
+                                                                            </b></button> </td>
+                                                                    <td><input class="form-control userinput"
+                                                                            placeholder="Gender..."
+                                                                            #gender></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><button class="btn btn-white"><b>Extra
+                                                                                info</b></button></td>
+                                                                    <td colspan="3">
+                                                                        <textarea class="form-control"
+                                                                            placeholder="More info..."
+                                                                            #info
+                                                                            rows="3"></textarea>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button"
+                                                            class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="button"
+                                                            class="btn btn-primary"
+                                                            (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)">Save
+                                                            changes</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr class="bg-light">
+                                                <th scope="row"
+                                                    (click)="sortUser('user_id')"> <b>ID</b>
+                                                    <span class="float-right">
+                                                        <span *ngIf="userSort===true && chooseUser === 'user_id' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span *ngIf="userSort===false && chooseUser === 'user_id' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'user_id' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                </th>
+                                                <th scope="row"
+                                                    (click)="sortUser('user_name')"><b>Username</b>
+                                                    <span class="float-right">
+                                                        <span *ngIf="userSort===true && chooseUser === 'user_name' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span *ngIf="userSort===false && chooseUser === 'user_name' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'user_name' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                <th scope="row"
+                                                    (click)="sortUser('user_email')"><b>Email</b>
+                                                    <span class="float-right">
+                                                        <span *ngIf="userSort===true && chooseUser==='user_email' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span *ngIf="userSort===false && chooseUser==='user_email' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'user_email' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                <th scope="row"
+                                                    (click)="sortUser('user_password')"><b>Password</b>
+                                                    <span class="float-right">
+                                                        <span
+                                                            *ngIf="userSort===true && chooseUser==='user_password' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span
+                                                            *ngIf="userSort===false && chooseUser==='user_password' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'user_password' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                </th>
+                                                <th scope="row"
+                                                    (click)="sortUser('is_login')"><b>Is login</b>
+                                                    <span class="float-right">
+                                                        <span *ngIf="userSort===true && chooseUser==='is_login' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span *ngIf="userSort===false && chooseUser==='is_login' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'is_login' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                </th>
+                                                <th scope="row"
+                                                    (click)="sortUser('user_role')"><b>Role</b>
+                                                    <span class="float-right">
+                                                        <span *ngIf="userSort===true && chooseUser==='user_role' "><i
+                                                                class="fas fa-caret-down"></i></span>
+                                                        <span *ngIf="userSort===false && chooseUser==='user_role' "><i
+                                                                class="fas fa-caret-up"></i></span>
+                                                        <span *ngIf="chooseUser !== 'user_role' "><i
+                                                                class="fas fa-sort"></i></span>
+                                                    </span>
+                                                </th>
+                                            </tr>
+                                            <tbody [attr.id]="'accordion_' + x"
+                                                *ngFor="let i of USER_TEMP.slice(0,10) | filter : searchUser; let x = index">
+                                                <tr class="hover"
+                                                    data-toggle="collapse"
+                                                    [attr.data-parent]="'#accordion_' + x"
+                                                    [attr.href]="'#collapseOne_' + x">
+                                                    <th scope="row">{{i.user_id}}</th>
+                                                    <td>{{i.user_name}}</td>
+                                                    <td>{{i.user_email}}</td>
+                                                    <td>{{i.user_password}}</td>
+                                                    <td>{{i.is_login}}</td>
+                                                    <td>{{i.user_role}}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td style="padding: 0%;"
+                                                        colspan="6">
+                                                        <div class="margin:0%"
+                                                            [attr.id]="'collapseOne_' + x "
+                                                            class=" collapse">
+                                                            <div class="card bg-light "
+                                                                style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                                                <ul class="nav nav-tabs"
+                                                                    id="myTab"
+                                                                    role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active "
+                                                                            id="home-tab"
+                                                                            data-toggle="tab"
+                                                                            [attr.href]="'#tabUser1' + x"
+                                                                            role="tab"
+                                                                            aria-controls="home"
+                                                                            aria-selected="true">Update</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link"
+                                                                            id="profile-tab"
+                                                                            data-toggle="tab"
+                                                                            [attr.href]="'#tabUser2' + x"
+                                                                            role="tab"
+                                                                            aria-controls="profile"
+                                                                            aria-selected="false">Purchase
+                                                                            History</a>
+                                                                    </li>
+
+                                                                </ul>
+                                                                <div class="tab-content"
+                                                                    id="myTabContent">
+                                                                    <div class="tab-pane fade show active border-right border-left border-bottom"
+                                                                        [attr.id]="'tabUser1' + x"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="home-tab">
+                                                                        <div class="card p-4 shadow-none">
+                                                                            <table class="table table-borderless"
+                                                                                style="width: 100%;">
+                                                                                <tbody class="bg-light">
+                                                                                    <tr>
+                                                                                        <td><b>Username</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserName
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_name}}"
+                                                                                                aria-label="username"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                        <td><b>Password</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserPassword
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_password}}"
+                                                                                                aria-label="userpassword"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><b>Telephone</b>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <input #inputUserTelephone
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_telephone}}"
+                                                                                                aria-label="usertelephone"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                        <td><b>Address</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserAddress
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_address[0]}}"
+                                                                                                aria-label="useraddress"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><b>Email</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserEmail
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_email}}"
+                                                                                                aria-label="useremail"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                        <td><b>Role</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserRole
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_password}}"
+                                                                                                aria-label="userrole"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td><b>DOB</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserDob
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_dob}}"
+                                                                                                aria-label="userdob"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                        <td><b>Gender</b></td>
+                                                                                        <td>
+                                                                                            <input #inputUserGender
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.user_gender}}"
+                                                                                                aria-label="usergender"
+                                                                                                aria-describedby="basic-addon">
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                    <tr>
+                                                                                        <td rowspan="2"><b>Extra
+                                                                                                info</b></td>
+                                                                                        <td colspan="3">
+                                                                                            <textarea #inputUserInfo
+                                                                                                type="text"
+                                                                                                class="form-control"
+                                                                                                placeholder="{{i.additional_info}}"
+                                                                                                aria-label="userinfo"
+                                                                                                aria-describedby="basic-addon"></textarea>
+                                                                                        </td>
+
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                                <tr>
+                                                                                    <td colspan="4"
+                                                                                        style="align-items: right;text-align: right;">
+                                                                                        <button class="btn btn-danger"
+                                                                                            style="margin: 5px;"
+                                                                                            (click)="removeUser(i)">
+                                                                                            <i
+                                                                                                class="fas fa-trash-alt"></i>
+                                                                                            Delete
+                                                                                        </button>
+                                                                                        <button data-toggle="collapse"
+                                                                                            [attr.href]="'#collapseOne_' + x"
+                                                                                            class="btn btn-success"
+                                                                                            (click)="updateUser(i,inputUserName.value,inputUserPassword.value,
+                                                                                            inputUserTelephone.value, inputUserAddress.value,
+                                                                                            inputUserEmail.value, inputUserRole.value,
+                                                                                            inputUserDob.value, inputUserGender.value,
+                                                                                            inputUserInfo.value )">
+                                                                                            <i class="fas fa-save"></i>
+                                                                                            Save
+                                                                                        </button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane fade border-right border-left border-bottom"
+                                                                        [attr.id]="'tabUser2' + x"
+                                                                        role="tabpanel"
+                                                                        aria-labelledby="profile-tab">
+                                                                        <div class="card p-4 shadow-none">
+                                                                            <table class="table">
+                                                                                <tbody>
+                                                                                    <tr class="bg-light">
+                                                                                        <th scope="row"><b>
+                                                                                                Id</b></th>
+                                                                                        <td><b>Subtotal</b></td>
+                                                                                        <td><b>Discount</b></td>
+                                                                                        <td><b>Tax</b></td>
+                                                                                        <td><b>Ship option</b>
+                                                                                        </td>
+                                                                                        <td><b>Ship fee</b></td>
+                                                                                        <td><b>Total</b></td>
+                                                                                        <td><b>Date
+                                                                                                purchased</b>
+                                                                                        </td>
+                                                                                        <td><b>Invoice</b></td>
+                                                                                    </tr>
+                                                                                    <tr class="hover"
+                                                                                        *ngFor="let o of allneworder">
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            {{o.order_id}}</td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            ${{o.order_subtotal}}
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            <span
+                                                                                                *ngIf="o.order_discount_type === 'amount'">${{o.order_discount}}</span>
+                                                                                            <span
+                                                                                                *ngIf="o.order_discount_type === 'percentage'">{{o.order_discount}}%</span>
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            {{o.order_tax}}%
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            {{o.order_ship_option}}
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            <span
+                                                                                                *ngIf="o.order_ship_option === 'Delivery'">{{o.order_shipfee}}</span>
+                                                                                            <span
+                                                                                                *ngIf="o.order_ship_option !== 'Delivery'">null</span>
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            ${{o.order_total}}
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            {{o.created_at | date:"d/M/yy, h:mm:ss a"}}
+                                                                                        </td>
+                                                                                        <td
+                                                                                            *ngIf="o.customer.user_hash_id === i.user_hash_id">
+                                                                                            <button
+                                                                                                class="btn btn-info">
+                                                                                                <i
+                                                                                                    class="fas fa-file-invoice"></i>
+                                                                                                <span
+                                                                                                    [routerLink]="['/invoice-page', { orderid: o.order_hash }]">
+                                                                                                    Invoice</span>
+                                                                                            </button>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <ul class="nav nav-pills justify-content-end">
+                                            <li class="nav-item"
+                                                (click)="pagi_user(1)"><a class="nav-link active"
+                                                    href="#tabU1"
+                                                    data-toggle="tab">First</a></li>
+                                            <li class="nav-item"
+                                                (click)="pagi_user(pag)"
+                                                *ngFor="let pag of PAGI_COUNT_USER;let x = index">
+                                                <a class="nav-link"
+                                                    [attr.href]="'#tabU2'+x"
+                                                    data-toggle="tab">{{pag}}</a>
+                                            </li>
+                                            <li class="nav-item"
+                                                (click)="pagi_user(PAGI_COUNT_USER.length)"><a class="nav-link"
+                                                    href="#tabU3"
+                                                    data-toggle="tab">Last</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- /.nav-tabs-custom -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+
+
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.0.5
+            </div>
+            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+</body>
+
+</html>

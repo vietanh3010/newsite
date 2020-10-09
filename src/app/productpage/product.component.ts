@@ -35,7 +35,7 @@ export class ProductComponent implements OnInit {
 
     productSort: boolean = undefined;
     chooseProduct = '';
-
+    searchProduct;
     private currentAdminSubject: BehaviorSubject<Admin>;
     public currentAdmin: Observable<Admin>;
 
@@ -59,14 +59,16 @@ export class ProductComponent implements OnInit {
     }
 
     getallProduct(): void {
-        this.getProductService.getProduct().subscribe((data: any[]) => this.allProduct = data);
+        this.getProductService.getProduct().subscribe((dataP: any[]) => this.allProduct = dataP);
     }
 
     onFileChange(evt: any): void {
         const target: DataTransfer = (evt.target) as DataTransfer;
         if (target.files.length !== 1) {
+            this.make_error('warning', 'Cannot use multiple files.');
             throw new Error('Cannot use multiple files');
         }
+
 
         const reader: FileReader = new FileReader();
         reader.onload = (e: any) => {
@@ -179,6 +181,16 @@ export class ProductComponent implements OnInit {
         console.log(newProductList);
         for (var i = 0; i < newProductList.length; i++) {
             console.log(newProductList[i]);
+            const created = new Date();
+            const updated = new Date();
+            const md5Product = new Md5();
+            const hash = md5Product.appendStr(newProductList[i].product_id + newProductList[i].product_name + created).end().toString();
+
+            newProductList[i].product_hash_id = hash;
+            newProductList[i].product_created_at = created;
+            newProductList[i].product_updated_at = updated;
+
+
             this.getProductService.addProduct(newProductList[i]).subscribe();
 
             // const id = 'myPid';
@@ -221,7 +233,7 @@ export class ProductComponent implements OnInit {
         this.importExcelProduct = [];
     }
 
-    thisProduct(p: Product) {
+    thisProduct(p: Product): void {
         console.log(p.product_id);
     }
 
@@ -255,6 +267,7 @@ export class ProductComponent implements OnInit {
             }
         }
     }
+
     toast_type(t: string): object {
         if (t === 'danger') {
             return {

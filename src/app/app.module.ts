@@ -21,6 +21,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SaleComponent } from './sale/sale.component';
 import { MatInputModule } from '@angular/material/input';
 import { ProductComponent } from './productpage/product.component';
+import { UserComponent } from './userpage/user.component';
 
 const routes: Routes = [
     { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
@@ -31,9 +32,10 @@ const routes: Routes = [
         ]
     },
     { path: 'product-page', component: ProductComponent, canActivate: [AuthGuard] },
+    { path: 'user-page', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard] },
     { path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard] },
-    // { path: '**', component: PagenotfoundComponent },
+    { path: '**', component: PagenotfoundComponent },
 ];
 
 @NgModule({
@@ -47,6 +49,7 @@ const routes: Routes = [
         PagenotfoundComponent,
         SaleComponent,
         ProductComponent,
+        UserComponent,
     ],
     imports: [
         BrowserModule,

@@ -3,70 +3,103 @@
 
 <head>
     <meta charset="utf-8">
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="IE=edge"
-    >
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
     <title>AdminLTE 3 | Log in</title>
     <!-- Tell the browser to be responsive to screen width -->
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1"
-    >
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
 
-    <link
-        rel="stylesheet"
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/fontawesome-free/css/all.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/jqvmap/jqvmap.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/jqvmap/jqvmap.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/dist/css/adminlte.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/dist/css/adminlte.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/daterangepicker/daterangepicker.css"
-    >
-    <link
-        rel="stylesheet"
+        href="/assets/plugins/daterangepicker/daterangepicker.css">
+    <link rel="stylesheet"
         type="css"
-        href="/assets/plugins/summernote/summernote-bs4.css"
-    >
-    <link
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
-        rel="stylesheet"
-    >
+        href="/assets/plugins/summernote/summernote-bs4.css">
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700"
+        rel="stylesheet">
 
 </head>
+<style>
+    .hover:hover {
+        background-color: #e2e3e5;
+    }
+
+    table {
+        cursor: pointer;
+    }
+
+    .my-toast {
+        margin: 10px 20px 5px 10px;
+        padding: 20px;
+        min-width: 250px;
+        max-width: 250px;
+        max-height: 150px;
+        color: red;
+    }
+
+    .my-toast-wrapper {
+        overflow: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .my-toast-wrapper:hover {
+        cursor: pointer;
+    }
+
+    .my-toast:hover {
+        filter: brightness(90%);
+    }
+
+    .tab-color {
+        background-color: lightgray !important;
+    }
+</style>
 
 <body class="hold-transition login-page">
+    <!-- mytoast -->
+
+    <ul class="my-toast-wrapper">
+        <li class="card my-toast"
+            [ngClass]="toast_type(e.type)"
+            [ngStyle]="toast_color(e.type)"
+            *ngFor="let e of err"
+            (click)="dismiss_err(e)">
+            <div class="row">
+                <div *ngIf="e.type === 'danger' "><i class="fas fa-exclamation-circle"></i></div>
+                <div *ngIf="e.type === 'success' "><i class="fas fa-check-circle"></i></div>
+                <div *ngIf="e.type === 'warning' "><i class="fas fa-exclamation-triangle"></i></div>
+                <div *ngIf="e.type === 'info' "><i class="fas fa-info-circle"></i></div>
+                <div class="col">
+                    <div *ngIf="err.length !== 0">{{e.message}}</div>
+                </div>
+            </div>
+        </li>
+
+    </ul>
     <div class="login-box">
         <div class="login-logo">
             <a><b>Admin</b></a>
@@ -76,17 +109,13 @@
             <div class="card-body login-card-body">
                 <p class="login-box-msg">Sign in to your admin account</p>
 
-                <form
-                    action=""
-                    method="post"
-                >
+                <form action=""
+                    method="post">
                     <div class="input-group mb-3">
-                        <input
-                            #user_email
+                        <input #user_email
                             type="email"
                             class="form-control"
-                            placeholder="Email"
-                        >
+                            placeholder="Email">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-envelope"></span>
@@ -94,12 +123,10 @@
                         </div>
                     </div>
                     <div class="input-group mb-3">
-                        <input
-                            #user_password
+                        <input #user_password
                             type="password"
                             class="form-control"
-                            placeholder="Password"
-                        >
+                            placeholder="Password">
                         <div class="input-group-append">
                             <div class="input-group-text">
                                 <span class="fas fa-lock"></span>
@@ -112,12 +139,10 @@
                         </div>
                         <!-- /.col -->
                         <div class="col-4">
-                            <button
-                                type="submit"
+                            <button type="submit"
                                 role="button"
                                 class="btn btn-primary btn-block"
-                                (click)="checkLogin(user_email.value,user_password.value)"
-                            >Sign In</button>
+                                (click)="checkLogin(user_email.value,user_password.value)">Sign In</button>
                         </div>
                         <!-- /.col -->
                     </div>

@@ -34,13 +34,12 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/profile-page"
-                class="brand-link">
+            <a class="brand-link">
                 <img src="assets/dist/img/AdminLTELogo.png"
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
                     style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Admin</span>
             </a>
 
             <!-- Sidebar -->
@@ -54,7 +53,6 @@
                     </div>
                     <div class="info">
                         <a *ngFor="let i of infoarr"
-                            href="/profile-page"
                             class="d-block">{{i.user_name}}</a>
                     </div>
                 </div>
@@ -66,30 +64,37 @@
                         role="menu"
                         data-accordion="false">
 
-                        <li class="nav-header">ADMIN PROFILE</li>
+                        <li class="nav-item active">
+                            <a href="/sale-page"
+                                class="nav-link">
+                                <i class="fas fa-shopping-cart"></i>
+                                <p>Sale</p>
+                            </a>
+                        </li>
 
                         <li class="nav-item has-treeview menu-open">
                             <a href="/profile-page"
-                                class="nav-link active">
+                                class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
-                                    Profile
+                                    Order
                                     <i class="fas fa-angle-left right"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
+
                                 <li class="nav-item">
                                     <a href="/profile-page"
-                                        class="nav-link">
+                                        class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Profile</p>
+                                        <p>Order list</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a href="/sale-page"
-                                        class="nav-link">
+                                        class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Sale order</p>
+                                        <p>Sale</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
@@ -97,6 +102,46 @@
                                         class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    User
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/user-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User list</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Product
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/product-page"
+                                        class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product list</p>
                                     </a>
                                 </li>
                             </ul>
@@ -290,26 +335,26 @@
                                     <div class="col-6">
 
                                         <div class="table-responsive">
-                                            <table class="table text-right"
+                                            <table class="table table-sm text-right"
                                                 *ngFor="let i of singleOrder; let x = index">
                                                 <tr>
                                                     <th style="width:50%">Subtotal:</th>
                                                     <td>
-                                                        <h1>${{ i.order_subtotal | number:  '1.2-2'}}</h1>
+                                                        <h4>${{ i.order_subtotal | number:  '1.2-2'}}</h4>
                                                     </td>
                                                 </tr>
                                                 <tr *ngIf="i.order_discount_type === 'percentage'">
                                                     <th>Discount: ({{ i.order_discount}}%)</th>
                                                     <td>
-                                                        <h1>-${{ i.order_subtotal * i.order_discount/100 | number:  '1.2-2'}}
-                                                        </h1>
+                                                        <h4>-${{ i.order_subtotal * i.order_discount/100 | number:  '1.2-2'}}
+                                                        </h4>
                                                     </td>
                                                 </tr>
 
                                                 <tr *ngIf="i.order_discount_type === 'amount'">
                                                     <th>Discount:</th>
                                                     <td>
-                                                        <h1>-${{ i.order_discount | number:  '1.2-2'}}</h1>
+                                                        <h4>-${{ i.order_discount | number:  '1.2-2'}}</h4>
                                                     </td>
                                                 </tr>
 
@@ -318,26 +363,26 @@
                                                 <tr>
                                                     <th>Tax: ({{ i.order_tax }}%)</th>
                                                     <td *ngIf="i.order_discount_type === 'amount'">
-                                                        <h1>${{ (i.order_subtotal - i.order_discount)*i.order_tax/100 | number:  '1.2-2' }}
-                                                        </h1>
+                                                        <h4>${{ (i.order_subtotal - i.order_discount)*i.order_tax/100 | number:  '1.2-2' }}
+                                                        </h4>
                                                     </td>
                                                     <td *ngIf="i.order_discount_type === 'percentage'">
-                                                        <h1>${{ (i.order_subtotal - i.order_subtotal * i.order_discount/100) * i.order_tax/100  | number:  '1.2-2'}}
-                                                        </h1>
+                                                        <h4>${{ (i.order_subtotal - i.order_subtotal * i.order_discount/100) * i.order_tax/100  | number:  '1.2-2'}}
+                                                        </h4>
                                                     </td>
                                                 </tr>
 
                                                 <tr *ngIf="i.order_ship_option === 'Delivery'">
                                                     <th>Shipping fee</th>
                                                     <td>
-                                                        <h1>${{i.order_shipfee}}</h1>
+                                                        <h4>${{i.order_shipfee}}</h4>
                                                     </td>
                                                 </tr>
 
                                                 <tr>
                                                     <th>Total:</th>
                                                     <td>
-                                                        <h1>${{ i.order_total | number:  '1.2-2' }}</h1>
+                                                        <h4>${{ i.order_total | number:  '1.2-2' }}</h4>
                                                     </td>
                                                 </tr>
                                             </table>

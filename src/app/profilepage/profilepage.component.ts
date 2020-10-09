@@ -98,13 +98,18 @@ export class ProfilepageComponent implements OnInit {
         console.log(this.currentAdminSubject.value);
 
         this.pagi_count();
-        this.pagi_user(1);
-        this.pagi_product(1);
         this.pagi_order(1);
     }
-    enableBordercolor(): void {
-        this.toggle = !this.toggle;
-        this.status = this.toggle ? 'Enable' : 'Disable';
+    updateOrderUser(o: Neworder, name: string, tel: string, email: string, status: string, address: string, role: string): void {
+        if (name !== '') { o.customer.user_name = name; }
+        if (tel !== '') { o.customer.user_telephone = tel; }
+        if (email !== '') { o.customer.user_email = email; }
+        if (status !== '') { o.order_status.push(status); }
+        if (address !== '') { o.order_address = address; }
+        if (role !== '') { o.customer.user_role = role; }
+
+        this.getNeworderService.updateNeworder(o).subscribe();
+        this.make_error('success', 'Order info updated successfully.')
     }
     sortUser(property: any): void {
         this.chooseUser = property;
@@ -200,7 +205,7 @@ export class ProfilepageComponent implements OnInit {
     // get list orders
     getAllneworder(): void {
         this.getNeworderService.getNeworder().subscribe(
-            (data: any[]) => (this.allneworder = data)
+            (data: any[]) => (this.allneworder = data, this.ORDER_TEMP = data)
         );
     }
     // async getAllneworder() {

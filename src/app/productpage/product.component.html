@@ -71,20 +71,6 @@
 
             <!-- mytoast -->
             <ul class="my-toast-wrapper">
-                <li class=" card my-toast callout callout-danger"
-                    *ngFor="let e of err"
-                    (click)="dismiss_err(e)">
-                    <div class="row">
-                        <div><i class="fas fa-exclamation-circle"></i></div>
-                        <div class="col">
-                            <div *ngIf="err.length !== 0">{{e}}</div>
-                        </div>
-                    </div>
-                </li>
-
-            </ul>
-            <!-- mytoast -->
-            <ul class="my-toast-wrapper">
                 <li class="card my-toast"
                     [ngClass]="toast_type(e.type)"
                     [ngStyle]="toast_color(e.type)"
@@ -110,8 +96,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="/profile-page"
-                class="brand-link">
+            <a class="brand-link">
                 <img src="assets/dist/img/AdminLTELogo.png"
                     alt="AdminLTE Logo"
                     class="brand-image img-circle elevation-3"
@@ -130,7 +115,6 @@
                     </div>
                     <div class="info">
                         <a *ngFor="let i of infoarr"
-                            href="/profile-page"
                             class="d-block">{{i.admin_name}}</a>
                     </div>
                 </div>
@@ -180,6 +164,26 @@
                                         class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    User
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/user-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User list</p>
                                     </a>
                                 </li>
                             </ul>
@@ -271,7 +275,9 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-12">
+
                             <div class="card">
+
                                 <div class="card-header text-right">
                                     <div class="modal fade bd-example-modal-lg"
                                         tabindex="-1"
@@ -307,7 +313,7 @@
                                                                 <td>Description</td>
                                                             </tr>
                                                             <tr class="tbody"
-                                                                *ngFor="let i of importExcelProduct">
+                                                                *ngFor="let i of importExcelProduct ">
                                                                 <th scope="row">{{i.product_hash_id}}</th>
                                                                 <td>{{i.product_barcode}}</td>
                                                                 <td>{{i.product_name}}</td>
@@ -324,40 +330,63 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="p-0">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text"
+                                                        id="basic-addon1">
+                                                        <i class="fa fa-search"
+                                                            aria-hidden="true"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text"
+                                                    class="form-control"
+                                                    name="search"
+                                                    [(ngModel)]="searchProduct"
+                                                    placeholder="Find product...">
+                                            </div>
 
-                                    <button *ngIf="importExcelProduct.length > 0"
-                                        data-toggle="modal"
-                                        data-target=".bd-example-modal-lg"
-                                        class="btn btn-outline-success  m-1">
-                                        <label class="m-0 p-0">
-                                            <i class="far fa-file-alt"></i>
-                                            Preview file</label>
-                                    </button>
-                                    <button class="btn btn-outline-primary  m-1"
-                                        (click)="exportData('exportTable')">
-                                        <span class="mdi mdi-file-export"> </span>
-                                        <i class="fas fa-file-export"></i>
-                                        <label class="m-0 p-0">Export</label>
-                                    </button>
-                                    <button class="btn btn-outline-primary m-1">
-                                        <label class="m-0 p-0">
-                                            <span class="mdi mdi-file-export"> </span>
-                                            <i class="fas fa-file-import"></i>
-                                            Import
-                                            <input hidden
-                                                type="file"
-                                                (change)="onFileChange($event)"
-                                                multiple="false">
-                                        </label>
-                                    </button>
-                                    <button class="btn btn-outline-primary m-1"
-                                        (click)="exportData('exampleTable')">
+                                        </div>
+                                        <div class="p-0">
+                                            <button *ngIf="importExcelProduct.length > 0"
+                                                data-toggle="modal"
+                                                data-target=".bd-example-modal-lg"
+                                                class="btn btn-outline-success  m-1">
+                                                <label class="m-0 p-0">
+                                                    <i class="far fa-file-alt"></i>
+                                                    Preview file</label>
+                                            </button>
+                                            <button class="btn btn-outline-primary  m-1"
+                                                (click)="exportData('exportTable')">
+                                                <span class="mdi mdi-file-export"> </span>
+                                                <i class="fas fa-file-export"></i>
+                                                <label class="m-0 p-0">Export</label>
+                                            </button>
+                                            <button class="btn btn-outline-primary m-1">
+                                                <label class="m-0 p-0">
+                                                    <span class="mdi mdi-file-export"> </span>
+                                                    <i class="fas fa-file-import"></i>
+                                                    Import
+                                                    <input hidden
+                                                        type="file"
+                                                        (change)="onFileChange($event)"
+                                                        multiple="false">
+                                                </label>
+                                            </button>
+                                            <button class="btn btn-outline-primary m-1"
+                                                (click)="exportData('exampleTable')">
 
-                                        <label class="m-0 p-0">
-                                            <i class="fas fa-file-download"></i>
-                                            Download example
-                                        </label>
-                                    </button>
+                                                <label class="m-0 p-0">
+                                                    <i class="fas fa-file-download"></i>
+                                                    Download example
+                                                </label>
+                                            </button>
+                                        </div>
+                                    </div>
+
+
+
                                 </div>
                                 <div class="card-body">
                                     <table id="exampleTable"
@@ -613,7 +642,7 @@
                                                 </th>
                                             </tr>
                                             <tr class="tbody"
-                                                *ngFor="let i of allProduct"
+                                                *ngFor="let i of allProduct | filter:searchProduct"
                                                 (click)="thisProduct(i)">
                                                 <th scope="row">{{i.product_id}}</th>
                                                 <td>{{i.product_barcode}}</td>
