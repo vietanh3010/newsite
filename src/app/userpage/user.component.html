@@ -52,6 +52,23 @@
     ul.pagination:hover {
         cursor: pointer;
     }
+
+    .userinput::-webkit-outer-spin-button,
+    .userinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .userinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 16px;
+    }
+
+    .userinput:focus {
+        border-bottom: 1px solid gray;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -130,7 +147,7 @@
                         <li class="nav-item active">
                             <a href="/sale-page"
                                 class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
                                 <p>Sale</p>
                             </a>
                         </li>
@@ -205,6 +222,13 @@
                                         class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Product list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
                                     </a>
                                 </li>
                             </ul>
@@ -313,20 +337,21 @@
                                             aria-hidden="true">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title"
-                                                            id="exampleModalLabel">Add customer</h5>
-                                                        <button type="button"
-                                                            class="close"
-                                                            data-dismiss="modal"
-                                                            aria-label="Close">
-                                                            <span aria-hidden="true">&times;</span>
+                                                    <div class="modal-header bg-dark">
+                                                        <button class="btn btn-dark">
+                                                            Add customer
                                                         </button>
+
                                                     </div>
                                                     <div class="modal-body">
-                                                        <h2>Main info</h2>
-                                                        <table class="table">
+
+                                                        <table class="table table-borderless">
                                                             <tbody>
+                                                                <tr>
+                                                                    <td colspan="4">
+                                                                        <h1>Main info</h1>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td><button class="btn btn-white"><b>Username:</b>
                                                                         </button> </td>
@@ -338,12 +363,12 @@
                                                                             placeholder="Hash id..."
                                                                             #id></td>
                                                                 </tr>
-                                                            </tbody>
-                                                        </table>
+                                                                <tr>
+                                                                    <td colspan="4">
 
-                                                        <h2>Additional info</h2>
-                                                        <table class="table table-borderless">
-                                                            <tbody>
+                                                                        <h1>Additional info</h1>
+                                                                    </td>
+                                                                </tr>
                                                                 <tr>
                                                                     <td><button class="btn btn-white"><b>Telephone:
                                                                             </b></button> </td>
@@ -410,7 +435,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-borderless">
                                             <tr class="bg-light">
                                                 <th scope="row"
                                                     (click)="sortUser('user_id')"> <b>ID</b>
@@ -533,13 +558,13 @@
                                                                         <div class="card p-4 shadow-none">
                                                                             <table class="table table-borderless"
                                                                                 style="width: 100%;">
-                                                                                <tbody class="bg-light">
+                                                                                <tbody>
                                                                                     <tr>
                                                                                         <td><b>Username</b></td>
                                                                                         <td>
                                                                                             <input #inputUserName
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_name}}"
                                                                                                 aria-label="username"
                                                                                                 aria-describedby="basic-addon">
@@ -548,7 +573,7 @@
                                                                                         <td>
                                                                                             <input #inputUserPassword
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_password}}"
                                                                                                 aria-label="userpassword"
                                                                                                 aria-describedby="basic-addon">
@@ -560,7 +585,7 @@
                                                                                         <td>
                                                                                             <input #inputUserTelephone
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_telephone}}"
                                                                                                 aria-label="usertelephone"
                                                                                                 aria-describedby="basic-addon">
@@ -569,7 +594,7 @@
                                                                                         <td>
                                                                                             <input #inputUserAddress
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_address[0]}}"
                                                                                                 aria-label="useraddress"
                                                                                                 aria-describedby="basic-addon">
@@ -580,7 +605,7 @@
                                                                                         <td>
                                                                                             <input #inputUserEmail
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_email}}"
                                                                                                 aria-label="useremail"
                                                                                                 aria-describedby="basic-addon">
@@ -589,7 +614,7 @@
                                                                                         <td>
                                                                                             <input #inputUserRole
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_password}}"
                                                                                                 aria-label="userrole"
                                                                                                 aria-describedby="basic-addon">
@@ -600,7 +625,7 @@
                                                                                         <td>
                                                                                             <input #inputUserDob
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_dob}}"
                                                                                                 aria-label="userdob"
                                                                                                 aria-describedby="basic-addon">
@@ -609,7 +634,7 @@
                                                                                         <td>
                                                                                             <input #inputUserGender
                                                                                                 type="text"
-                                                                                                class="form-control"
+                                                                                                class="form-control userinput"
                                                                                                 placeholder="{{i.user_gender}}"
                                                                                                 aria-label="usergender"
                                                                                                 aria-describedby="basic-addon">

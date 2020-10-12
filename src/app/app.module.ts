@@ -22,6 +22,7 @@ import { SaleComponent } from './sale/sale.component';
 import { MatInputModule } from '@angular/material/input';
 import { ProductComponent } from './productpage/product.component';
 import { UserComponent } from './userpage/user.component';
+import { PurchaseOrderComponent } from './purchase-order/purchase-order.component';
 
 const routes: Routes = [
     { path: 'admin-page', component: AdminpageComponent, canActivate: [AuthGuard] },
@@ -33,6 +34,8 @@ const routes: Routes = [
         ]
     },
     { path: 'product-page', component: ProductComponent, canActivate: [AuthGuard] },
+    { path: 'purchase-order', component: PurchaseOrderComponent, canActivate: [AuthGuard] },
+
     { path: 'user-page', component: UserComponent, canActivate: [AuthGuard] },
     { path: 'invoice-page', component: InvoicepageComponent, canActivate: [AuthGuard] },
     { path: 'sale-page', component: SaleComponent, canActivate: [AuthGuard] },
@@ -51,6 +54,7 @@ const routes: Routes = [
         SaleComponent,
         ProductComponent,
         UserComponent,
+        PurchaseOrderComponent,
     ],
     imports: [
         BrowserModule,

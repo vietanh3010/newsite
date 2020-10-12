@@ -5,12 +5,16 @@ import { UserService } from '../service/user/user.service';
 import { ProductService } from '../service/product/product.service';
 import { NeworderService } from '../service/neworder/neworder.service';
 import { ExcelService } from '../service/excel/excel.service';
+import { ProducttagService } from '../service/producttag/producttag.service';
+import { SupplierService } from '../service/supplier/supplier.service';
 
 import { Admin } from '../model/admin';
 import { User } from '../model/user';
 import { Product } from '../model/product';
 import { Neworder } from '../model/neworder';
 import { MyToast } from '../model/Mytoast';
+import { ProductTag } from '../model/productTag';
+import { Supplier } from '../model/supplier';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -36,6 +40,7 @@ export class ProductComponent implements OnInit {
     productSort: boolean = undefined;
     chooseProduct = '';
     searchProduct;
+    fileName = '';
     private currentAdminSubject: BehaviorSubject<Admin>;
     public currentAdmin: Observable<Admin>;
 
@@ -46,6 +51,7 @@ export class ProductComponent implements OnInit {
         private getProductService: ProductService,
         private getNeworderService: NeworderService,
         private routeLogout: Router,
+        private getProductTagService: ProducttagService,
         private getExcelService: ExcelService,
     ) {
         this.currentAdminSubject = new BehaviorSubject<Admin>(JSON.parse(localStorage.getItem('currentAdmin')));
@@ -68,169 +74,181 @@ export class ProductComponent implements OnInit {
             this.make_error('warning', 'Cannot use multiple files.');
             throw new Error('Cannot use multiple files');
         }
+        else if (target.files[0].type !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            this.make_error('danger', 'This is not an Excel xlsx file.');
+        }
+        else if (target.files[0].size > 41943040) {
+            this.make_error('danger', 'File size cannot exceed 40MB.');
+        }
+        else {
+            this.fileName = target.files[0].name;
+            const reader: FileReader = new FileReader();
+            reader.onload = (e: any) => {
 
+                const bstr: string = e.target.result;
+                const data = this.getExcelService.importFromFile(bstr) as any[];
+                var temp = {
+                    product_name: '',
+                    product_price: null,
+                    product_img: '',
+                    product_stock: null,
+                    product_bought: null,
+                    product_created_at: null,
+                    product_updated_at: null,
+                    product_hash_id: null,
+                    product_prime_cost: null,
+                    product_category: '',
+                    product_weight: null,
+                    product_description: '',
+                    product_branch: '',
+                    product_tag: [],
+                    additional_info: '',
+                    product_barcode: null,
+                    product_unit: '',
+                    product_brand: '',
 
-        const reader: FileReader = new FileReader();
-        reader.onload = (e: any) => {
+                } as Product;
+                const header: string[] = Object.getOwnPropertyNames(temp);
 
-            const bstr: string = e.target.result;
-            const data = this.getExcelService.importFromFile(bstr) as any[];
+                const importedData = data;
+                this.importExcelProduct = importedData.map(arr => {
+                    const obj = {};
+                    for (let i = 0; i < header.length; i++) {
+                        const k = header[i];
+                        obj[k] = arr[i];
+                    }
+                    return obj as Product;
+                })
+                console.log(this.importExcelProduct[0]);
+                if ((this.importExcelProduct[0].product_name).toString() === 'Name' &&
+                    (this.importExcelProduct[0].product_price).toString() === 'Price' &&
+                    (this.importExcelProduct[0].product_img).toString() === 'Image') {
+                    this.importExcelProduct.splice(this.importExcelProduct.indexOf(this.importExcelProduct[0]), 1);
+                    this.make_error('success', 'Import data successfully!');
 
-            var temp = {
-                product_name: '',
-                product_price: null,
-                product_img: '',
-                product_stock: null,
-                product_bought: null,
-                product_created_at: null,
-                product_updated_at: null,
-                product_hash_id: null,
-                product_prime_cost: null,
-                product_category: '',
-                product_weight: null,
-                product_description: '',
-                product_branch: '',
-                product_tag: [],
-                additional_info: '',
-                product_barcode: null,
-                product_unit: '',
-                product_brand: '',
-
-            } as Product;
-            const header: string[] = Object.getOwnPropertyNames(temp);
-
-            const importedData = data;
-            this.importExcelProduct = importedData.map(arr => {
-                const obj = {};
-                for (let i = 0; i < header.length; i++) {
-                    const k = header[i];
-                    obj[k] = arr[i];
                 }
-                return obj as Product;
-            })
-            this.importExcelProduct.splice(this.importExcelProduct.indexOf(this.importExcelProduct[0]), 1);
-            this.make_error('success', 'Import data successfully!');
-        };
-        reader.readAsBinaryString(target.files[0]);
+                else {
+                    this.removeFile();
+                    this.make_error('warning', 'Excel in incorrect format. Please check example file!');
+                }
+
+
+            };
+            reader.readAsBinaryString(target.files[0]);
+        }
+
+
 
     }
-
+    removeFile(): void {
+        this.importExcelProduct = [];
+        this.fileName = '';
+    }
     exportData(tableId: string): void {
-        this.getExcelService.exportToFile('Model_Product', tableId);
+        const dateNow = new Date().getTime();
+
+        if (tableId === 'exportTable') {
+            this.getExcelService.exportToFile('Product_' + dateNow, tableId);
+        }
+        else if (tableId === 'exampleTable') {
+            this.getExcelService.exportToFile('Example_Excel', tableId);
+        }
     }
 
     updateData(): void {
         console.log(this.importExcelProduct);
-        // for (var i = 0; i < this.importExcelProduct.length; i++) {
-        //     for (var j = 0; j < this.allProduct.length; j++) {
-        //         // found existed product-> update stock
-        //         if (this.importExcelProduct[i].product_hash_id === this.allProduct[j].product_hash_id) {
-        //             this.allProduct[j].product_stock += this.importExcelProduct[i].product_stock;
-
-        //             if (this.importExcelProduct[i].product_id !== '') { this.allProduct[j].product_id = this.importExcelProduct[i].product_id; }
-        //             if (this.importExcelProduct[i].product_name !== '') { this.allProduct[j].product_name = this.importExcelProduct[i].product_name; }
-        //             if (this.importExcelProduct[i].product_price !== null) { this.allProduct[j].product_price = this.importExcelProduct[i].product_price; }
-        //             if (this.importExcelProduct[i].product_img !== '') { this.allProduct[j].product_img = this.importExcelProduct[i].product_img; }
-        //             if (this.importExcelProduct[i].product_bought !== null) { this.allProduct[j].product_bought = this.importExcelProduct[i].product_bought; }
-        //             if (this.importExcelProduct[i].product_created_at !== null) { this.allProduct[j].product_created_at = this.importExcelProduct[i].product_created_at; }
-
-        //             this.allProduct[j].product_updated_at = new Date();
-
-        //             if (this.importExcelProduct[i].product_prime_cost !== null) { this.allProduct[j].product_prime_cost = this.importExcelProduct[i].product_prime_cost; }
-        //             if (this.importExcelProduct[i].product_category !== '') { this.allProduct[j].product_category = this.importExcelProduct[i].product_category; }
-        //             if (this.importExcelProduct[i].product_weight !== null) { this.allProduct[j].product_weight = this.importExcelProduct[i].product_weight; }
-        //             if (this.importExcelProduct[i].product_description !== '') { this.allProduct[j].product_description = this.importExcelProduct[i].product_description; }
-        //             if (this.importExcelProduct[i].product_tag !== []) { this.allProduct[j].product_tag = this.importExcelProduct[i].product_tag; }
-        //             if (this.importExcelProduct[i].additional_info !== '') { this.allProduct[j].additional_info = this.importExcelProduct[i].additional_info; }
-        //             if (this.importExcelProduct[i].product_barcode !== null) { this.allProduct[j].product_barcode = this.importExcelProduct[i].product_barcode; }
-        //             if (this.importExcelProduct[i].product_unit !== '') { this.allProduct[j].product_unit = this.importExcelProduct[i].product_unit; }
-        //             if (this.importExcelProduct[i].product_brand !== '') { this.allProduct[j].product_brand = this.importExcelProduct[i].product_brand; }
-        //             this.getProductService.updateProduct(this.allProduct[j]).subscribe();
-
-
-        //         }
-        //     }
-        // }
+        const created = new Date();
+        const updated = new Date();
         var existProductList = this.importExcelProduct.filter(a => this.allProduct.some(b => b.product_hash_id === a.product_hash_id)) as Product[]; // exist item found by hashid
         console.log(existProductList);
         for (var i = 0; i < existProductList.length; i++) {
             var index = this.allProduct.indexOf((this.allProduct.filter(a => a.product_hash_id === existProductList[i].product_hash_id) as Product[])[0]);
             this.allProduct[index].product_stock += existProductList[i].product_stock;
-            if (this.allProduct[index].product_name !== existProductList[i].product_name) { this.allProduct[index].product_name = existProductList[i].product_name }; //update productname
-            if (this.allProduct[index].product_price !== existProductList[i].product_price) { this.allProduct[index].product_price = existProductList[i].product_price };
-            if (this.allProduct[index].product_img !== existProductList[i].product_img) { this.allProduct[index].product_img = existProductList[i].product_img };
-            if (this.allProduct[index].product_bought !== existProductList[i].product_bought) { this.allProduct[index].product_bought = existProductList[i].product_bought };
-            if (this.allProduct[index].product_created_at !== existProductList[i].product_created_at) { this.allProduct[index].product_created_at = existProductList[i].product_created_at };
+
+            if (this.allProduct[index].product_name !== existProductList[i].product_name) { this.allProduct[index].product_name = existProductList[i].product_name; } //update productname
+            if (this.allProduct[index].product_price !== existProductList[i].product_price) { this.allProduct[index].product_price = existProductList[i].product_price; }
+            if (this.allProduct[index].product_img !== existProductList[i].product_img) { this.allProduct[index].product_img = existProductList[i].product_img; }
+            if (this.allProduct[index].product_bought !== existProductList[i].product_bought) { this.allProduct[index].product_bought = existProductList[i].product_bought; }
+            if (this.allProduct[index].product_created_at !== existProductList[i].product_created_at) { this.allProduct[index].product_created_at = existProductList[i].product_created_at; }
             this.allProduct[index].product_updated_at = new Date();
 
-            if (this.allProduct[index].product_prime_cost !== existProductList[i].product_prime_cost) { this.allProduct[index].product_prime_cost = existProductList[i].product_prime_cost };
-            if (this.allProduct[index].product_category !== existProductList[i].product_category) { this.allProduct[index].product_category = existProductList[i].product_category };
-            if (this.allProduct[index].product_weight !== existProductList[i].product_weight) { this.allProduct[index].product_weight = existProductList[i].product_weight };
-            if (this.allProduct[index].product_tag[0] !== existProductList[i].product_tag[0]) { this.allProduct[index].product_tag[0] = existProductList[i].product_tag[0] };
-            if (this.allProduct[index].additional_info !== existProductList[i].additional_info) { this.allProduct[index].additional_info = existProductList[i].additional_info };
-            if (this.allProduct[index].product_barcode !== existProductList[i].product_barcode) { this.allProduct[index].product_barcode = existProductList[i].product_barcode };
-            if (this.allProduct[index].product_unit !== existProductList[i].product_unit) { this.allProduct[index].product_unit = existProductList[i].product_unit };
-            if (this.allProduct[index].product_brand !== existProductList[i].product_brand) { this.allProduct[index].product_brand = existProductList[i].product_brand };
+            if (this.allProduct[index].product_prime_cost !== existProductList[i].product_prime_cost) { this.allProduct[index].product_prime_cost = existProductList[i].product_prime_cost; }
+            if (this.allProduct[index].product_category !== existProductList[i].product_category) { this.allProduct[index].product_category = existProductList[i].product_category; }
+            if (this.allProduct[index].product_weight !== existProductList[i].product_weight) { this.allProduct[index].product_weight = existProductList[i].product_weight; }
+            if (this.allProduct[index].additional_info !== existProductList[i].additional_info) { this.allProduct[index].additional_info = existProductList[i].additional_info; }
+            if (this.allProduct[index].product_barcode !== existProductList[i].product_barcode) { this.allProduct[index].product_barcode = existProductList[i].product_barcode; }
+            if (this.allProduct[index].product_unit !== existProductList[i].product_unit) { this.allProduct[index].product_unit = existProductList[i].product_unit; }
+            if (this.allProduct[index].product_brand !== existProductList[i].product_brand) { this.allProduct[index].product_brand = existProductList[i].product_brand; }
 
+            var unkwTag = {
+                tag_id: 'mytagid',
+                tag_hash_id: (new Md5()).appendStr('Nhap hang' + existProductList[i].product_hash_id + created.toString()).end().toString(),
+                tag_product_id: existProductList[i].product_hash_id,
+                tag_name: 'Nhap hang',
+                tag_quantity: existProductList[i].product_stock,
+                tag_created_at: created,
+                tag_updated_at: updated,
+                tag_supplier_hid: '',
+                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                tag_branch_id: 'this branch',
+                tag_info: '',
+                tag_price: existProductList[i].product_price,
+                tag_paid: 0,
+                tag_user_id: '',
+                tag_order_id: '',
+                tag_discount_amount: 0,
+            } as ProductTag;
+            this.allProduct[index].product_tag.push(unkwTag);
 
             this.getProductService.updateProduct(this.allProduct[index]).subscribe();
-
+            this.getProductTagService.addProductTag(unkwTag).subscribe();
         }
 
-        var newProductList = this.importExcelProduct.filter(a => existProductList.indexOf(a) < 0) as Product[]; //new item not existm
+        // var newProductList = this.importExcelProduct.filter(a => existProductList.indexOf(a) < 0) as Product[]; //new item not existm
+
+        var newProductList: Product[] = this.importExcelProduct.filter(a => existProductList.every(b => b.product_hash_id !== a.product_hash_id)) as Product[];
         console.log(newProductList);
         for (var i = 0; i < newProductList.length; i++) {
             console.log(newProductList[i]);
-            const created = new Date();
-            const updated = new Date();
-            const md5Product = new Md5();
-            const hash = md5Product.appendStr(newProductList[i].product_id + newProductList[i].product_name + created).end().toString();
 
-            newProductList[i].product_hash_id = hash;
+            if (newProductList[i].product_hash_id === '') {
+                const md5Product = new Md5();
+                const hash = md5Product.appendStr(newProductList[i].product_id + newProductList[i].product_name + created).end().toString();
+                newProductList[i].product_hash_id = hash;
+            }
+            if (String(newProductList[i].product_stock) === '') { newProductList[i].product_stock = 0; }
+            if (String(newProductList[i].product_price) === '') { newProductList[i].product_price = 0; }
             newProductList[i].product_created_at = created;
             newProductList[i].product_updated_at = updated;
+            var unkwTag1 = {
+                tag_id: 'mytagid',
+                tag_hash_id: (new Md5()).appendStr('Nhap hang' + newProductList[i].product_hash_id + created.toString()).end().toString(),
+                tag_product_id: newProductList[i].product_hash_id,
+                tag_name: 'Nhap hang',
+                tag_quantity: newProductList[i].product_stock,
+                tag_created_at: created,
+                tag_updated_at: updated,
+                tag_supplier_hid: '',
+                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                tag_branch_id: 'this branch',
+                tag_info: '',
+                tag_price: newProductList[i].product_price,
+                tag_paid: 0,
+                tag_user_id: '',
+                tag_order_id: '',
+                tag_discount_amount: 0,
+            } as ProductTag;
 
-
+            newProductList[i].product_tag.push(unkwTag1);
             this.getProductService.addProduct(newProductList[i]).subscribe();
-
-            // const id = 'myPid';
-            // const name = newProductList[i].product_name;
-            // const price = newProductList[i].product_price;
-            // const img = newProductList[i].product_img;
-            // const stock = newProductList[i].product_stock;
-            // const bought = newProductList[i].product_bought;
-
-            // if (newProductList[i].product_created_at === null) {
-            //     var created = new Date();
-            // }
-            // else {
-            //     var created = newProductList[i].product_created_at;
-            // }
-            // const updated = new Date();
-            // const md5Product = new Md5();
-            // const hash = md5Product.appendStr(id + name + created).end().toString();
-            // const primeCost = newProductList[i].product_prime_cost;
-            // const category = newProductList[i].product_category;
-            // const weight = newProductList[i].product_weight;
-            // const desscription = newProductList[i].product_description;
-            // const branch = newProductList[i].product_branch;
-            // const tag = newProductList[i].product_tag[0];
-            // const info = newProductList[i].additional_info;
-            // const barcode = newProductList[i].product_barcode;
-            // const unit = newProductList[i].product_unit;
-            // const brand = newProductList[i].product_brand;
-
-            // const unknProduct: unknown = {
-            //     id, name, price, img, stock, bought, created, updated, hash, primeCost,
-            //     category, weight, desscription, branch, tag, info, barcode, unit, brand
-            // };
-            // const newPro: Product = unknProduct as Product;
-            // this.getProductService.addProduct(newPro).subscribe();
+            this.getProductTagService.addProductTag(unkwTag1).subscribe();
         }
-
+        //make a tag for each product in the imported
 
         this.make_error('Success', 'Updated stock ' + existProductList.length + ' products. Added ' + newProductList.length + ' new products.');
-        this.importExcelProduct = [];
+        this.removeFile();
     }
 
     sortProduct(property: any): void {
@@ -263,6 +281,32 @@ export class ProductComponent implements OnInit {
         }
     }
 
+
+    updateProduct(p: Product, pname: string, pprice: number, pprimecost: number, pcategory: string,
+        pstock: number, pweight: number, pdescription: string, pbranch: string, pbarcode: number, punit: string, pbrand: string, pinfo: string): void {
+        if (pname !== '') { p.product_name = pname; }
+        if (String(pprice) !== '') { p.product_price = pprice; }
+        if (String(pprimecost) !== '') { p.product_prime_cost = pprimecost; }
+        if (pcategory !== '') { p.product_category = pcategory; }
+        if (String(pstock) !== '') { p.product_stock = pstock; }
+        if (String(pweight) !== '') { p.product_weight = pweight; }
+        if (pdescription !== '') { p.product_description = pdescription; }
+        if (pbranch !== '') { p.product_branch = pbranch; }
+        if (String(pbarcode) !== '') { p.product_barcode = pbarcode; }
+        if (punit !== '') { p.product_unit = punit; }
+        if (pbrand !== '') { p.product_brand = pbrand; }
+        if (pinfo !== '') { p.additional_info = pinfo; }
+        p.product_updated_at = new Date();
+
+        this.getProductService.updateProduct(p).subscribe();
+        this.make_error('success', 'Product updated successfully.')
+    }
+
+    removeProduct(p: Product): void {
+        this.getProductService.deleteProduct(p).subscribe();
+        this.allProduct.splice(this.allProduct.indexOf(p), 1);
+        this.make_error('info', 'Product deleted.');
+    }
     toast_type(t: string): object {
         if (t === 'danger') {
             return {

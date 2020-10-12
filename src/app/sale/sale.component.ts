@@ -4,6 +4,7 @@ import { UserService } from '../service/user/user.service';
 import { ProductService } from '../service/product/product.service';
 import { NeworderService } from '../service/neworder/neworder.service';
 import { BranchService } from '../service/branch/branch.service';
+import { ProducttagService } from '../service/producttag/producttag.service';
 
 import { Admin } from '../model/admin';
 import { User } from '../model/user';
@@ -11,6 +12,7 @@ import { Product } from '../model/product';
 import { Neworder } from '../model/neworder';
 import { Branch } from '../model/branch';
 import { MyToast } from '../model/Mytoast';
+import { ProductTag } from '../model/productTag';
 
 import { LOCAL_STORAGE, WebStorageService } from 'angular-webstorage-service';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -115,6 +117,7 @@ export class SaleComponent implements OnInit {
         private getBranchService: BranchService,
         private routeLogout: Router,
         private logoutService: LoginServiceService,
+        private getProductTagService: ProducttagService,
     ) {
         this.currentAdminSubject = new BehaviorSubject<Admin>(JSON.parse(localStorage.getItem('currentAdmin')));
         this.currentAdmin = this.currentAdminSubject.asObservable();
@@ -214,17 +217,17 @@ export class SaleComponent implements OnInit {
         const P_QTY = ((this.TAB_ARR
             .filter(a => a.tab_id === item.tab_id)
             .filter(a => a.tab_product.length === 1)
-            .filter(a => a.tab_product[0].product_id === pro.product_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity;
+            .filter(a => a.tab_product[0].product_hash_id === pro.product_hash_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity;
         if (property === 'add') {
             ((this.TAB_ARR
                 .filter(a => a.tab_id === item.tab_id)
                 .filter(a => a.tab_product.length === 1)
-                .filter(a => a.tab_product[0].product_id === pro.product_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity += 1;
+                .filter(a => a.tab_product[0].product_hash_id === pro.product_hash_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity += 1;
             const P_ID = ((this.TAB_ARR
                 .filter(a => a.tab_id === item.tab_id)
                 .filter(a => a.tab_product.length === 1)
-                .filter(a => a.tab_product[0].product_id === pro.product_id) as TabID[])[0].tab_product as Cart[])[0].product_id;
-            const P_TOTAL = (this.allproduct.filter(a => a.product_id === pro.product_id) as Product[])[0].product_price;
+                .filter(a => a.tab_product[0].product_hash_id === pro.product_hash_id) as TabID[])[0].tab_product as Cart[])[0].product_hash_id;
+            const P_TOTAL = (this.allproduct.filter(a => a.product_hash_id === pro.product_hash_id) as Product[])[0].product_price;
             (this.tabtotal
                 .filter(a => a.id === item.tab_id) as TabTotal[])
                 .sort((a, b) => a.total > b.total ? -1 : 1)[0].total
@@ -236,12 +239,12 @@ export class SaleComponent implements OnInit {
             ((this.TAB_ARR
                 .filter(a => a.tab_id === item.tab_id)
                 .filter(a => a.tab_product.length === 1)
-                .filter(a => a.tab_product[0].product_id === pro.product_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity -= 1;
+                .filter(a => a.tab_product[0].product_hash_id === pro.product_hash_id) as TabID[])[0].tab_product as Cart[])[0].product_quantity -= 1;
             const P_ID = ((this.TAB_ARR
                 .filter(a => a.tab_id === item.tab_id)
                 .filter(a => a.tab_product.length === 1)
-                .filter(a => a.tab_product[0].product_id === pro.product_id) as TabID[])[0].tab_product as Cart[])[0].product_id;
-            const P_TOTAL = (this.allproduct.filter(a => a.product_id === pro.product_id) as Product[])[0].product_price;
+                .filter(a => a.tab_product[0].product_hash_id === pro.product_hash_id) as TabID[])[0].tab_product as Cart[])[0].product_hash_id;
+            const P_TOTAL = (this.allproduct.filter(a => a.product_hash_id === pro.product_hash_id) as Product[])[0].product_price;
             (this.tabtotal
                 .filter(a => a.id === item.tab_id) as TabTotal[])
                 .sort((a, b) => a.total > b.total ? -1 : 1)[0].total
@@ -252,6 +255,7 @@ export class SaleComponent implements OnInit {
         else { // when quantity at 1
             this.remove_tabproduct(item, pro);
         }
+        this.test(this.t);
     }
     remove_tabproduct(item: TabID, pro: Cart): void {   // remove tab by tabid and product id
 
@@ -261,10 +265,10 @@ export class SaleComponent implements OnInit {
                     this.TAB_ARR.splice(i, 1);
                     i -= 1;
                 }
-                else if (this.TAB_ARR[i].tab_product[0].product_id === pro.product_id) {
+                else if (this.TAB_ARR[i].tab_product[0].product_hash_id === pro.product_hash_id) {
                     this.to = Number(this.to) -
                         (this.TAB_ARR[i].tab_product[0].product_quantity *
-                            (this.allproduct.filter(a => a.product_id === pro.product_id) as Product[])[0].product_price);
+                            (this.allproduct.filter(a => a.product_hash_id === pro.product_hash_id) as Product[])[0].product_price);
                     if (this.discount === undefined) {
                         this.discount = 0;
                     }
@@ -277,11 +281,11 @@ export class SaleComponent implements OnInit {
                 }
             }
         }
-        this.make_error('info', 'Removed item id#' + String(pro.product_id) + ' from tab ' + item.tab_id.toString());
+        this.make_error('info', 'Removed item id#' + String(pro.product_hash_id) + ' from tab ' + item.tab_id.toString());
     }
     find_product(p: any): void {
         this.chooseProduct(p);
-        this.searchTerm = '#' + String(p.product_id) + ': ' + p.product_name;
+        this.searchTerm = '#' + String(p.product_hash_id) + ': ' + p.product_name;
         this.PSET_ARR = [];
     }
     input_onblur(): void {
@@ -291,18 +295,27 @@ export class SaleComponent implements OnInit {
         this.searchTerm = '';
         this.input_focus();
     }
-    input_focus(): void {
+    input_focus(): object {
         this.search();
+
+        if (typeof (this.searchTerm) === 'string' && this.searchTerm !== '') {
+            return {
+                'shadow': true,
+            }
+        }
+    }
+    input_blur(): void {
+        this.searchTerm = '';
     }
     search(): void {
         if (this.searchTerm !== '') {
-            const term = this.searchTerm.toLowerCase();
+            const term = String(this.searchTerm).toLowerCase();
             this.PNAME_ARR = [];
             this.PID_ARR = [];
             // tslint:disable-next-line: only-arrow-functions
             this.PNAME_ARR = this.allproduct.filter(function (s): boolean { return s.product_name.includes(term); });
             // tslint:disable-next-line: only-arrow-functions
-            this.PID_ARR = this.allproduct.filter(function (s): boolean { return s.product_id.includes(term); });
+            this.PID_ARR = this.allproduct.filter(function (s): boolean { return s.product_hash_id.includes(term); });
 
             this.PSET_ARR = [];
             const newset = new Set(this.PNAME_ARR.concat(this.PID_ARR));
@@ -398,7 +411,7 @@ export class SaleComponent implements OnInit {
             if (t.tab_id === this.t && t.tab_product.length === 1) {
                 this.to = Number(this.to) +
                     t.tab_product[0].product_quantity *
-                    (this.allproduct.filter(b => b.product_id === t.tab_product[0].product_id) as Product[])[0].product_price;
+                    (this.allproduct.filter(b => b.product_hash_id === t.tab_product[0].product_hash_id) as Product[])[0].product_price;
             }
         });
 
@@ -457,7 +470,7 @@ export class SaleComponent implements OnInit {
     }
     chooseProduct(p: Product): void {
         const tabid = this.t;
-        const productid = p.product_id;
+        const productid = p.product_hash_id;
         let productqty = 1;
         let sum = 0;
         if (this.t === undefined) {
@@ -471,7 +484,7 @@ export class SaleComponent implements OnInit {
                 if (tabid === this.TAB_ARR[i].tab_id) {
                     // tslint:disable-next-line: prefer-for-of
                     for (var j = 0; j < this.TAB_ARR[i].tab_product.length; j++) {
-                        if (productid === this.TAB_ARR[i].tab_product[j].product_id) {
+                        if (productid === this.TAB_ARR[i].tab_product[j].product_hash_id) {
                             productqty += this.TAB_ARR[i].tab_product[j].product_quantity;
                             this.TAB_ARR[i].tab_product.splice(this.TAB_ARR[i].tab_product.indexOf(this.TAB_ARR[i].tab_product[j], 1));
                         }
@@ -490,7 +503,7 @@ export class SaleComponent implements OnInit {
             this.TAB_ARR.push({
                 tab_id: tabid,
                 tab_product: [{
-                    product_id: productid,
+                    product_hash_id: productid,
                     product_quantity: productqty,
                     cart_info: '',
                 }],
@@ -546,6 +559,7 @@ export class SaleComponent implements OnInit {
             this.to = sum;
             this.blur_discount_tax();
             console.log(this.TAB_ARR);
+            this.test(this.t);
         }
     }
 
@@ -575,9 +589,9 @@ export class SaleComponent implements OnInit {
             //   if(a.tab_id == this.t)
             //   {
             //     a.tab_product.forEach( b=>{
-            //       var p = (this.allproduct.filter(any=>any.product_id == b.product_id) as  Product[])[0] as Product
+            //       var p = (this.allproduct.filter(any=>any.product_hash_id == b.product_hash_id) as  Product[])[0] as Product
             //       var pstock = p.product_stock;
-            //       var pid = p.product_id;
+            //       var pid = p.product_hash_id;
             //       var pname = p.product_name;
             //       if(b.product_quantity > pstock){
             //         this.checkq.push("Product #"+pid+": "+pname+" doesnt have enough in stock: only "+pstock+" left.")
@@ -589,12 +603,12 @@ export class SaleComponent implements OnInit {
             for (var i = 0; i < this.TAB_ARR.length; i++) {
                 if (this.TAB_ARR[i].tab_id === this.t) {
                     for (var j = 0; j < this.TAB_ARR[i].tab_product.length; j++) {
-                        const p = (this.allproduct.filter(a => a.product_id === this.TAB_ARR[i].tab_product[j].product_id)[0] as Product);
+                        const p = (this.allproduct.filter(a => a.product_hash_id === this.TAB_ARR[i].tab_product[j].product_hash_id)[0] as Product);
                         if (this.TAB_ARR[i].tab_product[0].product_quantity > p.product_stock) {
                             this.checkq = [];
                             console.log(this.TAB_ARR[i].tab_product[0].product_quantity);
                             this.checkq.push('tab:' + this.t +
-                                ' Product #' + p.product_id +
+                                ' Product #' + p.product_hash_id +
                                 ': ' + p.product_name +
                                 ' not enough in stock: only ' + p.product_stock + ' left.');
                         }
@@ -619,7 +633,7 @@ export class SaleComponent implements OnInit {
                         for (var j = 0; j < this.TAB_ARR[i].tab_product.length; j++) {
                             // tslint:disable-next-line: no-var-keyword
                             for (var k = 0; k < this.allproduct.length; k++) {
-                                if (this.TAB_ARR[i].tab_product[j].product_id === this.allproduct[k].product_id) {
+                                if (this.TAB_ARR[i].tab_product[j].product_hash_id === this.allproduct[k].product_hash_id) {
                                     this.allproduct[k].product_stock -= this.TAB_ARR[i].tab_product[j].product_quantity;
                                     this.allproduct[k].product_bought += this.TAB_ARR[i].tab_product[j].product_quantity;
                                     this.getProductService.updateProduct(this.allproduct[k]).subscribe();
@@ -671,12 +685,45 @@ export class SaleComponent implements OnInit {
                 for (var i = 0; i < this.TAB_ARR.length; i++) {
                     if (this.TAB_ARR[i].tab_id === this.t && this.TAB_ARR[i].tab_product.length === 1) {
                         products1.push({
-                            product_id: this.TAB_ARR[i].tab_product[0].product_id,
+                            product_hash_id: this.TAB_ARR[i].tab_product[0].product_hash_id,
                             product_quantity: this.TAB_ARR[i].tab_product[0].product_quantity,
                             cart_info: '',
                         });
                     }
                 }
+                // set a tag for each purchased product
+                for (var i = 0; i < products1.length; i++) {
+                    for (var j = 0; j < this.allproduct.length; j++) {
+                        if (products1[i].product_hash_id === this.allproduct[j].product_hash_id) {
+                            const newTagHash = (new Md5()).appendStr(products1[i].product_hash_id + Date().toString()).end().toString();
+                            console.log(newTagHash);
+                            const tempTag: ProductTag = {
+                                tag_id: 'mytagid',
+                                tag_hash_id: newTagHash,
+                                tag_product_id: products1[i].product_hash_id,
+                                tag_name: 'Ban hang',
+                                tag_quantity: products1[i].product_quantity,
+                                tag_created_at: new Date(),
+                                tag_supplier_hid: '',
+                                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                                tag_branch_id: (this.branchModel as Branch).branch_hash_id,
+                                tag_info: '',
+                                tag_price: this.allproduct[j].product_price * products1[i].product_quantity,
+                                tag_paid: orderPaid,
+                                tag_user_id: customer1.user_hash_id,
+                                tag_order_id: orderHashID,
+                                tag_discount_amount: null,
+                                tag_updated_at: new Date(),
+                            };
+                            console.log(this.allproduct[j]);
+                            this.getProductTagService.addProductTag(tempTag).subscribe();
+                            this.allproduct[j].product_tag.push(tempTag);
+                            this.getProductService.updateProduct(this.allproduct[j]).subscribe();
+                        }
+                    }
+                }
+
                 const unknOrder: unknown =
                 {
                     order_id: orderID,
@@ -949,7 +996,7 @@ export class SaleComponent implements OnInit {
 
     savePayment(currentTab: number, tabCash: number, tabCard: number, tabBank: number): void {
         const tabid = currentTab;
-        if (tabCash === null || tabCash === undefined || Number(tabCash) === 0) { tabCash = 0; }
+        if (tabCash === null || tabCash === undefined || Number(tabCash) === 0 || typeof (tabCash) !== 'number') { tabCash = 0; }
         if (tabCard === null || tabCard === undefined || Number(tabCard) === 0) { tabCard = 0; }
         if (tabBank === null || tabBank === undefined || Number(tabBank) === 0) { tabBank = 0; }
 

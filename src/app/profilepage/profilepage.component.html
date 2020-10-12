@@ -52,6 +52,23 @@
     ul.pagination:hover {
         cursor: pointer;
     }
+
+    .userinput::-webkit-outer-spin-button,
+    .userinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .userinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 16px;
+    }
+
+    .userinput:focus {
+        border-bottom: 1px solid gray;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -129,7 +146,7 @@
                         <li class="nav-item active">
                             <a href="/sale-page"
                                 class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
                                 <p>Sale</p>
                             </a>
                         </li>
@@ -204,6 +221,13 @@
                                         class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Product list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
                                     </a>
                                 </li>
                             </ul>
@@ -306,7 +330,7 @@
                                 <div class="card-body">
 
                                     <div class="table-responsive">
-                                        <table class="table">
+                                        <table class="table table-borderless">
                                             <tr class=" bg-light">
                                                 <th scope="row"
                                                     (click)="sortOrder('order_id')"><b>Id</b>
@@ -392,12 +416,14 @@
                                                     <b>Branch</b>
                                                 </th>
                                             </tr>
-                                            <tbody [attr.id]="'accordion' + z"
+                                            <tbody id='accordion'
                                                 *ngFor="let i of ORDER_TEMP.slice(0,10) | filter : searchOrder; let z = index">
                                                 <tr class="hover"
                                                     data-toggle="collapse"
-                                                    [attr.data-parent]="'#accordion' + z"
-                                                    [attr.href]="'#collapseThree_' + z">
+                                                    [attr.data-target]="'#collapseThree_' + z"
+                                                    aria-expanded="false"
+                                                    [attr.aria-controls]="'collapseThree_' + z">
+
                                                     <th scope="row">{{i.order_id}}</th>
                                                     <td>${{i.order_subtotal}}</td>
                                                     <td *ngIf="i.order_discount_type==='amount'">
@@ -416,7 +442,9 @@
                                                         colspan="10">
                                                         <div class="margin:0%"
                                                             [attr.id]="'collapseThree_' + z "
-                                                            class="collapse">
+                                                            class="collapse"
+                                                            data-parent='#accordion'>
+
                                                             <div class="card bg-light"
                                                                 style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
                                                                 <ul class="nav nav-tabs"
@@ -471,18 +499,16 @@
                                                                                         <td>Order status </td>
                                                                                         <td>
                                                                                             <input #userStatus
-                                                                                                class="form-control"
-                                                                                                placeholder="{{i.order_status[0]}}"
-                                                                                                value="{{i.order_status[0]}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{i.order_status[0]}}">
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td>Name:</td>
                                                                                         <td>
                                                                                             <input #userName
-                                                                                                class="form-control"
-                                                                                                placeholder="{{i.customer.user_name}}"
-                                                                                                value="{{i.customer.user_name}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{i.customer.user_name}}">
                                                                                         </td>
                                                                                         <td>User ID: </td>
                                                                                         <td>{{u.user_id}}</td>
@@ -491,31 +517,27 @@
                                                                                         <td>Telephone:</td>
                                                                                         <td>
                                                                                             <input #userTel
-                                                                                                class="form-control"
-                                                                                                placeholder="{{i.customer.user_telephone}}"
-                                                                                                value="{{i.customer.user_telephone}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{i.customer.user_telephone}}">
                                                                                         </td>
                                                                                         <td>Address: </td>
                                                                                         <td><input #userAddress
-                                                                                                class="form-control"
-                                                                                                placeholder="{{i.customer.user_address[0]}}"
-                                                                                                value="{{i.customer.user_address[0]}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{i.customer.user_address[0]}}">
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>
                                                                                         <td>Email:</td>
                                                                                         <td>
                                                                                             <input #userEmail
-                                                                                                class="form-control"
-                                                                                                placeholder="{{i.customer.user_email}}"
-                                                                                                value="{{i.customer.user_email}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{i.customer.user_email}}">
                                                                                         </td>
                                                                                         <td>Role: </td>
                                                                                         <td>
                                                                                             <input #userRole
-                                                                                                class="form-control"
-                                                                                                placeholder="{{u.user_role}}"
-                                                                                                value="{{u.user_role}}">
+                                                                                                class="form-control userinput"
+                                                                                                placeholder="{{u.user_role}}">
                                                                                         </td>
                                                                                     </tr>
                                                                                     <tr>

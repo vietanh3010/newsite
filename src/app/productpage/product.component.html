@@ -52,6 +52,27 @@
     ul.pagination:hover {
         cursor: pointer;
     }
+
+    label {
+        font-weight: normal !important;
+    }
+
+    .userinput::-webkit-outer-spin-button,
+    .userinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .userinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+        font-size: 16px;
+    }
+
+    .userinput:focus {
+        border-bottom: 1px solid gray;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -129,7 +150,7 @@
                         <li class="nav-item active">
                             <a href="/sale-page"
                                 class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
                                 <p>Sale</p>
                             </a>
                         </li>
@@ -198,12 +219,18 @@
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
-
                                 <li class="nav-item">
                                     <a href="/product-page"
                                         class="nav-link active">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Product list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
                                     </a>
                                 </li>
                             </ul>
@@ -278,30 +305,54 @@
 
                             <div class="card">
 
-                                <div class="card-header text-right">
+                                <div class="card-header">
                                     <div class="modal fade bd-example-modal-lg"
                                         tabindex="-1"
                                         role="dialog"
                                         aria-labelledby="myLargeModalLabel"
                                         aria-hidden="true">
                                         <div class="modal-dialog"
-                                            style="max-width: 75% !important;margin: auto !important;">
+                                            style="max-width: 60% !important;">
                                             <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <a class="text-right float-right">
-                                                        <button class="btn btn-success"
+                                                <div class="modal-header d-flex justify-content-between">
+                                                    <div class="p-0">
+                                                        <button type="button"
+                                                            class="btn btn-link">
+                                                            <h3 class="m-0">{{fileName}}</h3>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-link"
+                                                            *ngIf="fileName !== ''"
+                                                            (click)="removeFile()">
+                                                            <i class="far fa-times-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="p-0">
+                                                        <button class="btn btn-light border"
                                                             *ngIf="importExcelProduct.length > 0"
                                                             (click)="updateData()"
                                                             data-dismiss="modal">
-                                                            <i class="fas fa-save"></i>
-                                                            <label class="m-0 p-0">Update stock</label>
+                                                            <label class="m-0 p-0">
+                                                                <i class="fas fa-save"></i>
+                                                                Update stock</label>
                                                         </button>
-                                                    </a>
+                                                        <button class="btn btn-light border m-1">
+                                                            <label class="m-0 p-0">
+                                                                <span class="mdi mdi-file-export"> </span>
+                                                                <i class="fas fa-file-upload"></i>
+                                                                Select file
+                                                                <input hidden
+                                                                    type="file"
+                                                                    (change)="onFileChange($event)"
+                                                                    multiple="false">
+                                                            </label>
+                                                        </button>
+                                                    </div>
                                                 </div>
-                                                <div class="modal-body">
+                                                <div class="modal-body table-responsive">
                                                     <table class="table table-hover table-striped">
                                                         <tbody>
-                                                            <tr>
+                                                            <tr *ngIf="importExcelProduct.length > 0">
                                                                 <th scope="row">Hash ID</th>
                                                                 <td>Barcode</td>
                                                                 <td>Name</td>
@@ -311,6 +362,15 @@
                                                                 <td>Primecost</td>
                                                                 <td>Stock</td>
                                                                 <td>Description</td>
+                                                            </tr>
+                                                            <tr *ngIf="importExcelProduct.length === 0"
+                                                                aria-rowspan="5">
+                                                                <td class="text-center p-5 border"
+                                                                    style="color: gray"
+                                                                    colspan="9">
+                                                                    <i class="far fa-file"></i>
+                                                                    Upload a file...
+                                                                </td>
                                                             </tr>
                                                             <tr class="tbody"
                                                                 *ngFor="let i of importExcelProduct ">
@@ -349,32 +409,21 @@
 
                                         </div>
                                         <div class="p-0">
-                                            <button *ngIf="importExcelProduct.length > 0"
-                                                data-toggle="modal"
-                                                data-target=".bd-example-modal-lg"
-                                                class="btn btn-outline-success  m-1">
-                                                <label class="m-0 p-0">
-                                                    <i class="far fa-file-alt"></i>
-                                                    Preview file</label>
-                                            </button>
-                                            <button class="btn btn-outline-primary  m-1"
+
+                                            <button class="btn btn-light border  m-1"
                                                 (click)="exportData('exportTable')">
                                                 <span class="mdi mdi-file-export"> </span>
                                                 <i class="fas fa-file-export"></i>
                                                 <label class="m-0 p-0">Export</label>
                                             </button>
-                                            <button class="btn btn-outline-primary m-1">
+                                            <button data-toggle="modal"
+                                                data-target=".bd-example-modal-lg"
+                                                class="btn btn-light border m-1">
                                                 <label class="m-0 p-0">
-                                                    <span class="mdi mdi-file-export"> </span>
                                                     <i class="fas fa-file-import"></i>
-                                                    Import
-                                                    <input hidden
-                                                        type="file"
-                                                        (change)="onFileChange($event)"
-                                                        multiple="false">
-                                                </label>
+                                                    Import</label>
                                             </button>
-                                            <button class="btn btn-outline-primary m-1"
+                                            <button class="btn btn-light border m-1"
                                                 (click)="exportData('exampleTable')">
 
                                                 <label class="m-0 p-0">
@@ -477,7 +526,6 @@
                                         class="table table-bordered"
                                         style="display: none;">
                                         <tr>
-                                            <td>ID</td>
                                             <td>Name</td>
                                             <td>Price</td>
                                             <td>Image</td>
@@ -499,7 +547,6 @@
                                         </tr>
                                         <tr class="tbody"
                                             *ngFor="let i of allProduct">
-                                            <td>{{i.product_id}}</td>
                                             <td>{{i.product_name}}</td>
                                             <td>{{i.product_price}}</td>
                                             <td>{{i.product_img}}</td>
@@ -520,7 +567,7 @@
                                             <td>{{i.product_brand}}</td>
                                         </tr>
                                     </table>
-                                    <table class="table table-striped table-hover">
+                                    <table class="table table-borderless">
                                         <tr class="bg-light">
                                             <th scope="row"
                                                 (click)="sortProduct('product_id')"><b>Id</b>
@@ -532,6 +579,19 @@
                                                         *ngIf="productSort===false && chooseProduct === 'product_id' "><i
                                                             class="fas fa-caret-up"></i></span>
                                                     <span *ngIf="chooseProduct !== 'product_id' "><i
+                                                            class="fas fa-sort"></i></span>
+                                                </span>
+                                            </th>
+                                            <th scope="row"
+                                                (click)="sortProduct('product_hash_id')"><b>Hash Id</b>
+                                                <span class="float-right">
+                                                    <span
+                                                        *ngIf="productSort===true && chooseProduct === 'product_hash_id' "><i
+                                                            class="fas fa-caret-down"></i></span>
+                                                    <span
+                                                        *ngIf="productSort===false && chooseProduct === 'product_hash_id' "><i
+                                                            class="fas fa-caret-up"></i></span>
+                                                    <span *ngIf="chooseProduct !== 'product_hash_id' "><i
                                                             class="fas fa-sort"></i></span>
                                                 </span>
                                             </th>
@@ -640,10 +700,24 @@
                                                 </span>
                                             </th>
                                         </tr>
+                                        <tr *ngIf="allProduct.length === 0"
+                                            aria-rowspan="5">
+                                            <td class="text-center p-5 border"
+                                                style="color: gray"
+                                                colspan="10">
+                                                <i class="far fa-file"></i>
+                                                Add a product or import a file...
+                                            </td>
+                                        </tr>
                                         <tbody [attr.id]="'accordion' + z"
                                             *ngFor="let i of allProduct | filter:searchProduct ; let z = index">
-                                            <tr>
+
+                                            <tr class="hover"
+                                                data-toggle="collapse"
+                                                [attr.data-parent]="'#accordion' + z"
+                                                [attr.href]="'#collapseProduct' + z">
                                                 <th scope="row">{{i.product_id}}</th>
+                                                <td>{{i.product_hash_id}}</td>
                                                 <td>{{i.product_barcode}}</td>
                                                 <td>{{i.product_name}}</td>
                                                 <td>{{i.product_price}}</td>
@@ -652,6 +726,212 @@
                                                 <td>{{i.product_category}}</td>
                                                 <td>{{i.product_description}}</td>
                                                 <td>{{i.product_brand}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="p-0"
+                                                    colspan="10">
+                                                    <div class="m-0 "
+                                                        [attr.id]="'collapseProduct' + z "
+                                                        class="collapse">
+                                                        <div class="card bg-light"
+                                                            style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                                            <ul class="nav nav-tabs"
+                                                                id="myTab"
+                                                                role="tablist">
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link active"
+                                                                        id="contact-tab"
+                                                                        data-toggle="tab"
+                                                                        [attr.href]="'#tab1'+z"
+                                                                        role="tab"
+                                                                        aria-selected="true">
+                                                                        Product detail
+                                                                    </a>
+                                                                </li>
+                                                                <li class="nav-item">
+                                                                    <a class="nav-link"
+                                                                        id="profile-tab"
+                                                                        data-toggle="tab"
+                                                                        [attr.href]="'#tab2'+z"
+                                                                        role="tab"
+                                                                        aria-selected="false">Product tag</a>
+                                                                </li>
+                                                            </ul>
+                                                            <div class="tab-content"
+                                                                id="myTabContent">
+                                                                <div class="tab-pane fade show active  border-right border-left border-bottom"
+                                                                    [attr.id]="'tab1' + z "
+                                                                    role="tabpanel">
+                                                                    <div class="card p-4 shadow-none">
+                                                                        <table class="table">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Name:</button>
+                                                                                    </td>
+                                                                                    <td><input #pname
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_name}}">
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Price:</button>
+                                                                                    </td>
+                                                                                    <td><input #pprice
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_price}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Primecost:</button>
+                                                                                    </td>
+                                                                                    <td><input #pprimecost
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_prime_cost}}">
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Category:</button>
+                                                                                    </td>
+                                                                                    <td><input #pcategory
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_category}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Image:</button>
+                                                                                    </td>
+                                                                                    <td><input #pimg
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_img}}"
+                                                                                            readonly>
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Stock:</button>
+                                                                                    </td>
+                                                                                    <td><input #pstock
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_stock}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Weight:</button>
+                                                                                    </td>
+                                                                                    <td><input #pweight
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_weight}}">
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Description:</button>
+                                                                                    </td>
+                                                                                    <td><input #pdescription
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_description}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Branch:</button>
+                                                                                    </td>
+                                                                                    <td><input #pbranch
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_branch}}">
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Barcode:</button>
+                                                                                    </td>
+                                                                                    <td><input #pbarcode
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_barcode}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Unit:</button>
+                                                                                    </td>
+                                                                                    <td><input #punit
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_unit}}">
+                                                                                    </td>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Brand:</button>
+                                                                                    </td>
+                                                                                    <td><input #pbrand
+                                                                                            class="form-control userinput"
+                                                                                            placeholder="{{i.product_brand}}">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td><button
+                                                                                            class="btn btn-white">Additional
+                                                                                            info:</button></td>
+                                                                                    <td colspan="4">
+                                                                                        <textarea class="form-control"
+                                                                                            #pinfo
+                                                                                            value="{{i.additional_info}}"
+                                                                                            row="3">
+                                                                                            </textarea>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="6"
+                                                                                        class="text-right">
+                                                                                        <button
+                                                                                            class="btn btn-danger mr-1"
+                                                                                            (click)="removeProduct(i)">Delete</button>
+                                                                                        <button class="btn btn-success"
+                                                                                            (click)="updateProduct(i,pname.value,pprice.value,pprimecost.value,pcategory.value,
+                                                                                            pstock.value,pweight.value,pdescription.value,pbranch.value,pbarcode.value,punit.value,pbrand.value,pinfo.value)">Update</button>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="tab-pane fade border-right border-left border-bottom"
+                                                                    [attr.id]="'tab2' + z "
+                                                                    role="tabpanel"
+                                                                    aria-labelledby="profile-tab">
+
+                                                                    <div class="card p-4 shadow-none">
+                                                                        <table class="table table-hover">
+                                                                            <tr class="bg-light">
+                                                                                <th>Tag id</th>
+                                                                                <th>Tag name</th>
+                                                                                <th>Quantity</th>
+                                                                                <th>Price</th>
+                                                                                <th>Discount</th>
+                                                                                <th>Created emp</th>
+                                                                                <th>Created at</th>
+                                                                            </tr>
+                                                                            <tbody *ngFor="let j of i.product_tag">
+                                                                                <tr>
+                                                                                    <td>{{j.tag_hash_id}}</td>
+                                                                                    <td
+                                                                                        *ngIf="j.tag_name==='Nhap hang'">
+                                                                                        <span
+                                                                                            class="badge badge-info">{{j.tag_name}}</span>
+                                                                                    </td>
+                                                                                    <td *ngIf="j.tag_name==='Ban hang'">
+                                                                                        <span
+                                                                                            class="badge badge-success">{{j.tag_name}}</span>
+                                                                                    </td>
+                                                                                    <td>{{j.tag_quantity}}</td>
+                                                                                    <td>{{j.tag_price}}</td>
+                                                                                    <td>{{j.tag_discount_amount}}</td>
+                                                                                    <td>{{j.tag_emp_created_hid}}</td>
+                                                                                    <td>{{j.tag_created_at}}</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                             </tr>
                                         </tbody>
                                     </table>

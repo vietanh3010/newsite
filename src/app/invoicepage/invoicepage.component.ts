@@ -116,14 +116,14 @@ export class InvoicepageComponent implements OnInit {
             // tslint:disable-next-line: no-var-keyword
             for (var i = 0; i < (this.singleOrder[0].products).length; i++) {
                 this.CURREN_CART.push({
-                    product_id: (this.singleOrder[0].products[i] as Cart).product_id,
+                    product_hash_id: (this.singleOrder[0].products[i] as Cart).product_hash_id,
                     product_quantity: (this.singleOrder[0].products[i] as Cart).product_quantity,
                     cart_info: '',
                 })
             }
             for (var i = 0; i < this.CURREN_CART.length; i++) {
                 for (var j = 0; j < this.productlist.length; j++) {
-                    if (this.CURREN_CART[i].product_id === this.productlist[j].product_id) {
+                    if (this.CURREN_CART[i].product_hash_id === this.productlist[j].product_hash_id) {
                         this.PRODUCT_CART.push({
                             product_id: this.productlist[j].product_id,
                             product_name: this.productlist[j].product_name,

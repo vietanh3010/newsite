@@ -1,3 +1,5 @@
+import { ProductTag } from './productTag';
+
 export interface Product {
     product_id: string;
     product_name: string;
@@ -13,7 +15,7 @@ export interface Product {
     product_weight: number;
     product_description: string;
     product_branch: string;
-    product_tag: string[];
+    product_tag: ProductTag[];
     additional_info: string;
     product_barcode: number;
     product_unit: string;

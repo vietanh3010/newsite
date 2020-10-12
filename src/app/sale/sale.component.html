@@ -45,7 +45,6 @@
         text-decoration: none;
         display: block;
         margin: none;
-        border-radius: 10px;
         /* border-bottom:2px solid gray;
       border-left:2px solid gray;
       border-right:2px solid gray */
@@ -159,6 +158,10 @@
         font-size: 16px;
     }
 
+    .userinput:focus {
+        border-bottom: 1px solid green;
+    }
+
     .orderinput {
         border-radius: 0;
         border: none;
@@ -238,13 +241,14 @@
                                         <span *ngIf="searchTerm === ''"><i class="fas fa-search"></i></span>
                                     </button>
                                 </span>
-
-                                <div class="mysearch">
+                                <div class="mysearch"
+                                    [ngClass]="input_focus()">
                                     <input id="myInput"
                                         placeholder="Find product..."
                                         [(ngModel)]="searchTerm"
                                         (ngModelChange)="search()"
-                                        (focus)="input_focus()">
+                                        (focus)="input_focus()"
+                                        (blur)="input_blur()">
                                     <div class="my-result">
                                         <a *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
                                             (click)="find_product(item)">
@@ -295,6 +299,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <div class="col-sm-3">
@@ -381,8 +386,8 @@
                         <li class="nav-item active">
                             <a href="/sale-page"
                                 class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
-                                <p>Sale</p>
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
+                                <p> Sale</p>
                             </a>
                         </li>
 
@@ -421,8 +426,7 @@
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#"
-                                class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     User
@@ -441,8 +445,7 @@
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#"
-                                class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon fas fa-book"></i>
                                 <p>
                                     Product
@@ -458,11 +461,17 @@
                                         <p>Product list</p>
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                         <li class="nav-item has-treeview">
-                            <a href="#"
-                                class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon far fa-plus-square"></i>
                                 <p>
                                     Authentication
@@ -482,8 +491,7 @@
 
                         <li class="nav-header">LABELS</li>
                         <li class="nav-item">
-                            <a href="#"
-                                class="nav-link">
+                            <a class="nav-link">
                                 <i class="nav-icon far fa-circle text-danger"></i>
                                 <p class="text">Important</p>
                             </a>
@@ -511,88 +519,7 @@
 
         <!-- Content Wrapper. Contains page content *ngIf="searchinput.value !== '' " -->
         <div class="content-wrapper">
-            <!-- Content Header (Page header) -->
-            <!-- <section class="content-header">
-                <div class="container-fluid">
-                    <div class="row mb-2">
 
-                        <div class="col-sm-6">
-                            <div class="input-group">
-                                <div
-                                    class="btn-group"
-                                    role="group"
-                                >
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        (click)="sort_by_product('product_id')"
-                                    >ID
-                                        <span *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_id' "><i
-                                                class="fas fa-caret-down"
-                                            ></i></span>
-                                        <span *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_id' "><i
-                                                class="fas fa-caret-up"
-                                            ></i></span>
-                                        <span *ngIf="CHOSEN_PROPERTY !== 'product_id' "><i
-                                                class="fas fa-sort"></i></span>
-                                    </button>
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        (click)="sort_by_product('product_bought')"
-                                    >Purchase
-                                        <span *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_bought' "><i
-                                                class="fas fa-caret-down"
-                                            ></i></span>
-                                        <span *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_bought' "><i
-                                                class="fas fa-caret-up"
-                                            ></i></span>
-                                        <span *ngIf="CHOSEN_PROPERTY !== 'product_bought' "><i
-                                                class="fas fa-sort"></i></span>
-                                    </button>
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        (click)="sort_by_product('product_stock')"
-                                    >Stock
-                                        <span *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_stock' "><i
-                                                class="fas fa-caret-down"
-                                            ></i></span>
-                                        <span *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_stock' "><i
-                                                class="fas fa-caret-up"
-                                            ></i></span>
-                                        <span *ngIf="CHOSEN_PROPERTY !== 'product_stock' "><i
-                                                class="fas fa-sort"></i></span>
-                                    </button>
-                                    <button
-                                        class="btn btn-outline-secondary"
-                                        type="button"
-                                        (click)="sort_by_product('product_updated_at')"
-                                    >Update time
-                                        <span
-                                            *ngIf="PRODUCT_SORT===true && CHOSEN_PROPERTY === 'product_updated_at' "><i
-                                                class="fas fa-caret-down"
-                                            ></i></span>
-                                        <span
-                                            *ngIf="PRODUCT_SORT===false && CHOSEN_PROPERTY === 'product_updated_at' "><i
-                                                class="fas fa-caret-up"
-                                            ></i></span>
-                                        <span *ngIf="CHOSEN_PROPERTY !== 'product_updated_at' "><i
-                                                class="fas fa-sort"></i></span>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <ol class="breadcrumb float-sm-right">
-                                <li class="breadcrumb-item"><a href="/profile-page">Home</a></li>
-                                <li class="breadcrumb-item active">Sale</li>
-
-                            </ol>
-                        </div>
-                    </div>
-                </div>
-            </section> -->
             <div class="modal fade bd-example-modal-lg"
                 tabindex="-1"
                 role="dialog"
@@ -600,20 +527,20 @@
                 aria-hidden="true">
                 <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title"
-                                id="exampleModalLabel">Add customer</h5>
-                            <button type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
+                        <div class="modal-header bg-dark">
+                            <div class="btn btn-dark">
+                                Add customer
+                            </div>
+
                         </div>
                         <div class="modal-body">
-                            <h2>Main info</h2>
-                            <table class="table">
+                            <table class="table table-borderless">
                                 <tbody>
+                                    <tr>
+                                        <td colspan="4">
+                                            <h1>Main info</h1>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td><button class="btn btn-white"><b>Username:</b> </button> </td>
                                         <td><input class="form-control userinput"
@@ -624,12 +551,11 @@
                                                 placeholder="Hash id..."
                                                 #id></td>
                                     </tr>
-                                </tbody>
-                            </table>
-
-                            <h2>Additional info</h2>
-                            <table class="table table-borderless">
-                                <tbody>
+                                    <tr>
+                                        <td colspan="4">
+                                            <h1>Additional info</h1>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <td><button class="btn btn-white"><b>Telephone: </b></button> </td>
                                         <td><input class="form-control userinput"
@@ -677,9 +603,10 @@
                                 class="btn btn-secondary"
                                 data-dismiss="modal">Close</button>
                             <button type="button"
-                                class="btn btn-primary"
-                                (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)">Save
-                                changes</button>
+                                class="btn btn-success"
+                                (click)="addNewOrderUser(name.value,id.value,telephone.value,address.value,email.value,role.value,dob.value,gender.value,info.value)">
+                                Save
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -753,14 +680,14 @@
                                                                         <tr>
                                                                             <td>
                                                                                 <small>Id</small>
-                                                                                <h1>{{pro.product_id}}</h1>
+                                                                                <h5>{{pro.product_hash_id}}</h5>
                                                                             </td>
                                                                             <td></td>
                                                                             <td>
                                                                                 <small>Name</small>
                                                                                 <h3><span *ngFor="let pr of allproduct">
                                                                                         <span
-                                                                                            *ngIf="pr.product_id === pro.product_id">{{pr?.product_name}}</span>
+                                                                                            *ngIf="pr.product_hash_id === pro.product_hash_id">{{pr?.product_name}}</span>
                                                                                     </span></h3>
                                                                             </td>
                                                                         </tr>
@@ -795,7 +722,8 @@
                                                                 <td class="col-2 mytd"
                                                                     rowspan="2">
                                                                     <span *ngFor="let pr of allproduct">
-                                                                        <span *ngIf="pr.product_id === pro.product_id">
+                                                                        <span
+                                                                            *ngIf="pr.product_hash_id === pro.product_hash_id">
                                                                             <small>Price</small>
                                                                             <h1>${{pr?.product_price}}</h1>
                                                                         </span>
@@ -804,7 +732,8 @@
                                                                 <td class="col-2 mytd"
                                                                     rowspan="2">
                                                                     <span *ngFor="let pr of allproduct">
-                                                                        <span *ngIf="pr.product_id === pro.product_id">
+                                                                        <span
+                                                                            *ngIf="pr.product_hash_id === pro.product_hash_id">
                                                                             <small>Total</small>
                                                                             <h1>${{pro.product_quantity * pr?.product_price}}
                                                                             </h1>
@@ -975,7 +904,7 @@
                                                 </select>
                                                 <div class="input-group-append">
                                                     <button type="button"
-                                                        class="input-group-text bg-success"
+                                                        class="input-group-text bg-light"
                                                         data-toggle="modal"
                                                         data-target=".bd-example-modal-lg">
                                                         <i class="fas fa-plus"></i>

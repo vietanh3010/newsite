@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"
+        content="IE=edge">
+    <title>Order and transaction</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1">
+
+
+</head>
+<style>
+    .hover:hover {
+        background-color: #e2e3e5;
+    }
+
+    .mysearch {
+        position: absolute;
+        background-color: white !important;
+        width: 100%;
+        overflow: auto;
+        z-index: 1;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .mysearch a {
+        background-color: white !important;
+        color: black;
+        padding: 15px 5px 15px 5px;
+        text-decoration: none;
+        display: block;
+        margin: none;
+        /* border-bottom:2px solid gray;
+      border-left:2px solid gray;
+      border-right:2px solid gray */
+
+    }
+
+    .myimg {
+        max-width: 70px;
+        border-radius: 5px;
+    }
+
+    .mysearch a:hover {
+        /* background-color: #343A40;
+      color:white; */
+        filter: brightness(90%);
+        cursor: pointer;
+
+    }
+
+    .my-p {
+        text-align: center;
+        cursor: pointer;
+        border-top: 1px solid gray;
+        border-bottom: 1px solid gray;
+    }
+
+    #myInput {
+        box-sizing: border-box;
+        background-repeat: no-repeat;
+        width: 100%;
+        font-size: 16px;
+        margin: none;
+        padding: 5px;
+        padding-left: 35px;
+        border-bottom-left-radius: none !important;
+        border-bottom-right-radius: none !important;
+    }
+
+    .hover:hover {
+        background-color: #e2e3e5;
+    }
+
+    table {
+        cursor: pointer;
+    }
+
+    .my-toast {
+        margin: 10px 20px 5px 10px;
+        padding: 20px;
+        min-width: 250px;
+        max-width: 250px;
+        max-height: 150px;
+        color: red;
+    }
+
+    .my-toast-wrapper {
+        overflow: auto;
+        position: absolute;
+        top: 0;
+        right: 0;
+    }
+
+    .my-toast-wrapper:hover {
+        cursor: pointer;
+    }
+
+    .my-toast:hover {
+        filter: brightness(90%);
+    }
+
+    .tab-color {
+        background-color: lightgray !important;
+    }
+
+    ul.pagination:hover {
+        cursor: pointer;
+    }
+
+    label {
+        font-weight: normal !important;
+    }
+
+    .userinput::-webkit-outer-spin-button,
+    .userinput::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    .userinput {
+        border-radius: 0;
+        border: none;
+        border-bottom: 1px solid lightgray;
+    }
+</style>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link"
+                        data-widget="pushmenu"
+                        href="#"
+                        role="button"><i class="fas fa-bars"></i></a>
+                </li>
+
+            </ul>
+
+            <!-- mytoast -->
+            <ul class="my-toast-wrapper">
+                <li class="card my-toast"
+                    [ngClass]="toast_type(e.type)"
+                    [ngStyle]="toast_color(e.type)"
+                    *ngFor="let e of err"
+                    (click)="dismiss_err(e)">
+                    <div class="row">
+                        <div *ngIf="e.type === 'danger' "><i class="fas fa-exclamation-circle"></i></div>
+                        <div *ngIf="e.type === 'success' "><i class="fas fa-check-circle"></i></div>
+                        <div *ngIf="e.type === 'warning' "><i class="fas fa-exclamation-triangle"></i></div>
+                        <div *ngIf="e.type === 'info' "><i class="fas fa-info-circle"></i></div>
+                        <div class="col">
+                            <div *ngIf="err.length !== 0">{{e.message}}</div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+            <!-- Right navbar links -->
+
+        </nav>
+        <!-- /.navbar -->
+
+        <!-- Main Sidebar Container -->
+        <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <!-- Brand Logo -->
+            <a class="brand-link">
+                <img src="assets/dist/img/AdminLTELogo.png"
+                    alt="AdminLTE Logo"
+                    class="brand-image img-circle elevation-3"
+                    style="opacity: .8">
+                <span class="brand-text font-weight-light">Admin</span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+                <!-- Sidebar user (optional) -->
+                <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                    <div class="image">
+                        <img src="assets/dist/img/maleava.png"
+                            class="img-circle elevation-2"
+                            alt="User Image">
+                    </div>
+                    <div class="info">
+                        <a *ngFor="let i of infoarr"
+                            class="d-block">{{i.admin_name}}</a>
+                    </div>
+                </div>
+
+                <!-- Sidebar Menu -->
+                <nav class="mt-2">
+                    <ul class="nav nav-pills nav-sidebar flex-column"
+                        data-widget="treeview"
+                        role="menu"
+                        data-accordion="false">
+
+                        <li class="nav-item active">
+                            <a href="/sale-page"
+                                class="nav-link">
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
+                                <p>Sale</p>
+                            </a>
+                        </li>
+
+                        <li class="nav-item has-treeview">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Order
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/profile-page"
+                                        class="nav-link ">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Order list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/sale-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Sale</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/invoice-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Invoice</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    User
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+
+                                <li class="nav-item">
+                                    <a href="/user-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>User list</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview menu-open">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon fas fa-book"></i>
+                                <p>
+                                    Product
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/product-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Product list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link active">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="nav-item has-treeview">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon far fa-plus-square"></i>
+                                <p>
+                                    Authentication
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="/login-page"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Login</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-header">LABELS</li>
+                        <li class="nav-item">
+                            <a href="#"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-danger"></i>
+                                <p class="text">Important</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-warning"></i>
+                                <p>Warning</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/profile-page"
+                                class="nav-link">
+                                <i class="nav-icon far fa-circle text-info"></i>
+                                <p>Informational</p>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>Purchase order</h1>
+                        </div>
+                    </div>
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <ul class="nav nav-pills"
+                                        id="pills-tab"
+                                        role="tablist">
+                                        <li class="nav-item">
+                                            <a class="nav-link active"
+                                                id="pills-list-tab"
+                                                data-toggle="pill"
+                                                href="#pills-list"
+                                                role="tab"
+                                                aria-controls="pills-list"
+                                                aria-selected="true">List</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link"
+                                                id="pills-order-tab"
+                                                data-toggle="pill"
+                                                href="#pills-order"
+                                                role="tab"
+                                                aria-controls="pills-order"
+                                                aria-selected="false">Add product</a>
+                                        </li>
+
+                                    </ul>
+                                </div>
+                                <div class="card-body">
+                                    <div class="tab-content"
+                                        id="pills-tabContent">
+                                        <div class="tab-pane fade show active"
+                                            id="pills-list"
+                                            role="tabpanel"
+                                            aria-labelledby="pills-list-tab">
+                                            <div class="table-responsive">
+                                                <table class="table table-borderless">
+                                                    <tr class="bg-light">
+                                                        <th scope="row">Tag ID</th>
+                                                        <th>Hash ID</th>
+                                                        <th>Tag name</th>
+                                                        <th>Tag supplier id</th>
+                                                        <th>Product ID</th>
+                                                        <th>Tag price</th>
+                                                        <th>Tag paid</th>
+                                                        <th>Created at</th>
+                                                    </tr>
+                                                    <tbody [attr.id]="'accordion' + z"
+                                                        *ngFor=" let i of allProductTag ; let z = index">
+                                                        <tr class="hover"
+                                                            data-toggle="collapse"
+                                                            [attr.data-parent]="'#accordion' + z"
+                                                            [attr.href]="'#collapseTag' + z">
+                                                            <th scope="row">{{i.tag_id}}</th>
+                                                            <td>{{i.tag_hash_id}}</td>
+                                                            <td *ngIf="i.tag_name === 'Nhap hang'"><span
+                                                                    class="badge badge-info">{{i.tag_name}}</span></td>
+                                                            <td *ngIf="i.tag_name === 'Ban hang'"><span
+                                                                    class="badge badge-success">{{i.tag_name}}</span>
+                                                            </td>
+                                                            <td>{{i.tag_supplier_hid}}</td>
+                                                            <td>{{i.tag_product_id}}</td>
+                                                            <td>{{i.tag_price}}</td>
+                                                            <td>{{i.tag_paid}}</td>
+                                                            <td>{{i.tag_created_at | date:'dd/MM/yyyy  h:mm:ss a'}}</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="p-0"
+                                                                colspan="10">
+                                                                <div class="m-0 "
+                                                                    [attr.id]="'collapseTag' + z "
+                                                                    class="collapse">
+                                                                    <div class="card bg-light"
+                                                                        style="margin-bottom: 0%;padding:10px 10px 20px 10px;">
+                                                                        <ul class="nav nav-tabs"
+                                                                            id="myTab"
+                                                                            role="tablist">
+                                                                            <li class="nav-item">
+                                                                                <a class="nav-link active"
+                                                                                    id="contact-tab"
+                                                                                    data-toggle="tab"
+                                                                                    [attr.href]="'#tab1'+z"
+                                                                                    role="tab"
+                                                                                    aria-selected="true">
+                                                                                    Tag detail
+                                                                                </a>
+                                                                            </li>
+
+                                                                        </ul>
+                                                                        <div class="tab-content"
+                                                                            id="myTabContent">
+                                                                            <div class="tab-pane fade show active  border-right border-left border-bottom"
+                                                                                [attr.id]="'tab1' + z "
+                                                                                role="tabpanel">
+                                                                                <div class="card p-4 shadow-none">
+                                                                                    <table
+                                                                                        class="table table-borderless">
+                                                                                        <tbody>
+                                                                                            <tr>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Tag
+                                                                                                        ID</button></td>
+                                                                                                <td><input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_hash_id}}"
+                                                                                                        readonly></td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Product
+                                                                                                        ID</button></td>
+                                                                                                <td> <input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_product_id}}"
+                                                                                                        readonly></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Tag
+                                                                                                        name</button>
+                                                                                                </td>
+                                                                                                <td><input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_name}}"
+                                                                                                        readonly></td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">
+                                                                                                        Quantity</button>
+                                                                                                </td>
+                                                                                                <td> <input #tquantity
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_quantity}}"
+                                                                                                        value="{{i.tag_quantity}}">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr
+                                                                                                *ngIf="i.tag_name === 'Nhap hang'">
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Supplier
+                                                                                                        ID</button></td>
+                                                                                                <td><input #tsupplierid
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_supplier_hid}}"
+                                                                                                        value="{{i.tag_supplier_hid}}">
+                                                                                                </td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">
+                                                                                                        Branch
+                                                                                                        ID</button></td>
+                                                                                                <td> <input #tbranch
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_branch_id}}"
+                                                                                                        value="{{i.tag_branch_id}}">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr
+                                                                                                *ngIf="i.tag_name === 'Nhap hang'">
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Price</button>
+                                                                                                </td>
+                                                                                                <td><input #tprice
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_price}}"
+                                                                                                        value="{{i.tag_price}}">
+                                                                                                </td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">
+                                                                                                        Paid</button>
+                                                                                                </td>
+                                                                                                <td> <input #tpaid
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_paid}}"
+                                                                                                        value="{{i.tag_paid}}">
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr
+                                                                                                *ngIf="i.tag_name === 'Ban hang'">
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Order
+                                                                                                        ID</button></td>
+                                                                                                <td><input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_order_id}}"
+                                                                                                        readonly>
+                                                                                                </td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">
+                                                                                                        User ID</button>
+                                                                                                </td>
+                                                                                                <td> <input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_user_id}}"
+                                                                                                        readonly>
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Employer
+                                                                                                        created</button>
+                                                                                                </td>
+                                                                                                <td><input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_emp_created_hid}}"
+                                                                                                        readonly></td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Employer
+                                                                                                        updated</button>
+                                                                                                </td>
+                                                                                                <td> <input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_emp_updated_hid}}"
+                                                                                                        readonly></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Tag
+                                                                                                        info</button>
+                                                                                                </td>
+                                                                                                <td><input #tinfo
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_info}}"
+                                                                                                        readonly>
+                                                                                                </td>
+                                                                                                <td><button
+                                                                                                        class="btn btn-white">Updated
+                                                                                                        at</button></td>
+                                                                                                <td> <input
+                                                                                                        class="form-control userinput"
+                                                                                                        placeholder="{{i.tag_updated_at}}"
+                                                                                                        readonly></td>
+                                                                                            </tr>
+                                                                                            <tr>
+                                                                                                <td class="text-right"
+                                                                                                    colspan="10">
+                                                                                                    <button
+                                                                                                        class="btn btn-danger mr-1"
+                                                                                                        (click)="removeTag(i)">
+                                                                                                        <i
+                                                                                                            class="fas fa-trash-alt"></i>
+                                                                                                        Delete</button>
+                                                                                                    <!-- <button
+                                                                                                        class="btn btn-success"
+                                                                                                        (click)="updateTag(i, tquantity.value, tbranch.value, tprice.value, 
+                                                                                                        tpaid.value, tinfo.value)">
+                                                                                                        <i
+                                                                                                            class="fas fa-save"></i>
+                                                                                                        Save</button> -->
+                                                                                                </td>
+                                                                                            </tr>
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade"
+                                            id="pills-order"
+                                            role="tabpanel"
+                                            aria-labelledby="pills-order-tab">
+                                            <section class="content">
+                                                <div class="container-fluid">
+                                                    <div class="row mb-2">
+                                                        <div class="col-sm-6">
+                                                            <div class="col-sm-9">
+                                                                <div class="input-group">
+                                                                    <div class="input-group-append">
+                                                                        <span *ngIf="searchTerm === undefined"><button
+                                                                                class="btn"
+                                                                                style="color:gray"><i
+                                                                                    class="fas fa-search"></i></button></span>
+                                                                        <span
+                                                                            *ngIf="searchTerm !== undefined || searchTerm === ' ' ">
+                                                                            <button class="btn"
+                                                                                style="color:gray"
+                                                                                (click)="input_close()">
+                                                                                <span *ngIf="searchTerm !== ''"><i
+                                                                                        class="fas fa-times"></i></span>
+                                                                                <span *ngIf="searchTerm === ''"><i
+                                                                                        class="fas fa-search"></i></span>
+                                                                            </button>
+                                                                        </span>
+                                                                        <div class="mysearch"
+                                                                            [ngClass]="input_focus()">
+                                                                            <input id="myInput"
+                                                                                placeholder="Find product..."
+                                                                                [(ngModel)]="searchTerm"
+                                                                                (ngModelChange)="search()"
+                                                                                (focus)="input_focus()"
+                                                                                (blur)="input_blur()">
+                                                                            <div class="my-result ">
+                                                                                <a *ngFor="let item of PSET_ARR.slice(0,3); let x = index"
+                                                                                    (click)="find_product(item);selectProduct(item)">
+                                                                                    <div class="container mycon">
+                                                                                        <div class="row">
+                                                                                            <div class="col">
+                                                                                                <img class="myimg"
+                                                                                                    src="https://picsum.photos/200">
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <b>{{item.product_name}}
+                                                                                                </b>
+                                                                                                <div>
+                                                                                                    #{{item.product_id}}
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="col">
+                                                                                                <table>
+                                                                                                    <tr>
+                                                                                                        <td>In stock:
+                                                                                                        </td>
+                                                                                                        <td>{{item.product_stock}}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                    <tr>
+                                                                                                        <td>Bought:</td>
+                                                                                                        <td>{{item.product_bought}}
+                                                                                                        </td>
+                                                                                                    </tr>
+                                                                                                </table>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                    </div>
+                                                                                </a>
+                                                                                <p class="my-p"
+                                                                                    *ngIf="PSET_ARR.length>3">
+                                                                                    <b>There are {{PSET_ARR.length - 3}}
+                                                                                        more results matches...</b>
+                                                                                </p>
+
+                                                                                <a
+                                                                                    *ngIf="PSET_ARR.length === 0 && searchTerm !== undefined && searchTerm !== ''">
+                                                                                    <div class="container mycon">
+                                                                                        <div class="row">
+                                                                                            <div class="col">
+                                                                                                <p
+                                                                                                    style="text-align: center;">
+                                                                                                    <b> 0 result matches
+                                                                                                    </b></p>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </a>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="col-sm-3 text-right pr-3">
+                                                            <button class="btn btn-light border"
+                                                                data-toggle="modal"
+                                                                data-target=".addmodal">
+                                                                Add product
+                                                            </button>
+
+                                                        </div>
+                                                        <div class="modal fade addmodal"
+                                                            tabindex="-1"
+                                                            role="dialog"
+                                                            aria-labelledby="myLargeModalLabel"
+                                                            aria-hidden="true">
+                                                            <div class="modal-dialog modal-lg">
+                                                                <div class="modal-content">
+                                                                    <div class="modal-header bg-dark">
+                                                                        <div class="btn btn-dark">
+                                                                            Add product
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-body">
+                                                                        <table class="table table-borderless">
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <h1>Main info</h1>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Name:</th>
+                                                                                <td><input #pname
+                                                                                        placeholder="Product name"
+                                                                                        class="form-control userinput">
+                                                                                </td>
+                                                                                <th>Primecost</th>
+                                                                                <td><input #pprimecost
+                                                                                        type="number"
+                                                                                        placeholder="Primecost"
+                                                                                        class="form-control userinput">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <td colspan="4">
+                                                                                    <h1>Additional info</h1>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Price: </th>
+                                                                                <td><input #pprice
+                                                                                        type="number"
+                                                                                        placeholder="Price"
+                                                                                        class="form-control userinput">
+                                                                                <th>Image: </th>
+                                                                                <td><input #pimage
+                                                                                        placeholder="Image"
+                                                                                        class="form-control userinput"
+                                                                                        readonly>
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Stock: </th>
+                                                                                <td><input #pstock
+                                                                                        type="number"
+                                                                                        placeholder="Stock"
+                                                                                        class="form-control userinput">
+                                                                                <th>Category: </th>
+                                                                                <td><input #pcategory
+                                                                                        placeholder="Category"
+                                                                                        class="form-control userinput">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Weight: </th>
+                                                                                <td><input #pweight
+                                                                                        type="number"
+                                                                                        placeholder="Weight"
+                                                                                        class="form-control userinput">
+                                                                                <th>Barcode: </th>
+                                                                                <td><input #pbarcode
+                                                                                        type="number"
+                                                                                        placeholder="Barcode"
+                                                                                        class="form-control userinput">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Unit: </th>
+                                                                                <td><input #punit
+                                                                                        placeholder="Unit"
+                                                                                        class="form-control userinput">
+                                                                                <th>Brand: </th>
+                                                                                <td><input #pbrand
+                                                                                        placeholder="Brand"
+                                                                                        class="form-control userinput">
+                                                                                </td>
+                                                                            </tr>
+                                                                            <tr>
+                                                                                <th>Additional info</th>
+                                                                                <td colspan="3">
+                                                                                    <textarea #pinfo
+                                                                                        class="form-control"
+                                                                                        placeholder="Additional info"
+                                                                                        rows="3">
+
+                                                                                </textarea>
+                                                                                </td>
+                                                                            </tr>
+                                                                        </table>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button"
+                                                                            class="btn btn-secondary"
+                                                                            data-dismiss="modal">Close</button>
+                                                                        <button class="btn btn-success"
+                                                                            (click)="addProduct(pname.value,pprimecost.value,pprice.value,pstock.value,
+                                                                        pcategory.value,pweight.value,pbarcode.value,punit.value,pbrand.value,pinfo.value)">Save</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-sm-3">
+                                                            <div class="col-sm-8">
+                                                                <select class="custom-select"
+                                                                    [(ngModel)]="supplierModel"
+                                                                    (change)="show(supplierModel)">
+                                                                    <option *ngFor="let i of allSupplier"
+                                                                        [ngValue]="i">
+                                                                        {{i.supplier_name}}</option>
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-sm-4  text-right pr-0">
+                                                                <button class="btn btn-light border"
+                                                                    data-toggle="modal"
+                                                                    data-target=".addsupplier">
+                                                                    Add supplier
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal fade addsupplier"
+                                                                tabindex="-1"
+                                                                role="dialog"
+                                                                aria-labelledby="myLargeModalLabel"
+                                                                aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header bg-dark">
+                                                                            <div class="btn btn-dark">
+                                                                                Add supplier
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <table class="table table-borderless">
+                                                                                <tr>
+                                                                                    <td colspan="4">
+                                                                                        <h1>Main info</h1>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Name:</th>
+                                                                                    <td><input #sname
+                                                                                            placeholder="Supplier name"
+                                                                                            class="form-control userinput">
+                                                                                    </td>
+                                                                                    <th>Telephone:</th>
+                                                                                    <td><input #stel
+                                                                                            placeholder="Supplier telephone"
+                                                                                            class="form-control userinput">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td colspan="4">
+                                                                                        <h1>Additional info</h1>
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Email: </th>
+                                                                                    <td><input #semail
+                                                                                            placeholder="Email"
+                                                                                            class="form-control userinput">
+                                                                                    <th>Company: </th>
+                                                                                    <td><input #scompany
+                                                                                            placeholder="Company"
+                                                                                            class="form-control userinput">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Tax number: </th>
+                                                                                    <td><input #stax
+                                                                                            placeholder="Tax number"
+                                                                                            class="form-control userinput">
+                                                                                    <th>Address: </th>
+                                                                                    <td><input #saddress
+                                                                                            placeholder="Address"
+                                                                                            class="form-control userinput">
+                                                                                    </td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <th>Additional info</th>
+                                                                                    <td colspan="3">
+                                                                                        <textarea #sinfo
+                                                                                            class="form-control"
+                                                                                            placeholder="Supplier info"
+                                                                                            rows="3">
+
+                                                                                </textarea>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                class="btn btn-secondary"
+                                                                                data-dismiss="modal">Close</button>
+                                                                            <button class="btn btn-success"
+                                                                                (click)="addSupplier(sname.value,stel.value,semail.value,scompany.value,
+                                                                                stax.value,saddress.value,sinfo.value)">Save</button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-9">
+                                                            <div class="card bg-light m-1 p-0 overflow-auto shadow-none"
+                                                                style="max-height: 600px;min-height: 600px;">
+                                                                <div id="tab_item"
+                                                                    class="card d-flex flex-row bg-white rounded p-0 m-0 border"
+                                                                    *ngFor="let i of listProduct">
+                                                                    <table class="table table-sm m-0 p-0 text-center">
+                                                                        <tr class="p-0 m-0 d-flex">
+                                                                            <td class="col-1 mytd">
+                                                                                <img class="myimg border"
+                                                                                    style="max-width: 70px;max-height: 70px;"
+                                                                                    src="https://picsum.photos/200">
+                                                                            </td>
+                                                                            <td class="col-1 mytd"
+                                                                                rowspan="2">
+                                                                                <button type="button"
+                                                                                    class="btn btn-light"
+                                                                                    (click)="removeProduct()">
+                                                                                    <i class="fas fa-trash-alt"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                            <td class="col-4 mytd">
+                                                                                <table class="table-borderless m-0 p-0">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <small>Id</small>
+                                                                                            <h3>{{i.product_object.product_id}}
+                                                                                            </h3>
+                                                                                        </td>
+                                                                                        <td></td>
+                                                                                        <td>
+                                                                                            <small>Name</small>
+                                                                                            <h3>{{i.product_object.product_name}}
+                                                                                            </h3>
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                            <td class="col-2 mytd">
+                                                                                <table class="table-borderless">
+                                                                                    <tr>
+                                                                                        <td>
+                                                                                            <button type="button"
+                                                                                                class="btn btn-light"
+                                                                                                (click)="addOrMinus(i, 'minus')">
+                                                                                                <i
+                                                                                                    class="fas fa-angle-down"></i>
+                                                                                            </button>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <small>Quantity:</small>
+                                                                                            <h1>{{i.product_quantity}}
+                                                                                            </h1>
+                                                                                        </td>
+                                                                                        <td>
+                                                                                            <button type="button"
+                                                                                                class="btn btn-light"
+                                                                                                (click)="addOrMinus(i, 'add')">
+                                                                                                <i
+                                                                                                    class="fas fa-angle-up"></i>
+                                                                                            </button>
+
+                                                                                        </td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </td>
+                                                                            <td class="col-2 mytd"
+                                                                                rowspan="2">
+                                                                                <span>
+                                                                                    <small>Primecost</small>
+                                                                                    <h1>{{i.product_object.product_prime_cost}}
+                                                                                    </h1>
+                                                                                </span>
+                                                                            </td>
+                                                                            <td class="col-2 mytd"
+                                                                                rowspan="2">
+                                                                                <span>
+                                                                                    <small>Total</small>
+                                                                                    <h1>{{i.total_primecost}}
+                                                                                    </h1>
+
+                                                                                </span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-sm-3">
+                                                            <div class="row">
+                                                                <div class="col-sm-6 ">
+                                                                    <button class="btn btn-white">
+                                                                        Subtotal:
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-6">
+                                                                    <input class="form-control userinput"
+                                                                        style=" text-align: right;"
+                                                                        placeholder="{{sumSubTotal}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6 ">
+                                                                    <button class="btn btn-white">
+                                                                        Discount:
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-6 ">
+                                                                    <input class="form-control userinput"
+                                                                        style=" text-align: right;"
+                                                                        [(ngModel)]="purchaseDiscount"
+                                                                        type="number"
+                                                                        (blur)="calculateTotal()">
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <div class="col-sm-6 ">
+                                                                    <button class="btn btn-white">
+                                                                        Total:
+                                                                    </button>
+                                                                </div>
+                                                                <div class="col-sm-6 ">
+                                                                    <input class="form-control userinput"
+                                                                        style=" text-align: right;"
+                                                                        placeholder="{{purchaseTotal}}"
+                                                                        readonly>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-3">
+                                                                <div class="col-sm-12 text-center">
+                                                                    <button class="btn btn-success"
+                                                                        (click)="setPurchase()">Purchase</button>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </section>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- /.nav-tabs-custom -->
+                        </div>
+                        <!-- /.col -->
+                    </div>
+
+
+
+                    <!-- /.row -->
+                </div><!-- /.container-fluid -->
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+            <div class="float-right d-none d-sm-block">
+                <b>Version</b> 3.0.5
+            </div>
+            <strong>Copyright &copy; 2014-2019 <a href="http://adminlte.io">AdminLTE.io</a>.</strong> All rights
+            reserved.
+        </footer>
+
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Control sidebar content goes here -->
+        </aside>
+        <!-- /.control-sidebar -->
+    </div>
+    <!-- ./wrapper -->
+</body>
+
+</html>

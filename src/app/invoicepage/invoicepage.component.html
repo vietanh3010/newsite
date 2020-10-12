@@ -67,7 +67,7 @@
                         <li class="nav-item active">
                             <a href="/sale-page"
                                 class="nav-link">
-                                <i class="fas fa-shopping-cart"></i>
+                                <i class="fas fa-shopping-cart m-1 mr-2"></i>
                                 <p>Sale</p>
                             </a>
                         </li>
@@ -142,6 +142,13 @@
                                         class="nav-link ">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Product list</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="/purchase-order"
+                                        class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>Nhap hang</p>
                                     </a>
                                 </li>
                             </ul>
@@ -295,7 +302,7 @@
                                                 <tr *ngFor="let i of CURREN_CART;let x = index">
                                                     <td>{{ i.product_quantity }}</td>
                                                     <td>{{ PRODUCT_CART[x].product_name }}</td>
-                                                    <td>{{ i.product_id }}</td>
+                                                    <td>{{ i.product_hash_id }}</td>
                                                     <td>{{ PRODUCT_CART[x].product_img }}</td>
                                                     <td>$ {{ PRODUCT_CART[x].product_price }}</td>
                                                 </tr>
