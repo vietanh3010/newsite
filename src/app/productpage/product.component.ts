@@ -15,6 +15,7 @@ import { Neworder } from '../model/neworder';
 import { MyToast } from '../model/Mytoast';
 import { ProductTag } from '../model/productTag';
 import { Supplier } from '../model/supplier';
+import { ProductPurchase } from '../model/productpurchase';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -33,10 +34,11 @@ export class ProductComponent implements OnInit {
 
     infoarr: Admin[] = [];
     err: MyToast[] = [];
-
+    newProductList: Product[] = [];
     allProduct: Product[] = [];
     importExcelProduct: Product[] = [];
-
+    listPurchase: ProductPurchase[] = [];
+    allTag: ProductTag[] = [];
     productSort: boolean = undefined;
     chooseProduct = '';
     searchProduct;
@@ -62,6 +64,10 @@ export class ProductComponent implements OnInit {
         this.infoarr.push(JSON.parse(localStorage.getItem('currentAdmin')));
 
         this.getallProduct();
+        this.getallTag();
+    }
+    getallTag(): void {
+        this.getProductTagService.getProductTag().subscribe((dataT: any[]) => this.allTag = dataT);
     }
 
     getallProduct(): void {
@@ -156,9 +162,9 @@ export class ProductComponent implements OnInit {
     }
 
     updateData(): void {
-        console.log(this.importExcelProduct);
         const created = new Date();
         const updated = new Date();
+        const hash = (new Md5()).appendStr('Nhap hang' + created.toString()).end().toString();
         var existProductList = this.importExcelProduct.filter(a => this.allProduct.some(b => b.product_hash_id === a.product_hash_id)) as Product[]; // exist item found by hashid
         console.log(existProductList);
         for (var i = 0; i < existProductList.length; i++) {
@@ -179,76 +185,65 @@ export class ProductComponent implements OnInit {
             if (this.allProduct[index].product_barcode !== existProductList[i].product_barcode) { this.allProduct[index].product_barcode = existProductList[i].product_barcode; }
             if (this.allProduct[index].product_unit !== existProductList[i].product_unit) { this.allProduct[index].product_unit = existProductList[i].product_unit; }
             if (this.allProduct[index].product_brand !== existProductList[i].product_brand) { this.allProduct[index].product_brand = existProductList[i].product_brand; }
-
-            var unkwTag = {
-                tag_id: 'mytagid',
-                tag_hash_id: (new Md5()).appendStr('Nhap hang' + existProductList[i].product_hash_id + created.toString()).end().toString(),
-                tag_product_id: existProductList[i].product_hash_id,
-                tag_name: 'Nhap hang',
-                tag_quantity: existProductList[i].product_stock,
-                tag_created_at: created,
-                tag_updated_at: updated,
-                tag_supplier_hid: '',
-                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
-                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
-                tag_branch_id: 'this branch',
-                tag_info: '',
-                tag_price: existProductList[i].product_price,
-                tag_paid: 0,
-                tag_user_id: '',
-                tag_order_id: '',
-                tag_discount_amount: 0,
-            } as ProductTag;
-            this.allProduct[index].product_tag.push(unkwTag);
-
+            this.listPurchase.push({
+                product_object: existProductList[i] as Product,
+                product_quantity: existProductList[i].product_stock,
+                total_primecost: existProductList[i].product_prime_cost * existProductList[i].product_stock,
+            });
+            // var tempExist: Product = this.allProduct.filter(a => existProductList.filter(b => b.product_hash_id === a.product_hash_id))[0]
+            // tempExist.product_tag.push(existhash);
+            this.allProduct[index].product_tag.push(hash);
             this.getProductService.updateProduct(this.allProduct[index]).subscribe();
-            this.getProductTagService.addProductTag(unkwTag).subscribe();
         }
 
         // var newProductList = this.importExcelProduct.filter(a => existProductList.indexOf(a) < 0) as Product[]; //new item not existm
 
-        var newProductList: Product[] = this.importExcelProduct.filter(a => existProductList.every(b => b.product_hash_id !== a.product_hash_id)) as Product[];
-        console.log(newProductList);
-        for (var i = 0; i < newProductList.length; i++) {
-            console.log(newProductList[i]);
+        this.newProductList = this.importExcelProduct.filter(a => existProductList.every(b => b.product_hash_id !== a.product_hash_id)) as Product[];
+        console.log(this.newProductList);
+        for (var i = 0; i < this.newProductList.length; i++) {
+            console.log(this.newProductList[i]);
 
-            if (newProductList[i].product_hash_id === '') {
+            if (this.newProductList[i].product_hash_id === '') {
                 const md5Product = new Md5();
-                const hash = md5Product.appendStr(newProductList[i].product_id + newProductList[i].product_name + created).end().toString();
-                newProductList[i].product_hash_id = hash;
+                const prodhash = md5Product.appendStr(this.newProductList[i].product_id + this.newProductList[i].product_name + created).end().toString();
+                this.newProductList[i].product_hash_id = prodhash;
             }
-            if (String(newProductList[i].product_stock) === '') { newProductList[i].product_stock = 0; }
-            if (String(newProductList[i].product_price) === '') { newProductList[i].product_price = 0; }
-            newProductList[i].product_created_at = created;
-            newProductList[i].product_updated_at = updated;
-            var unkwTag1 = {
-                tag_id: 'mytagid',
-                tag_hash_id: (new Md5()).appendStr('Nhap hang' + newProductList[i].product_hash_id + created.toString()).end().toString(),
-                tag_product_id: newProductList[i].product_hash_id,
-                tag_name: 'Nhap hang',
-                tag_quantity: newProductList[i].product_stock,
-                tag_created_at: created,
-                tag_updated_at: updated,
-                tag_supplier_hid: '',
-                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
-                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
-                tag_branch_id: 'this branch',
-                tag_info: '',
-                tag_price: newProductList[i].product_price,
-                tag_paid: 0,
-                tag_user_id: '',
-                tag_order_id: '',
-                tag_discount_amount: 0,
-            } as ProductTag;
-
-            newProductList[i].product_tag.push(unkwTag1);
-            this.getProductService.addProduct(newProductList[i]).subscribe();
-            this.getProductTagService.addProductTag(unkwTag1).subscribe();
+            if (String(this.newProductList[i].product_stock) === '') { this.newProductList[i].product_stock = 0; }
+            if (String(this.newProductList[i].product_price) === '') { this.newProductList[i].product_price = 0; }
+            this.newProductList[i].product_created_at = created;
+            this.newProductList[i].product_updated_at = updated;
+            this.newProductList[i].product_tag = [hash];
+            this.getProductService.addProduct(this.newProductList[i]).subscribe();
+            this.listPurchase.push({
+                product_object: this.newProductList[i] as Product,
+                product_quantity: this.newProductList[i].product_stock,
+                total_primecost: this.newProductList[i].product_prime_cost * this.newProductList[i].product_stock,
+            });
         }
         //make a tag for each product in the imported
+        console.log(this.listPurchase);
+        var unkwTag = {
+            tag_id: 'mytagid',
+            tag_hash_id: hash,
+            tag_new_product: this.listPurchase,
+            tag_name: 'Nhap hang',
+            tag_created_at: created,
+            tag_updated_at: updated,
+            tag_supplier_hid: '',
+            tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+            tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+            tag_branch_id: 'this branch',
+            tag_info: '',
+            tag_user_id: '',
+            tag_order_id: '',
+            tag_discount_amount: 0,
+        } as ProductTag;
+        this.getProductTagService.addProductTag(unkwTag).subscribe();
 
-        this.make_error('Success', 'Updated stock ' + existProductList.length + ' products. Added ' + newProductList.length + ' new products.');
+        this.make_error('Success', 'Updated stock ' + existProductList.length + ' products. Added ' + this.newProductList.length + ' new products.');
         this.removeFile();
+        this.listPurchase = [];
+        this.newProductList = [];
     }
 
     sortProduct(property: any): void {
@@ -306,6 +301,10 @@ export class ProductComponent implements OnInit {
         this.getProductService.deleteProduct(p).subscribe();
         this.allProduct.splice(this.allProduct.indexOf(p), 1);
         this.make_error('info', 'Product deleted.');
+    }
+
+    getTagfromProduct(p: Product): ProductTag[] {
+        return this.allTag.filter(a => p.product_tag.includes(a.tag_hash_id));
     }
     toast_type(t: string): object {
         if (t === 'danger') {

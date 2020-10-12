@@ -105,14 +105,11 @@ export class UserComponent implements OnInit {
             else {
                 if (email !== '') { u.user_email = email; }
                 if (telephone !== '') { u.user_telephone = telephone; }
-                this.getUserService.updateUser(u).subscribe(
-                    response => { console.log(response); },
-                    error => { console.log(error); }
-                );
-                this.make_error('success', 'User ' + u.user_id + ' updated successfully.');
+
             }
         }
-
+        this.getUserService.updateUser(u).subscribe();
+        this.make_error('success', 'User ' + u.user_id + ' updated successfully.');
     }
 
     addNewOrderUser(

@@ -396,9 +396,6 @@
                                                         <th>Hash ID</th>
                                                         <th>Tag name</th>
                                                         <th>Tag supplier id</th>
-                                                        <th>Product ID</th>
-                                                        <th>Tag price</th>
-                                                        <th>Tag paid</th>
                                                         <th>Created at</th>
                                                     </tr>
                                                     <tbody [attr.id]="'accordion' + z"
@@ -415,9 +412,6 @@
                                                                     class="badge badge-success">{{i.tag_name}}</span>
                                                             </td>
                                                             <td>{{i.tag_supplier_hid}}</td>
-                                                            <td>{{i.tag_product_id}}</td>
-                                                            <td>{{i.tag_price}}</td>
-                                                            <td>{{i.tag_paid}}</td>
                                                             <td>{{i.tag_created_at | date:'dd/MM/yyyy  h:mm:ss a'}}</td>
                                                         </tr>
                                                         <tr>
@@ -450,7 +444,7 @@
                                                                                 role="tabpanel">
                                                                                 <div class="card p-4 shadow-none">
                                                                                     <table
-                                                                                        class="table table-borderless">
+                                                                                        class="table table-sm table-borderless">
                                                                                         <tbody>
                                                                                             <tr>
                                                                                                 <td><button
@@ -461,15 +455,6 @@
                                                                                                         placeholder="{{i.tag_hash_id}}"
                                                                                                         readonly></td>
                                                                                                 <td><button
-                                                                                                        class="btn btn-white">Product
-                                                                                                        ID</button></td>
-                                                                                                <td> <input
-                                                                                                        class="form-control userinput"
-                                                                                                        placeholder="{{i.tag_product_id}}"
-                                                                                                        readonly></td>
-                                                                                            </tr>
-                                                                                            <tr>
-                                                                                                <td><button
                                                                                                         class="btn btn-white">Tag
                                                                                                         name</button>
                                                                                                 </td>
@@ -477,15 +462,6 @@
                                                                                                         class="form-control userinput"
                                                                                                         placeholder="{{i.tag_name}}"
                                                                                                         readonly></td>
-                                                                                                <td><button
-                                                                                                        class="btn btn-white">
-                                                                                                        Quantity</button>
-                                                                                                </td>
-                                                                                                <td> <input #tquantity
-                                                                                                        class="form-control userinput"
-                                                                                                        placeholder="{{i.tag_quantity}}"
-                                                                                                        value="{{i.tag_quantity}}">
-                                                                                                </td>
                                                                                             </tr>
                                                                                             <tr
                                                                                                 *ngIf="i.tag_name === 'Nhap hang'">
@@ -505,26 +481,6 @@
                                                                                                         class="form-control userinput"
                                                                                                         placeholder="{{i.tag_branch_id}}"
                                                                                                         value="{{i.tag_branch_id}}">
-                                                                                                </td>
-                                                                                            </tr>
-                                                                                            <tr
-                                                                                                *ngIf="i.tag_name === 'Nhap hang'">
-                                                                                                <td><button
-                                                                                                        class="btn btn-white">Price</button>
-                                                                                                </td>
-                                                                                                <td><input #tprice
-                                                                                                        class="form-control userinput"
-                                                                                                        placeholder="{{i.tag_price}}"
-                                                                                                        value="{{i.tag_price}}">
-                                                                                                </td>
-                                                                                                <td><button
-                                                                                                        class="btn btn-white">
-                                                                                                        Paid</button>
-                                                                                                </td>
-                                                                                                <td> <input #tpaid
-                                                                                                        class="form-control userinput"
-                                                                                                        placeholder="{{i.tag_paid}}"
-                                                                                                        value="{{i.tag_paid}}">
                                                                                                 </td>
                                                                                             </tr>
                                                                                             <tr
@@ -580,28 +536,54 @@
                                                                                                         at</button></td>
                                                                                                 <td> <input
                                                                                                         class="form-control userinput"
-                                                                                                        placeholder="{{i.tag_updated_at}}"
+                                                                                                        placeholder="{{i.tag_updated_at | date:'dd/MM/yyyy  h:mm:ss a'}}"
                                                                                                         readonly></td>
                                                                                             </tr>
-                                                                                            <tr>
-                                                                                                <td class="text-right"
-                                                                                                    colspan="10">
-                                                                                                    <button
-                                                                                                        class="btn btn-danger mr-1"
-                                                                                                        (click)="removeTag(i)">
-                                                                                                        <i
-                                                                                                            class="fas fa-trash-alt"></i>
-                                                                                                        Delete</button>
-                                                                                                    <!-- <button
-                                                                                                        class="btn btn-success"
-                                                                                                        (click)="updateTag(i, tquantity.value, tbranch.value, tprice.value, 
-                                                                                                        tpaid.value, tinfo.value)">
-                                                                                                        <i
-                                                                                                            class="fas fa-save"></i>
-                                                                                                        Save</button> -->
+
+                                                                                        </tbody>
+                                                                                    </table>
+                                                                                    <table class="table  table-striped">
+                                                                                        <tr>
+                                                                                            <th>Product Hash ID</th>
+                                                                                            <th>Quantity</th>
+                                                                                            <th>Price</th>
+                                                                                            <th>Total per order</th>
+                                                                                        </tr>
+                                                                                        <tbody>
+                                                                                            <tr
+                                                                                                *ngFor="let j of i.tag_new_product">
+                                                                                                <td>
+                                                                                                    {{j.product_object.product_hash_id}}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {{j.product_quantity}}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {{j.total_primecost/j.product_quantity}}
+                                                                                                </td>
+                                                                                                <td>
+                                                                                                    {{j.total_primecost}}
                                                                                                 </td>
                                                                                             </tr>
                                                                                         </tbody>
+                                                                                        <tr>
+                                                                                            <td class="text-right"
+                                                                                                colspan="10">
+                                                                                                <button
+                                                                                                    class="btn btn-danger mr-1"
+                                                                                                    (click)="removeTag(i)">
+                                                                                                    <i
+                                                                                                        class="fas fa-trash-alt"></i>
+                                                                                                    Delete</button>
+                                                                                                <!-- <button
+                                                                                                    class="btn btn-success"
+                                                                                                    (click)="updateTag(i, tquantity.value, tbranch.value, tprice.value, 
+                                                                                                    tpaid.value, tinfo.value)">
+                                                                                                    <i
+                                                                                                        class="fas fa-save"></i>
+                                                                                                    Save</button> -->
+                                                                                            </td>
+                                                                                        </tr>
                                                                                     </table>
                                                                                 </div>
                                                                             </div>

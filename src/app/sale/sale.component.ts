@@ -30,6 +30,7 @@ import { Md5 } from 'ts-md5/dist/md5';
 import { color } from 'html2canvas/dist/types/css/types/color';
 import { LoginServiceService } from '../service/login/login-service.service';
 import { string } from 'src/assets/plugins/jszip/jszip';
+import { ProductPurchase } from '../model/productpurchase';
 
 export interface TabID {
     tab_id: number;
@@ -63,6 +64,8 @@ export class SaleComponent implements OnInit {
     allproduct: Product[] = [];
     allneworder: Neworder[] = [];
     allbranch: Branch[] = [];
+    allTag: ProductTag[] = [];
+    tempListPurchase: ProductPurchase[] = [];
     tabPaymentlist: TabPayment[] = [];
 
     tempneworder: Neworder[] = [];
@@ -134,6 +137,7 @@ export class SaleComponent implements OnInit {
         this.getAllBranch();
         this.shipOptionModel = 'Pickup at store';
         this.paymentOptionModel = 'Cash';
+        this.getallTag();
         // const returnFunc = synapseThrow();
     }
     setDiscountType(): void {
@@ -360,6 +364,9 @@ export class SaleComponent implements OnInit {
             .subscribe(
                 (data: any[]) => (this.allbranch = data)
             );
+    }
+    getallTag(): void {
+        this.getProductTagService.getProductTag().subscribe((dataT: any[]) => this.allTag = dataT);
     }
     sort_by_product(property: string): void {
         this.CHOSEN_PROPERTY = property;
@@ -692,38 +699,58 @@ export class SaleComponent implements OnInit {
                     }
                 }
                 // set a tag for each purchased product
+                const newTagHash = (new Md5()).appendStr('Ban hang' + createdAt.toString()).end().toString();
                 for (var i = 0; i < products1.length; i++) {
                     for (var j = 0; j < this.allproduct.length; j++) {
                         if (products1[i].product_hash_id === this.allproduct[j].product_hash_id) {
-                            const newTagHash = (new Md5()).appendStr(products1[i].product_hash_id + Date().toString()).end().toString();
-                            console.log(newTagHash);
-                            const tempTag: ProductTag = {
-                                tag_id: 'mytagid',
-                                tag_hash_id: newTagHash,
-                                tag_product_id: products1[i].product_hash_id,
-                                tag_name: 'Ban hang',
-                                tag_quantity: products1[i].product_quantity,
-                                tag_created_at: new Date(),
-                                tag_supplier_hid: '',
-                                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
-                                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
-                                tag_branch_id: (this.branchModel as Branch).branch_hash_id,
-                                tag_info: '',
-                                tag_price: this.allproduct[j].product_price * products1[i].product_quantity,
-                                tag_paid: orderPaid,
-                                tag_user_id: customer1.user_hash_id,
-                                tag_order_id: orderHashID,
-                                tag_discount_amount: null,
-                                tag_updated_at: new Date(),
-                            };
-                            console.log(this.allproduct[j]);
-                            this.getProductTagService.addProductTag(tempTag).subscribe();
-                            this.allproduct[j].product_tag.push(tempTag);
+                            this.tempListPurchase.push({
+                                product_object: this.allproduct[j],
+                                product_quantity: products1[i].product_quantity,
+                                total_primecost: this.allproduct[j].product_prime_cost * products1[i].product_quantity,
+                            });
+                            this.allproduct[j].product_tag.push(newTagHash);
                             this.getProductService.updateProduct(this.allproduct[j]).subscribe();
                         }
                     }
                 }
-
+                // const tempTag: ProductTag = {
+                //     tag_id: 'mytagid',
+                //     tag_hash_id: newTagHash,
+                //     tag_product_id: products1[i].product_hash_id,
+                //     tag_name: 'Ban hang',
+                //     tag_quantity: products1[i].product_quantity,
+                //     tag_created_at: new Date(),
+                //     tag_supplier_hid: '',
+                //     tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                //     tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                //     tag_branch_id: (this.branchModel as Branch).branch_hash_id,
+                //     tag_info: '',
+                //     tag_price: this.allproduct[j].product_price * products1[i].product_quantity,
+                //     tag_paid: orderPaid,
+                //     tag_user_id: customer1.user_hash_id,
+                //     tag_order_id: orderHashID,
+                //     tag_discount_amount: null,
+                //     tag_updated_at: new Date(),
+                // };
+                // this.getProductTagService.addProductTag(tempTag).subscribe();
+                // this.allproduct[j].product_tag.push(tempTag);
+                var unkwTag = {
+                    tag_id: 'mytagid',
+                    tag_hash_id: newTagHash,
+                    tag_new_product: this.tempListPurchase,
+                    tag_name: 'Ban hang',
+                    tag_created_at: new Date(),
+                    tag_updated_at: new Date(),
+                    tag_supplier_hid: '',
+                    tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                    tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                    tag_branch_id: 'this branch',
+                    tag_info: '',
+                    tag_user_id: customer1.user_hash_id,
+                    tag_order_id: orderHashID,
+                    tag_discount_amount: 0,
+                } as ProductTag;
+                this.getProductTagService.addProductTag(unkwTag).subscribe();
                 const unknOrder: unknown =
                 {
                     order_id: orderID,

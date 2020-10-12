@@ -15,7 +15,7 @@ export interface Product {
     product_weight: number;
     product_description: string;
     product_branch: string;
-    product_tag: ProductTag[];
+    product_tag: string[];
     additional_info: string;
     product_barcode: number;
     product_unit: string;

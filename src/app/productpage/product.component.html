@@ -763,7 +763,7 @@
                                                                     [attr.id]="'tab1' + z "
                                                                     role="tabpanel">
                                                                     <div class="card p-4 shadow-none">
-                                                                        <table class="table">
+                                                                        <table class="table table-borderless table-sm">
                                                                             <tbody>
                                                                                 <tr>
                                                                                     <td><button
@@ -899,15 +899,17 @@
                                                                             <tr class="bg-light">
                                                                                 <th>Tag id</th>
                                                                                 <th>Tag name</th>
-                                                                                <th>Quantity</th>
-                                                                                <th>Price</th>
-                                                                                <th>Discount</th>
+                                                                                <th>Supplier ID</th>
+                                                                                <th>Order ID</th>
                                                                                 <th>Created emp</th>
                                                                                 <th>Created at</th>
+
                                                                             </tr>
-                                                                            <tbody *ngFor="let j of i.product_tag">
-                                                                                <tr>
-                                                                                    <td>{{j.tag_hash_id}}</td>
+                                                                            <tbody>
+                                                                                <tr
+                                                                                    *ngFor="let j of getTagfromProduct(i)">
+                                                                                    <td>{{j.tag_hash_id}}
+                                                                                    </td>
                                                                                     <td
                                                                                         *ngIf="j.tag_name==='Nhap hang'">
                                                                                         <span
@@ -917,13 +919,18 @@
                                                                                         <span
                                                                                             class="badge badge-success">{{j.tag_name}}</span>
                                                                                     </td>
-                                                                                    <td>{{j.tag_quantity}}</td>
-                                                                                    <td>{{j.tag_price}}</td>
-                                                                                    <td>{{j.tag_discount_amount}}</td>
-                                                                                    <td>{{j.tag_emp_created_hid}}</td>
-                                                                                    <td>{{j.tag_created_at}}</td>
+                                                                                    <td>{{j.tag_supplier_hid}}
+                                                                                    </td>
+                                                                                    <td><a
+                                                                                            [attr.href]="'/invoice-page;orderid='+j.tag_order_id">{{j.tag_order_id}}</a>
+                                                                                    </td>
+                                                                                    <td>{{j.tag_emp_created_hid}}
+                                                                                    </td>
+                                                                                    <td>{{j.tag_created_at | date:"d/M/yy, h:mm:ss a"}}
+                                                                                    </td>
                                                                                 </tr>
                                                                             </tbody>
+
                                                                         </table>
                                                                     </div>
 

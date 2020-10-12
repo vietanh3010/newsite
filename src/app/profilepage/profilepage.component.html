@@ -572,12 +572,12 @@
                                                                                                     </tr>
                                                                                                     <tr
                                                                                                         *ngFor="let p of i.products">
-                                                                                                        <td><a>{{p.product_id}}</a>
+                                                                                                        <td><a>{{p.product_hash_id}}</a>
                                                                                                         </td>
                                                                                                         <span
                                                                                                             *ngFor="let pp of allproduct">
                                                                                                             <td
-                                                                                                                *ngIf="pp.product_id === p.product_id">
+                                                                                                                *ngIf="pp.product_hash_id === p.product_hash_id">
                                                                                                                 {{pp.product_name}}
                                                                                                             </td>
                                                                                                         </span>
@@ -586,7 +586,7 @@
                                                                                                         <span
                                                                                                             *ngFor="let pp of allproduct">
                                                                                                             <td
-                                                                                                                *ngIf="pp.product_id === p.product_id">
+                                                                                                                *ngIf="pp.product_hash_id === p.product_hash_id">
                                                                                                                 ${{pp.product_price}}
                                                                                                             </td>
                                                                                                         </span>

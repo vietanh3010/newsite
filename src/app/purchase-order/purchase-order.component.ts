@@ -15,6 +15,7 @@ import { Neworder } from '../model/neworder';
 import { MyToast } from '../model/Mytoast';
 import { ProductTag } from '../model/productTag';
 import { Supplier } from '../model/supplier';
+import { ProductPurchase } from '../model/productpurchase';
 
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -22,11 +23,7 @@ import { Md5 } from 'ts-md5';
 import { create } from 'domain';
 import { date, string } from 'src/assets/plugins/jszip/jszip';
 
-export interface ProductPurchase {
-    product_object: Product;
-    product_quantity: number;
-    total_primecost: number;
-}
+
 @Component({
     selector: 'app-purchase-order',
     templateUrl: './purchase-order.component.html',
@@ -75,7 +72,6 @@ export class PurchaseOrderComponent implements OnInit {
         this.getAllProductTag();
         this.getAllProduct();
         this.getAllSupplier();
-        this.setTagID();
     }
 
     getAllProductTag(): void {
@@ -87,19 +83,19 @@ export class PurchaseOrderComponent implements OnInit {
     getAllSupplier(): void {
         this.getSupplierService.getSupplier().subscribe((data: any[]) => this.allSupplier = data);
     }
-    async setTagID(): Promise<void> {
-        this.allProductList = await this.getProductService.getProduct().toPromise();
-        this.allProductTagList = await this.getProductTagService.getProductTag().toPromise();
-        for (var i = 0; i < this.allProductList.length; i++) {
-            for (var j = 0; j < this.allProductList[i].product_tag.length; j++) {
-                if (this.allProductTagList.filter(a => a.tag_hash_id === this.allProductList[i].product_tag[j].tag_hash_id).length === 1) {
+    // async setTagID(): Promise<void> {
+    //     this.allProductList = await this.getProductService.getProduct().toPromise();
+    //     this.allProductTagList = await this.getProductTagService.getProductTag().toPromise();
+    //     for (var i = 0; i < this.allProductList.length; i++) {
+    //         for (var j = 0; j < this.allProductList[i].product_tag.length; j++) {
+    //             if (this.allProductTagList.filter(a => a.tag_hash_id === this.allProductList[i].product_tag[j].tag_hash_id).length === 1) {
 
-                    this.allProductList[i].product_tag[j].tag_id = (this.allProductTagList.filter(a => a.tag_hash_id === this.allProductList[i].product_tag[j].tag_hash_id) as ProductTag[])[0].tag_id;
-                    this.getProductService.updateProduct(this.allProductList[i]).subscribe();
-                }
-            }
-        }
-    }
+    //                 this.allProductList[i].product_tag[j].tag_id = (this.allProductTagList.filter(a => a.tag_hash_id === this.allProductList[i].product_tag[j].tag_hash_id) as ProductTag[])[0].tag_id;
+    //                 this.getProductService.updateProduct(this.allProductList[i]).subscribe();
+    //             }
+    //         }
+    //     }
+    // }
 
     find_product(p: any): void {
         this.searchTerm = '';
@@ -230,7 +226,8 @@ export class PurchaseOrderComponent implements OnInit {
             this.selectProduct(newProduct);
         }
     }
-    addSupplier(sname: string, stel: string, semail: string, scompany: string,
+    addSupplier(
+        sname: string, stel: string, semail: string, scompany: string,
         stax: string, saddress: string, sinfo: string): void {
         if (sname === '') {
             this.make_error('danger', ' Supplier name is required.');
@@ -271,42 +268,36 @@ export class PurchaseOrderComponent implements OnInit {
         else {
             const created = new Date();
             const updated = new Date();
-            for (var i = 0; i < this.listProduct.length; i++) {
-                var unkwTag = {
-                    tag_id: 'mytagid',
-                    tag_hash_id: (new Md5()).appendStr('Nhap hang' + this.listProduct[i].product_object.product_hash_id + created.toString()).end().toString(),
-                    tag_product_id: this.listProduct[i].product_object.product_hash_id,
-                    tag_name: 'Nhap hang',
-                    tag_quantity: this.listProduct[i].product_quantity,
-                    tag_created_at: created,
-                    tag_updated_at: updated,
-                    tag_supplier_hid: (this.supplierModel as Supplier).supplier_hash_id,
-                    tag_emp_created_hid: this.infoarr[0].admin_hash_id,
-                    tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
-                    tag_branch_id: 'this branch',
-                    tag_info: '',
-                    tag_price: this.listProduct[i].total_primecost,
-                    tag_paid: 0,
-                    tag_user_id: '',
-                    tag_order_id: '',
-                    tag_discount_amount: this.purchaseDiscount
-                } as ProductTag;
-                this.getProductTagService.addProductTag(unkwTag).subscribe();
+            const hash = (new Md5()).appendStr('Nhap hang' + this.infoarr[0].admin_hash_id + created.toString()).end().toString();
+            var unkwTag = {
+                tag_id: 'mytagid',
+                tag_hash_id: hash,
+                tag_new_product: this.listProduct,
+                tag_name: 'Nhap hang',
+                tag_created_at: created,
+                tag_updated_at: updated,
+                tag_supplier_hid: (this.supplierModel as Supplier).supplier_hash_id,
+                tag_emp_created_hid: this.infoarr[0].admin_hash_id,
+                tag_emp_updated_hid: this.infoarr[0].admin_hash_id,
+                tag_branch_id: 'this branch',
+                tag_info: '',
+                tag_user_id: '',
+                tag_order_id: '',
+                tag_discount_amount: this.purchaseDiscount
+            };
+            this.getProductTagService.addProductTag(unkwTag).subscribe();
 
-                //update quantity to stock
+            // update quantity to stock and push a tag to the product
+            for (var i = 0; i < this.listProduct.length; i++) {
                 for (var j = 0; j < this.allproduct.length; j++) {
                     if (this.listProduct[i].product_object.product_hash_id === this.allproduct[j].product_hash_id) {
                         this.allproduct[j].product_stock += this.listProduct[i].product_quantity;
-                        this.allproduct[j].product_tag.push(unkwTag);
+                        this.allproduct[j].product_tag.push(hash);
                         this.getProductService.updateProduct(this.allproduct[j]).subscribe();
-                        j = this.allproduct.length;
                     }
                 }
-                //push a tag to the product
-
-
-
             }
+
             this.make_error('success', 'Purchase order successfully. Stock updated!');
             this.listProduct = [];
             this.sumSubTotal = 0;
@@ -314,19 +305,19 @@ export class PurchaseOrderComponent implements OnInit {
             this.calculateTotal();
         }
     }
-    updateTag(t: ProductTag, tquantity: number, tbranch: string, tprice: number, tpaid: number): void {
-        if (String(tquantity) !== '') { t.tag_quantity = tquantity; }
-        if (tbranch !== '') { t.tag_branch_id = tbranch; }
-        if (String(tprice) !== '') { t.tag_price = tprice; }
-        if (String(tpaid) !== '') { t.tag_paid = tpaid; }
-        t.tag_updated_at = new Date();
-        this.getProductTagService.updateProductTag(t).subscribe();
-        this.make_error('success', 'Tag updated successfully.');
-    }
+    // updateTag(t: ProductTag, tquantity: number, tbranch: string, tprice: number, tpaid: number): void {
+    //     if (String(tquantity) !== '') { t.tag_quantity = tquantity; }
+    //     if (tbranch !== '') { t.tag_branch_id = tbranch; }
+    //     if (String(tprice) !== '') { t.tag_price = tprice; }
+    //     if (String(tpaid) !== '') { t.tag_paid = tpaid; }
+    //     t.tag_updated_at = new Date();
+    //     this.getProductTagService.updateProductTag(t).subscribe();
+    //     this.make_error('success', 'Tag updated successfully.');
+    // }
     removeTag(t: ProductTag): void {
         this.getProductTagService.deleteProductTag(t.tag_id).subscribe();
         this.allProductTag.splice(this.allProductTag.indexOf(t), 1);
-        this.make_error('info', 'Tag deleted successfully.')
+        this.make_error('info', 'Tag deleted successfully.');
     }
 
 
